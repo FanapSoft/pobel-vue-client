@@ -17,3 +17,14 @@
     </v-col>
   </v-row>
 </template>
+
+<script>
+export default {
+  name: 'inspire',
+  layout: 'auth',
+  middleware: 'checkAuth',
+  mounted() {
+
+  }
+}
+</script>

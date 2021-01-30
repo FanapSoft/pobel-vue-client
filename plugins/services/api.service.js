@@ -80,6 +80,6 @@ export default (context, inject) => {
   ApiService.axios = context.$axios;
   ApiService.jwtService = context.$jwtService;
 
-  inject('apiservice', ApiService);
-  context.$apiservice = ApiService;
+  inject('apiService', ApiService);
+  context.$apiService = ApiService;
 }

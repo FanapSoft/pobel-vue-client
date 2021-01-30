@@ -33,7 +33,7 @@ const actions = {
   [SET_AUTH](context, user) {
     let {
       state,
-      commit
+      commit,
     } = context;
 
     commit('setIsAuthenticated', true)
@@ -41,9 +41,9 @@ const actions = {
     commit(SET_AUTH, user)
     this.$jwtService.saveToken(state.user.token);
     //Then use token for the request to get the user
-    this.$apiservice.setHeader();
+    this.$apiService.setHeader();
     return new Promise((resolve, reject) => {
-      this.$apiservice
+      this.$apiService
           .get(`/api/services/app/User/Get?id=${user.uid}`)
           .then(response => {
             commit(SET_AUTH, {
