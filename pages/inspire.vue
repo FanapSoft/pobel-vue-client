@@ -21,8 +21,7 @@
 <script>
 export default {
   name: 'inspire',
-  layout: 'auth',
-  middleware: 'checkAuth',
+  layout: 'main',
   mounted() {
 
   }

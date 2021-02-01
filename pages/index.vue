@@ -11,6 +11,7 @@ import VuetifyLogo from '~/components/VuetifyLogo.vue'
 
 export default {
   layout: "main",
+  auth: false,
   components: {
     Logo,
     VuetifyLogo

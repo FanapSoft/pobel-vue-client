@@ -42,12 +42,7 @@ export default {
   ],
 
   router: {
-    extendRoutes(routes, resolve) {
-      routes.push({
-        name: 'loggedIn',
-        path: '/loggedIn',
-      })
-    }
+    middleware: ['checkAuth']
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
