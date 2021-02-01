@@ -1,17 +1,18 @@
 <template>
-  <v-app dark style="background-color: #f3f3f3;">
+  <v-app dark>
 <!--    <v-app-bar
       fixed
       app>
       <v-toolbar-title v-text="title" />
       <v-spacer />
     </v-app-bar>-->
-    <top-bar></top-bar>
+    <top-bar-home></top-bar-home>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
+    <div>footer</div>
 <!--    <v-footer
       :absolute="!fixed"
       app
@@ -22,10 +23,9 @@
 </template>
 
 <script>
-import NavbarType1 from "../components/navbars/NavbarType1";
-import TopBar from "../components/TopBar";
+import TopBarHome from "../components/TopBarHome";
 export default {
-  components: {TopBar, NavbarType1},
+  components: {TopBarHome},
   data () {
     return {
       clipped: false,

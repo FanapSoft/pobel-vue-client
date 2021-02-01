@@ -11,16 +11,6 @@ export default async function (context) {
     redirect
   } = context;
 
-  if($utils.routeOption(route, 'auth', false)) {
-    return;
-  }
-  // Disable middleware if no route was matched to allow 404/error page
-  const matches = []
-  const Components = $utils.getMatchedComponents(route, matches)
-  if (!Components.length) {
-    return
-  }
-
   if(!store.getters["auth/isAuthenticated"]) {
     //is not authorized, check if token is saved in browser
     if($jwtService.getToken() && $userService.getUser()) {
@@ -29,6 +19,16 @@ export default async function (context) {
         //.then(() => {})
         .catch(error => console.log(error));
     } else {
+      if($utils.routeOption(route, 'auth', false)) {
+        return;
+      }
+      // Disable middleware if no route was matched to allow 404/error page
+      const matches = []
+      const components = $utils.getMatchedComponents(route, matches)
+      if (!components.length) {
+        return
+      }
+
       redirect($apiService.loginUrl)
     }
   }

@@ -14,7 +14,7 @@ export const SET_AUTH = "setUser";
 const state = () => ({
   errors: null,
   user: null,
-  isAuthenticated: false//!!JwtService.getToken()
+  isAuthenticated: false
 });
 
 const getters = {
