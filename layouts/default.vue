@@ -1,5 +1,8 @@
 <template>
-  <v-app dark>
+  <div>
+    <Nuxt />
+  </div>
+<!--  <v-app dark>
 
     <v-app-bar
       :clipped-left="clipped"
@@ -12,7 +15,6 @@
         icon
         @click.stop="fixed = !fixed"
       >
-        jkj
       </v-btn>
       <v-toolbar-title v-text="title" />
       <v-spacer />
@@ -46,7 +48,7 @@
     >
       <span>&copy; {{ new Date().getFullYear() }}</span>
     </v-footer>
-  </v-app>
+  </v-app>-->
 </template>
 
 <script>

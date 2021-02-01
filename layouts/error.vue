@@ -1,5 +1,6 @@
 <template>
-  <v-app dark>
+  <component :is="errorPage"></component>
+<!--  <v-app dark>
     <h1 v-if="error.statusCode === 404">
       {{ pageNotFound }}
     </h1>
@@ -9,17 +10,29 @@
     <NuxtLink to="/">
       Home page
     </NuxtLink>
-  </v-app>
+  </v-app>-->
 </template>
 
 <script>
+import error404 from "~/components/404"
 export default {
-  layout: 'empty',
+  components: {
+    error404
+  },
   props: {
     error: {
       type: Object,
       default: null
     }
+  },
+  computed: {
+    errorPage() {
+      if (this.error.statusCode === 404) {
+        return error404;
+      }      // catch everything else
+      return error404;
+      //return error500;
+    },
   },
   data () {
     return {

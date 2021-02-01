@@ -43,6 +43,17 @@ const Utils = {
         )
       }
     })
+  },
+  getMatchedComponents(route, matches) {
+    return [].concat(
+      ...[],
+      ...route.matched.map(function (m, index) {
+        return Object.keys(m.components).map(function (key) {
+          matches.push(index)
+          return m.components[key]
+        })
+      })
+    )
   }
 }
 
