@@ -7,14 +7,13 @@ export default async function (context) {
     $userService,
     $apiService,
     $utils,
-    route
+    route,
+    redirect
   } = context;
 
   if($utils.routeOption(route, 'auth', false)) {
     return;
   }
-
-  console.log('i can continue');
 
   if(!store.getters["auth/isAuthenticated"]) {
     //is not authorized, check if token is saved in browser
@@ -24,7 +23,7 @@ export default async function (context) {
         //.then(() => {})
         .catch(error => console.log(error));
     } else {
-      window.location = $apiService.loginUrl;
+      redirect($apiService.loginUrl)
     }
   }
 }

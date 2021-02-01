@@ -22,8 +22,6 @@
 export default {
   name: 'inspire',
   layout: 'main',
-  mounted() {
-
-  }
+  mounted() {}
 }
 </script>
