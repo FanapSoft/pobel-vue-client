@@ -10,7 +10,6 @@ export default {
   components: {NavbarType1},
   name: "datasets",
   layout: 'main',
-  auth: true,
 }
 </script>
 

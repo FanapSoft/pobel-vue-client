@@ -68,6 +68,7 @@ export default {
   vuetify: {
     rtl: true,
     customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
     theme: {
       dark: false,
       themes: {
@@ -81,6 +82,9 @@ export default {
           success: colors.green.accent3
         }
       }
+    },
+    options: {
+      customProperties: true
     }
   },
 

@@ -1,48 +1,22 @@
 <template>
-  <v-app dark style="background-color: #f3f3f3;">
-<!--    <v-app-bar
-      fixed
-      app>
-      <v-toolbar-title v-text="title" />
-      <v-spacer />
-    </v-app-bar>-->
+  <v-app>
     <top-bar></top-bar>
     <v-main>
       <v-container>
         <nuxt />
       </v-container>
     </v-main>
-<!--    <v-footer
-      :absolute="!fixed"
-      app
-    >
-      <span>&copy; {{ new Date().getFullYear() }}</span>
-    </v-footer>-->
   </v-app>
 </template>
 
 <script>
 import NavbarType1 from "../components/navbars/NavbarType1";
 import TopBar from "../components/TopBar";
+
 export default {
   components: {TopBar, NavbarType1},
   data () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome jkj',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
       title: 'پابل'
     }
   },

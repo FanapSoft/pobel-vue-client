@@ -44,7 +44,6 @@ export default {
   components: {CustomCartType1, Transactions, NavbarType1},
   name: "conteact",
   layout: 'main',
-  auth: true,
 }
 </script>
 
