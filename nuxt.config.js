@@ -5,7 +5,11 @@ export default {
   ssr: false,
   generate: {
     exclude: [
-      "login"
+      /^\/dataset/, // path starts with /dataset
+      /^\/datasets/,
+      /^\/labeling/,
+      /^\/auth/,
+      /^\/loggedIn/,
     ]
   },
   // Target: https://go.nuxtjs.dev/config-target
