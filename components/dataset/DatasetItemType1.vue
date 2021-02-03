@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: "answerItem"
+  name: "DatasetItemType1"
 }
 </script>
 

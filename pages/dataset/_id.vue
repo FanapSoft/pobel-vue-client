@@ -21,7 +21,7 @@
       <transactions></transactions>
     </div>
     <div>
-      <answers></answers>
+      <dataset-items></dataset-items>
     </div>
   </div>
 </template>
@@ -30,11 +30,11 @@
 import NavbarType2 from "../../components/navbars/NavbarType2";
 import Targets from "../../components/dataset/Targets";
 import Transactions from "../../components/dataset/Transactions";
-import Answers from "../../components/dataset/Answers";
+import DatasetItems from "../../components/dataset/DatasetItems";
 export default {
   name: "Dataset._id",
   layout: 'main',
-  components: {Answers, Transactions, Targets, NavbarType2}
+  components: {DatasetItems, Transactions, Targets, NavbarType2}
 }
 </script>
 

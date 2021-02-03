@@ -3,26 +3,26 @@
     <h3>پاسخ های شما: </h3>
     <v-card
       elevation="0"
-      v-if="!answers"
+      v-if="!datasetItems"
 
       class="text-center pa-4">پاسخی موجود نیست!</v-card>
     <div v-else>
-      <answer-item
+      <dataset-item-type1
         :key="index"
 
-        v-for="(item, index) in answers"></answer-item>
+        v-for="(item, index) in datasetItems"></dataset-item-type1>
     </div>
   </div>
 </template>
 
 <script>
-import AnswerItem from "./AnswerItem";
+import DatasetItemType1 from "./DatasetItemType1";
 export default {
-  name: "answers",
-  components: {AnswerItem},
+  name: "datasetItems",
+  components: {DatasetItemType1},
   data(){
     return {
-      answers: null
+      datasetItems: null
     }
   },
   methods: {

@@ -8,7 +8,7 @@
 import NavbarType1 from "../components/navbars/NavbarType1";
 export default {
   components: {NavbarType1},
-  name: "conteact",
+  name: "datasets",
   layout: 'main',
   auth: true,
 }
