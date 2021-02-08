@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <top-bar></top-bar>
     <v-main>
       <v-container>
@@ -24,3 +24,11 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.v-application {
+  font-family: IranSans;
+  .title {
+    font-family: IranSans;
+  }
+}
+</style>

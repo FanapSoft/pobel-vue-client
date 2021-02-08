@@ -1,5 +1,5 @@
 <template>
-  <v-app >
+  <v-app class="app">
 <!--    <v-app-bar
       fixed
       app>
@@ -7,12 +7,11 @@
       <v-spacer />
     </v-app-bar>-->
     <top-bar-home></top-bar-home>
-    <v-main>
-      <v-container>
+    <v-main class="wrapper">
+
         <nuxt />
-      </v-container>
     </v-main>
-    <div>footer</div>
+    <Footer></Footer>
 <!--    <v-footer
       :absolute="!fixed"
       app
@@ -24,25 +23,27 @@
 
 <script>
 import TopBarHome from "../components/TopBarHome";
+import Footer from "../components/Footer";
+
 export default {
-  components: {TopBarHome},
+  components: {Footer, TopBarHome},
   data () {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome jkj',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
+      // clipped: false,
+      // drawer: false,
+      // fixed: false,
+      // items: [
+      //   {
+      //     icon: 'mdi-apps',
+      //     title: 'Welcome jkj',
+      //     to: '/'
+      //   },
+      //   {
+      //     icon: 'mdi-chart-bubble',
+      //     title: 'Inspire',
+      //     to: '/inspire'
+      //   }
+      // ],
       title: 'پابل'
     }
   },

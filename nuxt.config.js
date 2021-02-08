@@ -20,21 +20,26 @@ export default {
     titleTemplate: '%s - POBEL',
     title: 'POBEL',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'fa'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'description', name: 'description', content: 'Labeling Application' },
+      { name: 'theme-color', content: '#ffffff' },
+      { name: 'mobile-web-app-capable', content: 'yes' },
+      { name: 'apple-mobile-web-app-capable', content: 'yes' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel:"stylesheet", href:"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" },
+      { rel:"stylesheet", href:"https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    "~/assets/scss/styles"
+    "~/assets/scss/styles" //This project styles
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -44,6 +49,7 @@ export default {
     '~/plugins/services/api.service',
     '~/plugins/services/user.service',
     '~/plugins/axios',
+    //'~/plugins/services/mock.service', //Temporary only for test
   ],
 
   router: {
@@ -57,7 +63,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    "@nuxtjs/svg"
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules

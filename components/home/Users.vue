@@ -1,11 +1,16 @@
 <template>
-  <div>
+  <div class="col-12">
     <h3>فعال‌ترین کاربران</h3>
-    <ul>
-      <li
-        v-for="(item, index) in users"
-        :key="index">{{ item.name }}</li>
-    </ul>
+
+    <ol
+      v-if="scoreboardItems"
+
+      id="pobel-scoreboard">
+      <li v-for="user in scoreboardItems">
+        <span class="scoreboard-name">{{ `${user.name} ${user.surname}` }}</span>
+        <span class="scoreboard-score">{{ user.count }}</span>
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -14,16 +19,7 @@ export default {
   name: "Users",
   data(){
     return {
-      users: [
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-        {name: 'اصفی', count: 10},
-      ]
+      scoreboardItems: null
     }
   },
   methods: {
@@ -33,27 +29,25 @@ export default {
         DatasetId: this.datasetId,
         From: this.$store.state['scoreboard/dateFrom'],
         //DatasetItemId: this.datasetId,
-        SkipCount: this.pagination.skip,
+        MaxResultCount: 10,
       };
 
       try {
-        const scoreboardItems = await this.$http.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/Scoreboard`, data));
+        const scoreboardItems = await this.$axios.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/Scoreboard`, data));
         if (scoreboardItems.data && scoreboardItems.data.result) {
           this.scoreboardItems = this.scoreboardItems ? [
             ...this.scoreboardItems,
             scoreboardItems.data.result
           ] : scoreboardItems.data.result;
-
-
-
-          this.pagination.count = this.scoreboardItems.length;
-          this.pagination.realCount = this.pagination.realCount + this.pagination.count;
         }
       } catch (error) {
         console.log(error);
       }
       this.loading = false;
     }
+  },
+  mounted() {
+    this.getItems();
   }
 }
 </script>
