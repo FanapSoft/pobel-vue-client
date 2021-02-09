@@ -1,8 +1,8 @@
 <template>
-  <div class="container home" style="padding: 0">
+  <div class="container-old home" style="padding: 0">
     <!-- Section 0 Pobel Intro -->
-    <div class="row" style="margin: 0" id="pobel-intro">
-      <div class="col-12" style="padding: 0;">
+    <div class="row-old" style="margin: 0" id="pobel-intro">
+      <div class="col-12-old" style="padding: 0;">
         <h1>POBEL</h1>
         <h2 class="shadow">POBEL</h2>
         <p>POD's Crowdsourcing Labeling Service</p>
@@ -14,8 +14,8 @@
     </div>
 
     <!-- Section 1 Pobel Service -->
-    <div class="row pobel-service" id="pobel-service">
-      <div class="col-12">
+    <div class="row-old pobel-service" id="pobel-service">
+      <div class="col-12-old">
         <h3>سامانه پابل</h3>
         <p>
         <div id="pobel-logo">
@@ -30,12 +30,12 @@
     <datasets></datasets>
 
     <!-- Section 3 Labeling & Datasets -->
-    <div class="row">
+    <div class="row-old">
       <div style="width: 100%; height: 100%; margin: 50px auto 50px;position: absolute;" >
         <div id="back-sq-1"></div>
         <div id="back-sq-2"></div>
       </div>
-      <div class="col-12" id="labeling-datasets">
+      <div class="col-12-old" id="labeling-datasets">
 
         <h3>برچسب گذاری و مجموعه داده</h3>
         <p>
@@ -50,14 +50,14 @@
 
     <!-- Section 4 Pobel Scoreboard -->
 <!--    {{#isLoggedIn}}-->
-    <div v-if="isAuthenticated" class="row">
+    <div v-if="isAuthenticated" class="row-old">
       <users></users>
     </div>
 <!--    {{/isLoggedIn}}-->
 
     <!-- Section 5 Pobel Business Model -->
-    <div class="row">
-      <div class="col-12">
+    <div class="row-old">
+      <div class="col-12-old">
         <h3>فرآیند کسب درآمد در پابل</h3>
 
         <p>
@@ -66,20 +66,20 @@
       </div>
     </div>
 
-    <div class="row" id="business-shape-wrapper">
-      <div class="col-3 stage-wrappers" style="flex: none;" id="stage1">
+    <div class="row-old" id="business-shape-wrapper">
+      <div class="col-3-old stage-wrappers" style="flex: none;" id="stage1">
         <span>1</span>
         <p>ثبت نام در سامانه</p>
       </div>
-      <div class="col-3 stage-wrappers" style="flex: none;" id="stage2">
+      <div class="col-3-old stage-wrappers" style="flex: none;" id="stage2">
         <span>2</span>
         <p>انتخاب مجموعه داده مورد نظر</p>
       </div>
-      <div class="col-3 stage-wrappers" style="flex: none;" id="stage3">
+      <div class="col-3-old stage-wrappers" style="flex: none;" id="stage3">
         <span>3</span>
         <p>برچسب زنی به تعداد هدف تعیین شده</p>
       </div>
-      <div class="col-3 stage-wrappers" style="flex: none;" id="stage4">
+      <div class="col-3-old stage-wrappers" style="flex: none;" id="stage4">
         <span>4</span>
         <p >مشاهده میزان اعتبار ریالی در پروفایل کاربری</p>
       </div>

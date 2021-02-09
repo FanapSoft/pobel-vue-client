@@ -1,7 +1,6 @@
 <template>
   <div class="col-12">
     <h3>فعال‌ترین کاربران</h3>
-
     <ol
       v-if="scoreboardItems"
 

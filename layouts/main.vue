@@ -1,11 +1,11 @@
 <template>
   <v-app class="app">
     <top-bar></top-bar>
-    <v-main>
-      <v-container>
+    <main class="wrapper">
+<!--      <v-container>-->
         <nuxt />
-      </v-container>
-    </v-main>
+<!--      </v-container>-->
+    </main>
   </v-app>
 </template>
 

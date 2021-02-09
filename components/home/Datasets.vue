@@ -1,6 +1,6 @@
 <template>
-  <div id="pobel-preview-datasets" class="row">
-    <div class="col-12">
+  <div id="pobel-preview-datasets" class="row-old">
+    <div class="col-12-old">
       <h3>مجموعه داده‌ها</h3>
       <div class="datasets-list mini">
         <!--          {{#datasets}}-->
@@ -8,7 +8,7 @@
           :key="index"
           v-for="(ds, index) of datasets"
 
-          class="col-4 col-6-sm  datasets-list-items">
+          class="col-4-old col-6-sm-old datasets-list-items">
           <div
 
             class="dataset-cover"
@@ -28,14 +28,14 @@
           <!--        <a class="title" href="/dataset/{{id}}" data-title="{{name}}">{{name}}</a>-->
           <!--        <a class="title" href="/dataset/{{id}}"><small data-title="{{description}}">{{description}}</small></a>-->
 
-          <div class="row">
-            <div class="col-6" style="flex: none">
+          <div class="row-old">
+            <div class="col-6-old" style="flex: none">
               <p>
                 کل آیتم‌ها
                 <br/>
                 <strong>{{ds.itemsCount? ds.itemsCount : '0'}}</strong></p>
             </div>
-            <div class="col-6" style="flex: none">
+            <div class="col-6-old" style="flex: none">
               <p class="left-in-mobile">
                 وضعیت
                 <br/>

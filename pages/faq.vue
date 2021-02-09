@@ -1,7 +1,7 @@
 <template>
   <div class="" >
-    <div class="row faq">
-      <div class="col-12">
+    <div class="row-old  faq">
+      <div class="col-12-old ">
         <h2>سوالات متداول</h2>
 
         <ul class="accordion" id="faq-accordion">
@@ -131,7 +131,7 @@ export default {
 </script>
 
 <style scoped>
-.faq .container {
+.faq .container-old {
   padding: 0;
 }
 .faq .accordion .title {

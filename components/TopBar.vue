@@ -1,7 +1,11 @@
 <template>
-  <header class="hero">
+  <header
+    :class="{'hero': showHero}">
     <navbar-type1></navbar-type1>
-    <div class="titles">
+    <div
+      v-if="showHero"
+
+      class="titles">
       <h1>Pobel</h1>
       <h3>POD's Crowdsourcing Labeling Service</h3>
     </div>
@@ -14,7 +18,18 @@ import HeroSmall from "./heroes/HeroSmall";
 
 export default {
   name: "TopBar",
-  components: {HeroSmall, NavbarType1}
+  data () {
+    return {
+      showHero: true
+    }
+  },
+  components: {HeroSmall, NavbarType1},
+  created() {
+    if(this.$utils.routeOption(this.$route, 'hero', false)) {
+      this.showHero = false
+
+    }
+  }
 }
 </script>
 

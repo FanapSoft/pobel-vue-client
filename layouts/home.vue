@@ -7,10 +7,10 @@
       <v-spacer />
     </v-app-bar>-->
     <top-bar-home></top-bar-home>
-    <v-main class="wrapper">
+    <main class="wrapper">
 
         <nuxt />
-    </v-main>
+    </main>
     <Footer></Footer>
 <!--    <v-footer
       :absolute="!fixed"

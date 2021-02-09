@@ -49,7 +49,7 @@ export default {
     '~/plugins/services/api.service',
     '~/plugins/services/user.service',
     '~/plugins/axios',
-    //'~/plugins/services/mock.service', //Temporary only for test
+    '~/plugins/services/mock.service', //Temporary only for test
   ],
 
   router: {

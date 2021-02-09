@@ -144,6 +144,30 @@ const MockService = {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
+    mock.onGet(/\/api\/services\/app\/Reports\/DataSets\/?/).reply(data => {
+      const token = data.headers.Authorization.replace("Bearer ", "");
+      if (token !== "undefined") {
+        let items = [];
+        for(let i of Array(3).keys())
+          items.push({
+            id: i,
+            name: 'مشاهیر ایران',
+            description: 'مجموعه تصاویر مشاهیر ایران',
+            randomItemId: 3,
+            labelingStatus: !!i%3,
+            itemsCount: Math.floor(Math.random() * 1000)
+          })
+        return [200, {
+          result: {
+            items,
+            totalCount: 3
+          }
+
+        }];
+      }
+      return [401, { errors: ["Invalid authentication"] }];
+    });
+
     mock.onGet(/\/api\/services\/app\/DataSets\/GetAll\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {

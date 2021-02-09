@@ -50,7 +50,7 @@ a, a:hover, a:visited {
     text-decoration: none !important;
 }
 
-.row.header {
+.row-old.header {
     display: flex;
     justify-content: center;
     align-items: center;
