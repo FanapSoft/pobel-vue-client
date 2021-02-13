@@ -65,7 +65,7 @@
                 <span v-else class="reason">...</span>
                 <span class="description">{{ item.reasonDescription || 'توضیحات' }}</span>
                 <span class="credit-amount">
-                  {{ item.creditAmount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
+                  {{ $utils.formatNumber($utils.toFixed(item.creditAmount)) }}
                 </span>
                 <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
               </li>
@@ -112,7 +112,7 @@ export default {
       try {
         const walletCredit = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetBalance',data));
         if (walletCredit.data && walletCredit.data.result) {
-          this.walletCredit = walletCredit.data.result.total.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          this.walletCredit = this.$utils.formatNumber(this.$utils.toFixed(walletCredit.data.result.total))
         }
       } catch (error) {
         console.log(error)
@@ -164,7 +164,7 @@ export default {
     async getAnswers() {
       this.loadingAnswers = true;
       let data = {
-        ownerId: this.user.id
+        UserId: this.user.id
       }
 
       try {

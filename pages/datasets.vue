@@ -26,9 +26,7 @@
               <p>هدف/<strong>پاسخ</strong><br/>
                 <span :id="`ds-ur-answers-${ds.id}`">
                   <template v-if="ds.targetSize && ds.userAnswersCount">
-                    {{ (ds.targetSize || '0').toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}
-                    /
-                    <strong>{{ ds.userAnswersCount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") }}</strong>
+                    <strong>{{$utils.formatNumber(ds.userAnswersCount) }}</strong>/{{ $utils.formatNumber(ds.targetSize) }}
                   </template>
                   <template v-else>
                     0/0
@@ -37,7 +35,7 @@
               </p>
             </div>
             <div class="col-6-old">
-              <p class="left-in-mobile">اعتبار<br/><span :id="`ds-credit-${ds.id}`">{{ (ds.userCredit ? ds.userCredit.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","): 0) }}</span> تومان</p>
+              <p class="left-in-mobile">اعتبار<br/><span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span> تومان</p>
             </div>
           </div>
 
@@ -52,7 +50,7 @@
             <div
               v-else
 
-              class="col-12">
+              class="col-12-old">
               <a href="" class="start-btn disabled">غیرفعال است</a>
             </div>
           </div>
@@ -92,7 +90,7 @@ export default {
         const datasets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DataSets/GetAll', data));
         if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
           for(let item of datasets.data.result.items)  {
-            item.answerBudgetCountPerUser = item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            item.answerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.answerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             item.coverItem = await this.getDatasetCoverItem(item.id);
             item.targetSize = await this.getUserTarget(item.id);
             if(item.targetSize) {
