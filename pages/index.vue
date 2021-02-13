@@ -99,6 +99,7 @@ import TopBarHome from "../components/TopBarHome";
 import Vivus from "vivus"
 import Logo from "~/assets/images/logo.svg"
 
+import "../plugins/fluid"
 
 
 export default {
@@ -123,7 +124,7 @@ export default {
     })
   },
   methods: {
-    importFluid: () => import("../plugins/fluid"),
+    //importFluid: () => import("../plugins/fluid"),
     animate: (elem, style, unit, from, to, time, prop) => {
       if (!elem) {
         return;
@@ -147,8 +148,11 @@ export default {
       }
     }
   },
-  mounted() {
+  /*created() {
     this.importFluid();
+  }*/
+  mounted() {
+    Fluid.initialize();
 
     document.querySelector('#app') && document.querySelector('#app').addEventListener('mousemove', (e) => {
       if (document.querySelector('.shadow'))

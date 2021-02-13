@@ -34,6 +34,9 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       { rel:"stylesheet", href:"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" },
       { rel:"stylesheet", href:"https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" }
+    ],
+    script: [
+      {hid:'123', src: 'https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js', defer: true}
     ]
   },
 
@@ -49,7 +52,7 @@ export default {
     '~/plugins/services/api.service',
     '~/plugins/services/user.service',
     '~/plugins/axios',
-    '~/plugins/services/mock.service', //Temporary only for test
+    //'~/plugins/services/mock.service', //Temporary only for test
   ],
 
   router: {

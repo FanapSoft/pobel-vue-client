@@ -1027,7 +1027,7 @@ ul.dataset-answers-history:hover li:not(:hover) {
     z-index: 1000;
 }
 
-.contact-us .info {
+.contact-us .info-old {
     background-color: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(5px);
     padding: 15px 20px;
@@ -1036,17 +1036,17 @@ ul.dataset-answers-history:hover li:not(:hover) {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
-.contact-us .info h3 {
+.contact-us .info-old h3 {
     /*color: #ffe58a;*/
 }
 
-.contact-us .info ul {
+.contact-us .info-old ul {
     padding-top: 30px;
     padding-right: 20px;
     list-style: none;
 }
 
-.contact-us .info ul li {
+.contact-us .info-old ul li {
     color: #333333;
     font-size: 14px;
     margin: 10px 0;

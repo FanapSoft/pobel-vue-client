@@ -1,5 +1,5 @@
 <template>
-  <div class="" >
+  <div class="container-old" >
     <div class="row-old  faq">
       <div class="col-12-old ">
         <h2>سوالات متداول</h2>
