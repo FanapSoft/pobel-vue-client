@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <navbar-type2></navbar-type2>
+    <datasets-nav></datasets-nav>
     <v-layout>
       grid answering
       <v-row>
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import NavbarType2 from "~/components/navbars/NavbarType2";
+import DatasetsNav from "~/components/navbars/DatasetsNav";
 export default {
   name: "labeling_linear_id",
   layout: 'default',
-  components: {NavbarType2}
+  components: {DatasetsNav}
 }
 </script>
 

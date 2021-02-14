@@ -117,6 +117,7 @@ export default {
         MaxResultCount: 1
       }
 
+      //TODO: needs improvement
       try {
         let datasetItems = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DataSetItems/GetAll', data));
         if(datasetItems.data && datasetItems.data.result && datasetItems.data.result.items) {

@@ -114,19 +114,40 @@ const MockService = {
           items.push({
             id: i,
             answer: i % 2,
-            ignored: i % 3 ? true : false,
+            ignored: !!(i % 3),
             dataSetId: '1111111111111',
             creationTime: new Date(new Date().setDate(new Date().getDate() - i))
           })
         return [200, {
           result: {
             items,
-            totalCount: 145820
+            totalCount: 110
           }
         }];
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
+
+    mock.onPost(/\/api\/services\/app\/Answers\/Stats\/?/).reply(data => {
+      const token = data.headers.Authorization.replace("Bearer ", "");
+      if (token !== "undefined") {
+        let items = [];
+        // for(let i of Array(30).keys())
+        //   items.push({
+        //     id: i,
+        //     date: new Date(new Date().setDate(new Date().getDate() - i)),
+        //     count: Math.round(Math.random() * 100),
+        //   })
+        return [200, {
+          result: {
+            totalCount: 4502
+          }
+
+        }];
+      }
+      return [401, { errors: ["Invalid authentication"] }];
+    });
+
     mock.onGet(/\/api\/services\/app\/Reports\/AnswersCountsTrend\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {
@@ -144,6 +165,21 @@ const MockService = {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
+
+    mock.onGet(/\/api\/services\/app\/Credit\/GetCredit\/?/).reply(data => {
+      const token = data.headers.Authorization.replace("Bearer ", "");
+      if (token !== "undefined") {
+
+        return [200, {
+          result: {
+            credit: 2345.4598
+          }
+
+        }];
+      }
+      return [401, { errors: ["Invalid authentication"] }];
+    });
+
     mock.onGet(/\/api\/services\/app\/Reports\/DataSets\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {
@@ -243,6 +279,18 @@ const MockService = {
             items,
             totalCount: 100
           }
+        }];
+      }
+      return [401, { errors: ["Invalid authentication"] }];
+    });
+    mock.onGet(/\/file\/dataset\/item\/?/).reply(data => {
+      console.log('??')
+      const token = data.headers.Authorization.replace("Bearer ", "");
+      if (token !== "undefined") {
+        let items = [];
+
+        return [302, null, {
+          location: "/assets/images/techworld.png"
         }];
       }
       return [401, { errors: ["Invalid authentication"] }];

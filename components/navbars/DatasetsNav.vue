@@ -10,7 +10,7 @@
 import {mapState, mapGetters} from "vuex"
 
 export default {
-  name: "NavbarType2",
+  name: "DatasetsNav",
   computed: {
     ...mapGetters({
       user: "auth/currentUser",
