@@ -74,7 +74,7 @@
         </div>
       </div>
 
-      <!--    {{#dataset.isActive}}-->
+
       <div
         v-if="dataset.isActive"
 
@@ -100,39 +100,8 @@
           </ol>
         </div>
       </div>
-      <!--    {{/dataset.isActive}}-->
-      <div class="row-old" id="trasactions-history">
-        <div class="col-12-old">
-          <h3>تاریخچه‌ی تراکنش‌ها</h3>
-          <ul id="transactions-table">
-            <p
-              v-if="!transactions || !transactions.length"
 
-              style="margin-bottom: 0"
-              class="no-transaction">تراکنشی موجود نیست!</p>
-            <template v-else>
-              <li class="header">
-                <span class="reason">مجموعه داده</span>
-                <span class="description">توضیحات</span>
-                <span class="credit-amount">مبلغ</span>
-                <span class="time">تاریخ</span>
-              </li>
-
-              <li
-                v-for="item in transactions"
-                class="header">
-                <span v-if="item.dataset" class="reason">{{item.dataset.name}}</span>
-                <span v-else class="reason">...</span>
-                <span class="description">{{ item.reasonDescription || 'توضیحات' }}</span>
-                <span class="credit-amount">
-                  {{ $utils.formatNumber($utils.toFixed(item.creditAmount)) }}
-                </span>
-                <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
-              </li>
-            </template>
-          </ul>
-        </div>
-      </div>
+      <transactions :dataset="dataset" :user="user"></transactions>
 <!--      <div class="row-old" id="trasactions-history">
         <div class="col-12-old">
           <h3>تاریخچه‌ی تراکنش‌ها</h3>
@@ -178,7 +147,7 @@ export default {
       userHasChart: false,
       userCredit: 0,
       userAnswersCount: 0,
-      transactions: null,
+
       datasetTargets: null,
       userTargetDefinition: null
     }
@@ -331,7 +300,6 @@ export default {
       try {
         const credit = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Credit/GetCredit', data));
         if(credit.data && credit.data.result) {
-          console.log(credit.data.result.credit)
           this.userCredit = credit.data.result.credit;//this.$utils.formatNumber(this.$utils.toFixed(credit.data.result.credit));
 
           /*if (credit.data.result.credit > 0) {
@@ -458,29 +426,6 @@ export default {
         console.log(error)
       }
     },
-    async getTransactions() {
-      this.loadingTransactions = true;
-      //TODO: We should limit this to current dataset
-      let data = {
-        DataSetId: this.$route.params.id,//Added temporarily
-        OwnerId: this.user.id
-      }
-
-      try {
-        const transactions = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetAll',data));
-        if (transactions.data && transactions.data.result) {
-          this.transactions = transactions.data.result.items;
-          this.transactions.forEach(async item => {
-            this.$set(item, 'dataset', await this.fetchDataset(item.referenceDataSetId))
-            //item.dataset = await this.fetchDataset(item.referenceDataSetId)
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingTransactions = false
-      }
-    },
     async fetchDataset(id) {
       if(!id)
         return null
@@ -506,7 +451,6 @@ export default {
     this.getChartData();
     this.getUserCredit(this.$route.params.id);
     this.getUserAnswersCount(this.$route.params.id);
-    this.getTransactions();
     this.getUserTarget(this.$route.params.id);
     this.getDatasetTargets(this.$route.params.id);
   },

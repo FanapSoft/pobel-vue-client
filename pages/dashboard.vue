@@ -42,7 +42,8 @@
         </div>
       </div>
 
-      <div class="row-old" id="trasactions-history">
+      <transactions :user="user"></transactions>
+<!--      <div class="row-old" id="trasactions-history">
         <div class="col-12-old">
           <h3>تاریخچه‌ی تراکنش‌ها</h3>
           <ul id="transactions-table">
@@ -72,7 +73,7 @@
             </template>
           </ul>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
@@ -104,7 +105,6 @@ export default {
   },
   methods: {
     async getWalletBalance() {
-      this.loadingTransactions = true;
       let data = {
         ownerId: this.user.id
       }
@@ -116,8 +116,6 @@ export default {
         }
       } catch (error) {
         console.log(error)
-      } finally {
-        this.loadingTransactions = false
       }
     },
     async getTransactions() {

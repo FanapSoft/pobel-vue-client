@@ -11,7 +11,7 @@
 
           class="dataset-answers-history-items">
           <span class="dataset-answers-history-items-result">{{ `${(item.answer) ? '⤫' : '✓'}` }}</span>
-          <span class="dataset-answers-history-items-name">{{ JSON.parse(item.questionObject).Title.replace(/[0-9]/g, '').replace(/_/g, ' ') }}</span>
+          <span class="dataset-answers-history-items-name">{{ (item.questionObject ? JSON.parse(item.questionObject).Title.replace(/[0-9]/g, '').replace(/_/g, ' '): 'بی نام') }}</span>
 
         </li>
       </ul>
