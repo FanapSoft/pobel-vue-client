@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12">
+  <div class="col-12-old">
     <h3>فعال‌ترین کاربران</h3>
     <ol
       v-if="scoreboardItems"

@@ -7,11 +7,12 @@
 
           v-for="(item, index) of userAnswers"
           :id="`${item.id}-image`"
-          :style="{backgroundImage: `url(${$axios.defaults.baseURL}/file/dataset/item/${item.id})`}"
+          :style="{'background-image': `url(${$axios.defaults.baseURL}/file/dataset/item/${item.dataSetItemId})`}"
+
           class="dataset-answers-history-items">
           <span class="dataset-answers-history-items-result">{{ `${(item.answer) ? '⤫' : '✓'}` }}</span>
-<!--          <span class="dataset-answers-history-items-name">{{ JSON.parse(item.questionObject).Title.replace(/[0-9]/g, '').replace(/_/g, ' ') }}</span>
-        -->
+          <span class="dataset-answers-history-items-name">{{ JSON.parse(item.questionObject).Title.replace(/[0-9]/g, '').replace(/_/g, ' ') }}</span>
+
         </li>
       </ul>
     </div>
@@ -30,7 +31,7 @@ export default {
       userAnswers: [],
       pagination: {
         skip: 0,
-        perPage: 10,
+        perPage: 15,
         realCount: 0,
         hasMore: true
       }
@@ -40,7 +41,7 @@ export default {
     async getUserAnswers() {
 
       let data = {
-        DataSetId: this.dataset,
+        DataSetId: this.dataset.id,
         IncludeQuestion: true,
         UserId: this.user.id,
         skipCount: this.pagination.skip,
@@ -61,6 +62,7 @@ export default {
           this.pagination.skip = this.userAnswers.length;
           if(this.userAnswers.length >= this.pagination.realCount) {
             this.pagination.hasMore = false;
+            this.$emit("answersCount", this.pagination.realCount)
           }
         }
       } catch (error) {

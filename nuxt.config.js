@@ -31,7 +31,7 @@ export default {
       { name: 'apple-mobile-web-app-capable', content: 'yes' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'shortcut icon', href: '/favicon.png' },
       { rel:"stylesheet", href:"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" },
       { rel:"stylesheet", href:"https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" }
     ],
@@ -105,5 +105,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+  },
+  loading: {
+    color: '#ff257c',
   }
 }

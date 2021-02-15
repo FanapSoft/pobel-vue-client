@@ -35,9 +35,7 @@
           <div class="dataset-history-wrapper" id="set-show-target">
             <small>هدف شما</small>
             <p id="weekly-target">
-              <small id="weekly-target-count" data-title="هدف شما"></small>
-              /
-              <span id="dashboard-all-answers" data-title="پاسخ‌های شما">0</span>
+              <small id="weekly-target-count" data-title="هدف شما">{{ userTargetDefinition ? $utils.formatNumber(userTargetDefinition.answerCount) : '0' }}</small>/<span id="dashboard-all-answers" data-title="پاسخ‌های شما">{{ $utils.formatNumber(userAnswersCount) }}</span>
             </p>
           </div>
           <div class="dataset-history-wrapper"><small>وضعیت تگ زنی</small>
@@ -52,7 +50,7 @@
           </div>
           <div class="dataset-history-wrapper" id="collect-credit"><small>امتیاز شما</small>
             <p id="stats-credit">
-              {{ userCredit || '0.00'}}
+              {{ userCredit ? $utils.formatNumber($utils.toFixed(userCredit)) : '0.00'}}
             </p></div>
         </div>
 
@@ -77,7 +75,11 @@
       </div>
 
       <!--    {{#dataset.isActive}}-->
-      <div v-if="dataset.isActive" class="row user-targets-wrapper" id="set-target">
+      <div
+        v-if="dataset.isActive"
+
+        class="row-old user-targets-wrapper"
+        id="set-target">
         <div class="col-12-old">
           <h3>هدف گذاری</h3>
           <small>هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد
@@ -85,6 +87,16 @@
           <br>
           <small>با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید.</small>
           <ol id="define-target">
+            <li
+              v-for="(item, index) of datasetTargets"
+
+              :id="`target-${item.id}`"
+              :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
+              @click="changeUserTargetTo(item)"
+              class="target-list-items">
+              <p style="margin-bottom: 0;">{{ `هدف شماره ${index + 1}` }}</p>
+              <h3>{{ item.answerCount }}</h3>
+            </li>
           </ol>
         </div>
       </div>
@@ -94,8 +106,9 @@
           <h3>تاریخچه‌ی تراکنش‌ها</h3>
           <ul id="transactions-table">
             <p
-              v-if="!transactions"
+              v-if="!transactions || !transactions.length"
 
+              style="margin-bottom: 0"
               class="no-transaction">تراکنشی موجود نیست!</p>
             <template v-else>
               <li class="header">
@@ -165,7 +178,9 @@ export default {
       userHasChart: false,
       userCredit: 0,
       userAnswersCount: 0,
-      transactions: null
+      transactions: null,
+      datasetTargets: null,
+      userTargetDefinition: null
     }
   },
   computed: {
@@ -238,71 +253,69 @@ export default {
           });
 
           this.$nextTick(() => {
+            setTimeout(() => {
+              let ctx = document.getElementById('myChart');//.getContext('2d');
 
-
-          let ctx = document.getElementById('myChart').getContext('2d');
-
-          let myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: chartDates,
-              datasets: [{
-                label: 'تعداد برچسب‌ها',
-                data: chartCount,
-                backgroundColor: 'transparent',
-                borderColor: '#a02344',
-                pointBackgroundColor: 'white',
-                borderWidth: 1,
-                tension: 0.4,
-              }]
-            },
-            options: {
-              tooltips: {
-                backgroundColor: 'rgba(150, 20, 53, .8)',
-                titleFontFamily: '"IranSans", "Segoe UI", "Ubuntu"',
-                bodyFontFamily: '"IranSans", "Segoe UI", "Ubuntu"',
-              },
-              elements: {
-                point: {
-                  // radius: 0
-                }
-              },
-              legend: {
-                display: false
-              },
-              layout: {
-                padding: {
-                  left: 5,
-                  right: 5,
-                  top: 5,
-                  bottom: 5
-                }
-              },
-              scales: {
-                xAxes: [{
-                  gridLines: {
-                    display: false
-                  },
-                  ticks: {
-                    // maxTicksLimit: 7,
-                    display: false,
-                  }
-                }],
-                yAxes: [{
-                  gridLines: {
-                    display: false
-                  },
-                  ticks: {
-                    beginAtZero: true,
-                    display: false
-                  }
+              let myChart = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: chartDates,
+                datasets: [{
+                  label: 'تعداد برچسب‌ها',
+                  data: chartCount,
+                  backgroundColor: 'transparent',
+                  borderColor: '#a02344',
+                  pointBackgroundColor: 'white',
+                  borderWidth: 1,
+                  tension: 0.4,
                 }]
+              },
+              options: {
+                tooltips: {
+                  backgroundColor: 'rgba(150, 20, 53, .8)',
+                  titleFontFamily: '"IranSans", "Segoe UI", "Ubuntu"',
+                  bodyFontFamily: '"IranSans", "Segoe UI", "Ubuntu"',
+                },
+                elements: {
+                  point: {
+                    // radius: 0
+                  }
+                },
+                legend: {
+                  display: false
+                },
+                layout: {
+                  padding: {
+                    left: 5,
+                    right: 5,
+                    top: 5,
+                    bottom: 5
+                  }
+                },
+                scales: {
+                  xAxes: [{
+                    gridLines: {
+                      display: false
+                    },
+                    ticks: {
+                      // maxTicksLimit: 7,
+                      display: false,
+                    }
+                  }],
+                  yAxes: [{
+                    gridLines: {
+                      display: false
+                    },
+                    ticks: {
+                      beginAtZero: true,
+                      display: false
+                    }
+                  }]
+                }
               }
-            }
-          });
+            });
+            }, 200);
           })
-
-
         }
       } catch (error) {
         console.log(error)
@@ -318,7 +331,8 @@ export default {
       try {
         const credit = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Credit/GetCredit', data));
         if(credit.data && credit.data.result) {
-          this.userCredit = this.$utils.formatNumber(this.$utils.toFixed(credit.data.result.credit));
+          console.log(credit.data.result.credit)
+          this.userCredit = credit.data.result.credit;//this.$utils.formatNumber(this.$utils.toFixed(credit.data.result.credit));
 
           /*if (credit.data.result.credit > 0) {
             let collectCredit = document.createElement('button');
@@ -372,12 +386,11 @@ export default {
     async getUserAnswersCount(ds) {
       let data = {
         datasetId: ds,
-        UserId: this.user.id,
+        userId: this.user.id,
       }
 
       try {
-
-        const answers = await this.$axios.post('/api/services/app/Answers/Stats');
+        const answers = await this.$axios.post('/api/services/app/Answers/Stats', data);
         if(answers.data && answers.data.result) {
           this.userAnswersCount = answers.data.result.totalCount;
         }
@@ -387,11 +400,70 @@ export default {
 
       return 0;
     },
+    async getDatasetTargets(datasetId) {
+      let data = {
+        datasetId: datasetId
+      }
+
+      try {
+        const targets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/TargetDefinitions/GetAll', data));
+        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
+          this.datasetTargets = targets.data.result.items;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      return 0;
+    },
+    async getUserTarget(datasetId) {
+      let data = {
+        datasetId: datasetId,
+        ownerId: this.user.id,
+        order: 'DESC',
+        maxResultCount: 1
+      }
+
+      try {
+        const targets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Targets/GetAll', data));
+        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
+          data = {
+            id: targets.data.result.items[0].targetDefinitionId
+          };
+          let targetDefinition = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/TargetDefinitions/Get', data));
+          //if(targetDefinition.data && targetDefinition.data.result) {
+          this.userTargetDefinition = targetDefinition.data.result
+          //this.targetAnswersCount = (targetDefinition.data.result ? targetDefinition.data.result.answerCount : '0');
+          //}
+        }
+      } catch (error) {
+        console.log(error);
+      }
+
+      return 0;
+    },
+    async changeUserTargetTo(target) {
+      let data = {
+        targetDefinitionId: target.id
+      }
+
+      //TODO: create new target ?
+      try {
+        const result = await this.$axios.post('/api/services/app/Targets/Create', data);
+        if (result.data && result.data.result) {
+          //this.userTargetDefinition = result.data.result;
+          this.getUserTarget(this.$route.params.id)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
     async getTransactions() {
       this.loadingTransactions = true;
       //TODO: We should limit this to current dataset
       let data = {
-        ownerId: this.user.id
+        DataSetId: this.$route.params.id,//Added temporarily
+        OwnerId: this.user.id
       }
 
       try {
@@ -435,6 +507,8 @@ export default {
     this.getUserCredit(this.$route.params.id);
     this.getUserAnswersCount(this.$route.params.id);
     this.getTransactions();
+    this.getUserTarget(this.$route.params.id);
+    this.getDatasetTargets(this.$route.params.id);
   },
   watch: {
     dataset() {

@@ -28,7 +28,7 @@ export default function (context) {
     return req;
   });
 
-  $axios.onRequest(response => {
+  $axios.onResponse(response => {
     //return response;
     if(response.status >= 400) {
       if (response.status === 401) {
@@ -44,7 +44,9 @@ export default function (context) {
     } else {
       return response;
     }
-  }, (error) => {
+  });
+
+  $axios.onResponseError( error => {
     console.log(error)
     if (error.response && error.response.status === 401) {
       console.log("User has been logged out! Redirecting back to login page ...");
@@ -52,6 +54,6 @@ export default function (context) {
     }
 
     return error;
-  });
+  })
 
 }

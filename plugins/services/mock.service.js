@@ -234,6 +234,7 @@ const MockService = {
             id: 111,
             name: 'مشاهیر ایران',
             description: 'مجموعه تصاویر از مشاهیر ایران',
+            isActive: true
           }
 
         }];
