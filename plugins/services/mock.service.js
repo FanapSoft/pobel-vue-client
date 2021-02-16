@@ -26,7 +26,7 @@ const users = [
 const MockService = {
   init(context, inject) {
     // this sets the mock adapter on the default instance
-    let mock = new MockAdapter(context.$axios);
+    let mock = new MockAdapter(context.$axios, {delayResponse: 2000});
 
     //inject('mockService', MockService);
     //context.$mockService = MockService;
@@ -347,9 +347,9 @@ const MockService = {
             name: 'jjj',
             datasetItemId: 1
           })
-        return [200, {
-          result: items
-        }];
+          return [200, {
+            result: items
+          }];
       }
       return [401, { errors: ["Invalid authentication"] }];
     });

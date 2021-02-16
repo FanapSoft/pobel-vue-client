@@ -68,6 +68,25 @@ export default {
         this.loadingTransactions = false
       }
     },
+    async fetchDataset(id) {
+      if(!id)
+        return null
+
+      let data = {
+        id: id
+      }
+
+      try {
+        const ds = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Datasets/Get', data));
+
+        if (ds.data && ds.data.result) {
+
+          return ds.data.result
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
   mounted() {
     this.getTransactions();

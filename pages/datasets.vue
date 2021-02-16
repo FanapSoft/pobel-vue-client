@@ -1,6 +1,18 @@
 <template>
   <div class="container-old datasets-wrapper">
-    <div class="row-old">
+    <div
+      style="display: flex; align-items: center; justify-content: center;"
+      v-if="!datasets" >
+      <v-progress-circular
+        indeterminate
+
+        size="50"
+        color="#ff257c"></v-progress-circular>
+    </div>
+    <div
+      v-else
+
+      class="row-old">
       <h2>دیتاست ها</h2>
       <div class="datasets-list">
 

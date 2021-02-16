@@ -1,8 +1,13 @@
 <template>
   <div class="container-old datasets-wrapper">
     <div
+      style="display: flex; align-items: center; justify-content: center;"
       v-if="!dataset" >
-      <v-progress-circular color="#ff257c"></v-progress-circular>
+      <v-progress-circular
+        indeterminate
+
+        size="50"
+        color="#ff257c"></v-progress-circular>
     </div>
     <div v-else>
       <div class="row-old header">
@@ -425,26 +430,7 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    },
-    async fetchDataset(id) {
-      if(!id)
-        return null
-
-      let data = {
-        id: id
-      }
-
-      try {
-        const ds = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Datasets/Get', data));
-
-        if (ds.data && ds.data.result) {
-
-          return ds.data.result
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    }
   },
   mounted() {
     this.getItem();

@@ -16,6 +16,15 @@
         </li>
       </ul>
     </div>
+    <v-row class="px-12" justify="center">
+      <v-progress-linear
+        indeterminate
+
+        v-if="loadingAnswers"
+
+        style="opacity: .8"
+      color="#ff257c"></v-progress-linear>
+    </v-row>
   </div>
 </template>
 
@@ -34,11 +43,13 @@ export default {
         perPage: 15,
         realCount: 0,
         hasMore: true
-      }
+      },
+      loadingAnswers: false
     }
   },
   methods: {
     async getUserAnswers() {
+      this.loadingAnswers = true;
 
       let data = {
         DataSetId: this.dataset.id,
@@ -67,6 +78,8 @@ export default {
         }
       } catch (error) {
         console.log(error)
+      } finally {
+        this.loadingAnswers = false;
       }
     },
     loadMore(){
