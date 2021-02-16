@@ -43,37 +43,6 @@
       </div>
 
       <transactions :user="user"></transactions>
-<!--      <div class="row-old" id="trasactions-history">
-        <div class="col-12-old">
-          <h3>تاریخچه‌ی تراکنش‌ها</h3>
-          <ul id="transactions-table">
-            <p
-              v-if="!transactions"
-
-              class="no-transaction">تراکنشی موجود نیست!</p>
-            <template v-else>
-              <li class="header">
-                <span class="reason">مجموعه داده</span>
-                <span class="description">توضیحات</span>
-                <span class="credit-amount">مبلغ</span>
-                <span class="time">تاریخ</span>
-              </li>
-
-              <li
-                v-for="item in transactions"
-                class="header">
-                <span v-if="item.dataset" class="reason">{{item.dataset.name}}</span>
-                <span v-else class="reason">...</span>
-                <span class="description">{{ item.reasonDescription || 'توضیحات' }}</span>
-                <span class="credit-amount">
-                  {{ $utils.formatNumber($utils.toFixed(item.creditAmount)) }}
-                </span>
-                <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
-              </li>
-            </template>
-          </ul>
-        </div>
-      </div>-->
     </div>
   </div>
 </template>

@@ -1,20 +1,42 @@
 <template>
     <div class="container-old">
+      <div
+        v-if="!dataset || !userTargetDefinition"
+
+        style="display: flex; align-items: center; justify-content: center;">
+        <v-progress-linear
+          indeterminate
+
+          size="20"
+          color="#ff257c"></v-progress-linear>
+      </div>
       <datasets-nav
-        v-if="dataset && userTargetDefinition"
+        v-else
 
         :dataset="dataset"
         :target="userTargetDefinition"></datasets-nav>
 
       <div
-        v-if="randomLabel && labelQuestions"
+        v-if="!randomLabel || !labelQuestions"
+
+        style="display: flex; align-items: center; justify-content: center;margin-top: 20px">
+        <v-progress-circular
+          indeterminate
+
+          size="30"
+          color="#ff257c"></v-progress-circular>
+      </div>
+      <div
+        v-else
 
         class="row-old main">
         <div class="col-12-old grid-images-wrapper">
           <p class="question-text static">
             تصاویر
             <strong
+
               @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${randomLabel.name.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
+
               style="cursor: pointer;">
               {{ randomLabel.name.replace(/[0-9]/g, '').replace(/_/g, ' ') }}
 
@@ -210,6 +232,8 @@ export default {
               this.$set(item, 'isReport', false);
             } else  {
               item.isYes = false;
+              item.isNo = false;
+              item.isReport = false;
               item.answer = false;
             }
             break;
@@ -219,7 +243,9 @@ export default {
               this.$set(item, 'isYes', false);
               this.$set(item, 'isReport', false);
             } else  {
+              item.isYes = false;
               item.isNo = false;
+              item.isReport = false;
               item.answer = false;
             }
             break;
@@ -229,9 +255,12 @@ export default {
               this.$set(item, 'isYes', false);
               this.$set(item, 'isReport', true);
             } else  {
+              item.isYes = false;
+              item.isNo = false;
               item.isReport = false;
               item.answer = false;
             }
+            break
         }
 
     }
@@ -239,10 +268,10 @@ export default {
   async mounted() {
     //Call orders matters
     await this.getDataset();
+    await this.getUserTarget();
     await this.getRandomLabel();
     await this.getLabelQuestions();
     await this.getDatasetItem();
-    await this.getUserTarget();
   }
 }
 </script>
