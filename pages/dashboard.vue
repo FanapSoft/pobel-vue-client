@@ -33,11 +33,11 @@
                 v-else>{{ walletCredit }}<small>ریال</small>
               </template>
             </p>
-            <button
+<!--            <button
               @click="requestCashout"
 
               id="cashout-btn"
-              class="set-target-btn">انتقال به کیف پول</button>
+              class="set-target-btn">انتقال به کیف پول</button>-->
           </div>
         </div>
       </div>
