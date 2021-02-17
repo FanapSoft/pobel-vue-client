@@ -32,7 +32,7 @@ export default {
       };
 
       try {
-        const scoreboardItems = await this.$axios.get(this.$utils.addParamsToUrl(`/api/services/app/Reports/Scoreboard`, data));
+        const scoreboardItems = await this.$apiService.get(`/api/services/app/Reports/Scoreboard`, data);
         if (scoreboardItems.data && scoreboardItems.data.result) {
           this.scoreboardItems = this.scoreboardItems ? [
             ...this.scoreboardItems,

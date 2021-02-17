@@ -14,20 +14,15 @@
             class="dataset-cover"
                :style="{'background-image': `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.randomItemId})`}"
                :id="`ds-cover-${ds.id}`">
-            <!--              {{#labelingStatus}}-->
             <span
               v-if="ds.labelingStatus"
               class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
-            <!--              {{/labelingStatus}}-->
           </div>
 
           <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
           <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name">
             <small :data-title="ds.description">{{ds.description}}</small>
           </NuxtLink>
-          <!--        <a class="title" href="/dataset/{{id}}" data-title="{{name}}">{{name}}</a>-->
-          <!--        <a class="title" href="/dataset/{{id}}"><small data-title="{{description}}">{{description}}</small></a>-->
-
           <div class="row-old">
             <div class="col-6-old" style="flex: none">
               <p>
@@ -39,7 +34,6 @@
               <p class="left-in-mobile">
                 وضعیت
                 <br/>
-                <!--                  <strong>{{#labelingStatus}}فعال{{/labelingStatus}}{{^labelingStatus}}غیرفعال{{/labelingStatus}}</strong>-->
                 <strong
                   v-if="ds.labelingStatus">فعال</strong>
                 <strong
@@ -47,9 +41,7 @@
               </p>
             </div>
           </div>
-
         </div>
-        <!--          {{/datasets}}-->
       </div>
     </div>
   </div>
@@ -72,7 +64,7 @@ export default {
         MaxResultCount: 3
       }
       try {
-        const datasets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Reports/DataSets', data));
+        const datasets = await this.$apiService.get('/api/services/app/Reports/DataSets', data);
         if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
           this.datasets = datasets.data.result.items;
           this.dsCount = datasets.data.result.totalCount;

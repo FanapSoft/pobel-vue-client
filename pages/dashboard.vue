@@ -55,7 +55,7 @@ import {mapGetters} from "vuex"
 
 export default {
   components: {CustomCartType1, Transactions},
-  name: "conteact",
+  name: "dashboard",
   layout: 'main',
   computed: {
     ...mapGetters({

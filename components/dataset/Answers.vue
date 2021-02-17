@@ -60,7 +60,7 @@ export default {
       }
 
       try {
-        const answers = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Answers/GetAll',data));
+        const answers = await this.$apiService.get('/api/services/app/Answers/GetAll', data);
         if (answers.data && answers.data.result) {
           this.userAnswers = [
             ...this.userAnswers,

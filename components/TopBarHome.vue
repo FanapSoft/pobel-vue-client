@@ -6,10 +6,9 @@
 
 <script>
 import NavbarType1 from "./navbars/NavbarType1";
-import HeroHome from "./heroes/HeroHome";
 export default {
   name: "TopBarHome",
-  components: {HeroHome, NavbarType1}
+  components: { NavbarType1 }
 }
 </script>
 

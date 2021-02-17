@@ -99,7 +99,7 @@ export default {
         //MaxResultCount: 3
       }
       try {
-        const datasets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DataSets/GetAll', data));
+        const datasets = await this.$apiService.get('/api/services/app/DataSets/GetAll', data);
         if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
           for(let item of datasets.data.result.items)  {
             item.answerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.answerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -131,7 +131,7 @@ export default {
 
       //TODO: needs improvement
       try {
-        let datasetItems = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DataSetItems/GetAll', data));
+        let datasetItems = await this.$apiService.get('/api/services/app/DataSetItems/GetAll', data);
         if(datasetItems.data && datasetItems.data.result && datasetItems.data.result.items) {
           data.SkipCount = Math.floor(Math.random() * datasetItems.data.result.totalCount);
           datasetItems = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DataSetItems/GetAll', data));
@@ -152,7 +152,7 @@ export default {
       }
 
       try {
-        const targets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Targets/GetAll', data));
+        const targets = await this.$apiService.get('/api/services/app/Targets/GetAll', data);
         if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
           data = {
             id: targets.data.result.items[0].targetDefinitionId
@@ -175,7 +175,7 @@ export default {
       }
 
       try {
-        const answers = await this.$axios.post('/api/services/app/Answers/Stats', data);
+        const answers = await this.$apiService.post('/api/services/app/Answers/Stats', data);
         if(answers.data && answers.data.result) {
           return answers.data.result.totalCount;
         }
@@ -192,7 +192,7 @@ export default {
       }
 
       try {
-        const credit = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Credit/GetCredit', data));
+        const credit = await this.$apiService.get('/api/services/app/Credit/GetCredit', data);
         if(credit.data && credit.data.result) {
           return credit.data.result.credit;
         }

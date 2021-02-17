@@ -103,17 +103,19 @@ export default {
       labelType: '',
       labelQuestions: null,
       userTargetDefinition: null,
-      window: window
+      window: window,
+
+      userAnswers: null,
     }
   },
   methods: {
     async getDataset() {
-      let data = {
+      const data = {
         id: this.$route.params.id,
       }
-
       try {
-        const result = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Datasets/Get', data));
+        const result = await this.$apiService.get('/api/services/app/Datasets/Get', data);
+
         if (result.data && result.data.result) {
           this.dataset = result.data.result
         }
@@ -122,14 +124,14 @@ export default {
       }
     },
     async getRandomLabel() {
-      let data = {
+      const data = {
         datasetId: this.$route.params.id,
         count: 1
       }
 
       //TODO: create new target ?
       try {
-        const result = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Questions/GetRandomLabel', data));
+        const result = await this.$apiService.get('/api/services/app/Questions/GetRandomLabel', data);
         if (result.data && result.data.result) {
           this.randomLabel = result.data.result[0]
         }
@@ -148,14 +150,13 @@ export default {
       }
 
       try {
-        const result = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Questions/GetQuestions', data));
+        const result = await this.$apiService.get('/api/services/app/Questions/GetQuestions', data);
         if (result.data && result.data.result) {
-          console.log(result.data.result)
           this.labelQuestions = result.data.result;
           this.labelQuestions.forEach(item => {
-            item.isYes = false;
-            item.isNo = false;
-            item.isReport = false;
+            this.$set(item, "isYes", false);
+            this.$set(item, "isNo", false);
+            this.$set(item, "isReport", false);
           })
         }
       } catch (error) {
@@ -171,7 +172,7 @@ export default {
       }
 
       try {
-        const targets = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Targets/GetAll', data));
+        const targets = await this.$apiService.get('/api/services/app/Targets/GetAll', data);
         if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
           data = {
             id: targets.data.result.items[0].targetDefinitionId
@@ -196,7 +197,7 @@ export default {
       }
 
       try {
-        const result = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DatasetItems/Get', data));
+        const result = await this.$apiService.get('/api/services/app/DatasetItems/Get', data);
         if (result.data && result.data.result) {
           this.datasetItem = result.data.result;
 
@@ -221,15 +222,21 @@ export default {
         console.log(error)
       }
     },
-    setItemAnswerTo(item, state){
-        this.$set(item, 'answer', true);
-        switch (state) {
+    submitAnswers() {
+      let data = {
+        answers: this.userAnswers
+      }
+
+      const submitionResult = this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
+    },
+    setItemAnswerTo(item, state) {
+      this.$set(item, 'answer', true);
+      switch (state) {
           case 'yes':
             if(!item.isYes) {
-              console.log('hi??')
-              this.$set(item, 'isNo', false);
-              this.$set(item, 'isYes', true);
-              this.$set(item, 'isReport', false);
+              item.isNo = false;
+              item.isReport = false;
+              item.isYes = true;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -239,9 +246,9 @@ export default {
             break;
           case 'no':
             if(!item.isNo) {
-              this.$set(item, 'isNo', true);
-              this.$set(item, 'isYes', false);
-              this.$set(item, 'isReport', false);
+              item.isYes = false;
+              item.isNo = true;
+              item.isReport = false;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -251,9 +258,9 @@ export default {
             break;
           case 'report':
             if(!item.isReport) {
-              this.$set(item, 'isNo', false);
-              this.$set(item, 'isYes', false);
-              this.$set(item, 'isReport', true);
+              item.isYes = false;
+              item.isNo = false;
+              item.isReport = true;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -261,8 +268,7 @@ export default {
               item.answer = false;
             }
             break
-        }
-
+      }
     }
   },
   async mounted() {

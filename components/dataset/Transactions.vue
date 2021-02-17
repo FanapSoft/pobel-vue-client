@@ -54,7 +54,7 @@ export default {
       }
 
       try {
-        const transactions = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetAll',data));
+        const transactions = await this.$apiService.get('/api/services/app/Transactions/GetAll',data);
         if (transactions.data && transactions.data.result) {
           this.transactions = transactions.data.result.items;
           this.transactions.forEach(async item => {
@@ -77,7 +77,7 @@ export default {
       }
 
       try {
-        const ds = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Datasets/Get', data));
+        const ds = await this.$apiService.get('/api/services/app/Datasets/Get', data);
 
         if (ds.data && ds.data.result) {
 
