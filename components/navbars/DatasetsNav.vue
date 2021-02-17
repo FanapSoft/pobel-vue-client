@@ -63,6 +63,7 @@ export default {
       this.timer.seconds = this.pad(this.timerOptions.totalSeconds % 60);
       this.timer.minutes = this.pad((parseInt(this.timerOptions.totalSeconds / 60) % 60));
       this.timer.hours = this.pad(parseInt(this.timerOptions.totalSeconds / 3600));
+      this.$emit("totalSeconds", this.timerOptions.totalSeconds);
     },
     pad(val) {
       let valString = val + "";

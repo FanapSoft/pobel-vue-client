@@ -14,7 +14,8 @@
         v-else
 
         :dataset="dataset"
-        :target="userTargetDefinition"></datasets-nav>
+        :target="userTargetDefinition"
+        @totalSeconds="tm => timer = tm"></datasets-nav>
 
       <div
         v-if="!randomLabel || !labelQuestions"
@@ -51,9 +52,9 @@
               id="q-0"
               class="grid-images-list-items"
               :class="{
-                'completed yes': item.answer && item.isYes,
-                'completed no': item.answer && item.isNo,
-                'completed report': item.answer && item.isReport,
+                'completed yes': item.answer !== -1 && item.isYes,
+                'completed no': item.answer !== -1 && item.isNo,
+                'completed report': item.isReport,
               }"
               :style="{backgroundImage: `url(${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId})`}">
               <div
@@ -76,8 +77,16 @@
       </div>
       <div class="row-old footer grid-footer">
         <button
+          v-if="!userAnswers"
+
           @click="()=> window.location.reload()"
+
           class="answer">برو به لیست بعدی</button>
+
+        <button
+          v-else
+
+        @click="submitAnswers">ارسال پاسخ ها</button>
       </div>
     </div>
 </template>
@@ -104,7 +113,7 @@ export default {
       labelQuestions: null,
       userTargetDefinition: null,
       window: window,
-
+      timer: null,
       userAnswers: null,
     }
   },
@@ -157,6 +166,7 @@ export default {
             this.$set(item, "isYes", false);
             this.$set(item, "isNo", false);
             this.$set(item, "isReport", false);
+            this.$set(item, "answer", -1);
           })
         }
       } catch (error) {
@@ -222,26 +232,67 @@ export default {
         console.log(error)
       }
     },
-    submitAnswers() {
-      let data = {
-        answers: this.userAnswers
-      }
+    async submitAnswers() {
+      let answers = [], finalAnswers = [];
+      answers = this.labelQuestions.filter(item => item.answer !== -1);
+      //TODO: make sure user can not reach here without answers
+      if(answers.length) {
+        finalAnswers = answers.map(item => {
+          //TODO: improve it for questions with more than yes and no answer options
+          return {
+            dataSetId: (item.answer === 0 ? item.options[0].dataSetId : item.options[1].dataSetId),
+            dataSetItemId: item.datasetItemId,
+            answerIndex: (item.answer === 0 ?  item.options[0].index : item.options[1].index),
+            durationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length)
+          }
+        });
+        let data = {
+          answers: answers
+        }
 
-      const submitionResult = this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
+        try{
+          const submitionResult = await this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
+          window.location.reload();
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      //let reports = [];
+/*      answers = this.labelQuestions.filter(item => item.answer === true);
+      //TODO: make sure user can not reach here without answers
+      if(answers.length) {
+        let data = {
+          answers: answers
+        }
+
+        try{
+          const submitionResult = await this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
+          window.location.reload();
+        } catch (error) {
+          console.log(error)
+        }
+      }*/
     },
+    /*pushItemToUserAnswers(item) {
+      this.userAnswers.push({
+        id: item.id,
+        answer: item.answer,
+
+      })
+    },*/
     setItemAnswerTo(item, state) {
-      this.$set(item, 'answer', true);
       switch (state) {
           case 'yes':
             if(!item.isYes) {
               item.isNo = false;
               item.isReport = false;
               item.isYes = true;
+              item.answer = 0;
             } else  {
               item.isYes = false;
               item.isNo = false;
               item.isReport = false;
-              item.answer = false;
+              item.answer = -1;
             }
             break;
           case 'no':
@@ -249,11 +300,12 @@ export default {
               item.isYes = false;
               item.isNo = true;
               item.isReport = false;
+              item.answer = 1;
             } else  {
               item.isYes = false;
               item.isNo = false;
               item.isReport = false;
-              item.answer = false;
+              item.answer = -1;
             }
             break;
           case 'report':
@@ -261,11 +313,12 @@ export default {
               item.isYes = false;
               item.isNo = false;
               item.isReport = true;
+              item.answer = -1;
             } else  {
               item.isYes = false;
               item.isNo = false;
               item.isReport = false;
-              item.answer = false;
+              item.answer = -1;
             }
             break
       }
