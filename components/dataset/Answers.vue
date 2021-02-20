@@ -22,7 +22,7 @@
 
         v-if="loadingAnswers"
 
-        style="opacity: .8"
+        style="opacity: .8; width: 300px"
       color="#ff257c"></v-progress-linear>
     </v-row>
   </div>

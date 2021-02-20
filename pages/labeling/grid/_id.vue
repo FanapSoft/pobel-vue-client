@@ -15,6 +15,7 @@
 
         :dataset="dataset"
         :target="userTargetDefinition"
+        :localAnswersCount="localAnswersCount"
         @totalSeconds="tm => timer = tm"></datasets-nav>
 
       <div
@@ -77,9 +78,9 @@
       </div>
       <div class="row-old footer grid-footer">
         <button
-          v-if="!userAnswers"
+          v-if="!localAnswersCount"
 
-          @click="()=> window.location.reload()"
+          @click="changeQuestion"
 
           class="answer">برو به لیست بعدی</button>
 
@@ -94,6 +95,8 @@
 <script>
 import DatasetsNav from "~/components/navbars/DatasetsNav";
 import { mapGetters } from "vuex"
+
+import Modal from "../../../plugins/external/Modal/index"
 
 export default {
   name: "labeling_grid_id",
@@ -114,7 +117,7 @@ export default {
       userTargetDefinition: null,
       window: window,
       timer: null,
-      userAnswers: null,
+      localAnswersCount: 0
     }
   },
   methods: {
@@ -188,16 +191,32 @@ export default {
             id: targets.data.result.items[0].targetDefinitionId
           };
           let targetDefinition = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/TargetDefinitions/Get', data));
-          //if(targetDefinition.data && targetDefinition.data.result) {
-          this.userTargetDefinition = targetDefinition.data.result
-          //this.targetAnswersCount = (targetDefinition.data.result ? targetDefinition.data.result.answerCount : '0');
-          //}
+          this.userTargetDefinition = targetDefinition.data.result;
+          this.$set(this.userTargetDefinition, 'currentUserAnswersCount', 0);
+
+          await this.getUserAnswersCount();
         }
       } catch (error) {
         console.log(error);
       }
+    },
+    async getUserAnswersCount() {
+      ///api/services/app/Answers/Stats
 
-      return 0;
+      let data = {
+        dataSetId: this.$route.params.id,
+        UserId: this.user.id
+      }
+
+      try {
+        const answerStat = await this.$apiService.post('/api/services/app/Answers/Stats', data);
+        if(answerStat.data && answerStat.data.result ) {
+          console.log()
+          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getDatasetItem() {
       if(!this.labelQuestions)
@@ -232,7 +251,8 @@ export default {
         console.log(error)
       }
     },
-    async submitAnswers() {
+    async submitAnswersToServer() {
+
       let answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
       //TODO: make sure user can not reach here without answers
@@ -247,16 +267,46 @@ export default {
           }
         });
         let data = {
-          answers: answers
+          answers: finalAnswers
         }
 
         try{
-          const submitionResult = await this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
-          window.location.reload();
+          const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
+          this.changeQuestion();
         } catch (error) {
           console.log(error)
         }
       }
+    },
+    async submitAnswers() {
+      let continueModal = Modal({
+        title: 'ارسال پاسخ و ادامه',
+        body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
+        fullscreen: true,
+        actions: [
+          {
+            title: 'ارسال پاسخ‌ها و ادامه',
+            class: ['active'],
+            fn: async () => {
+              await this.submitAnswersToServer();
+              continueModal.close();
+            },
+            timeout: 5000
+          },
+          {
+            title: 'خیر، بازگشت',
+            class: ['noBorder'],
+            fn: () => {
+              continueModal.close();
+            }
+          }
+        ],
+        closeBtnAction: () => {
+          continueModal.close();
+        }
+      });
+
+
       //let reports = [];
 /*      answers = this.labelQuestions.filter(item => item.answer === true);
       //TODO: make sure user can not reach here without answers
@@ -273,13 +323,17 @@ export default {
         }
       }*/
     },
-    /*pushItemToUserAnswers(item) {
-      this.userAnswers.push({
-        id: item.id,
-        answer: item.answer,
-
-      })
-    },*/
+    updateLocalAnswersCount() {
+      this.localAnswersCount = 0;
+      if(this.labelQuestions)
+        for(let i of this.labelQuestions) {
+          if( (i.answer !== -1 && (i.isYes || i.isNo))
+            || (i.answer === -1 && i.isReport)
+          ) {
+            this.localAnswersCount++
+          }
+        }
+    },
     setItemAnswerTo(item, state) {
       switch (state) {
           case 'yes':
@@ -322,15 +376,41 @@ export default {
             }
             break
       }
+    },
+    changeQuestion() {
+      //this.dataset: null,
+      this.datasetItem = null;
+      this.randomLabel = null;
+      this.labelType = '';
+      this.labelQuestions = null;
+      this.userTargetDefinition = null;
+      this.timer = null;
+      this.localAnswersCount = 0;
+
+      this.$nextTick(async ()=> {
+        await this.getUserTarget(this.$route.params.id);
+        await this.getRandomLabel();
+        await this.getLabelQuestions();
+        await this.getDatasetItem();
+      })
+
     }
   },
   async mounted() {
     //Call orders matters
     await this.getDataset();
-    await this.getUserTarget();
+    await this.getUserTarget(this.$route.params.id);
     await this.getRandomLabel();
     await this.getLabelQuestions();
     await this.getDatasetItem();
+  },
+  watch: {
+    labelQuestions: {
+      handler(val) {
+        this.updateLocalAnswersCount();
+      },
+      deep: true
+    }
   }
 }
 </script>

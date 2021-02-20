@@ -18,7 +18,7 @@
             :data-value="target.answerCount">{{ target.answerCount }}</label><span>/</span><label
             id="answersCount"
             data-title="تعداد پاسخ های شما تا این لحظه"
-            data-value="284">{{ target.answerCount }}</label>
+            data-value="284">{{ target.currentUserAnswersCount + localAnswersCount }}</label>
         </p>
       </div>
       <button
@@ -36,6 +36,7 @@ export default {
   props: {
     dataset: null,
     target: null,
+    localAnswersCount: 0
   },
   data() {
     return {
@@ -55,7 +56,7 @@ export default {
     ...mapGetters({
       user: "auth/currentUser",
       isAuthenticated: "auth/isAuthenticated"
-    })
+    }),
   },
   methods: {
     setTime() {
@@ -76,7 +77,7 @@ export default {
   },
   mounted() {
     this.globalInterval = setInterval(this.setTime, 1000);
-  }
+  },
 }
 </script>
 
