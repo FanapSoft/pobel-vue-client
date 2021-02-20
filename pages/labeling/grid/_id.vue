@@ -78,7 +78,7 @@
       </div>
       <div class="row-old footer grid-footer">
         <button
-          v-if="!localAnswersCount"
+          v-if="!localAnswersCount && !localReportsCount"
 
           @click="changeQuestion"
 
@@ -117,7 +117,8 @@ export default {
       userTargetDefinition: null,
       window: window,
       timer: null,
-      localAnswersCount: 0
+      localAnswersCount: 0,
+      localReportsCount: 0
     }
   },
   methods: {
@@ -253,7 +254,7 @@ export default {
     },
     async submitAnswersToServer() {
 
-      let answers = [], finalAnswers = [];
+      let isAnswersSubmited = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
       //TODO: make sure user can not reach here without answers
       if(answers.length) {
@@ -272,7 +273,21 @@ export default {
 
         try{
           const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
-          this.changeQuestion();
+          isAnswersSubmited = true;
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      let reports = null;
+      reports = this.labelQuestions.filter(item => item.isReport === true);
+      if(reports) {
+        let data = {
+          answers: finalAnswers
+        }
+
+        try{
+          //const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
+          isAnswersSubmited = true;
         } catch (error) {
           console.log(error)
         }
@@ -289,6 +304,7 @@ export default {
             class: ['active'],
             fn: async () => {
               await this.submitAnswersToServer();
+              this.changeQuestion();
               continueModal.close();
             },
             timeout: 5000
@@ -325,14 +341,16 @@ export default {
     },
     updateLocalAnswersCount() {
       this.localAnswersCount = 0;
-      if(this.labelQuestions)
-        for(let i of this.labelQuestions) {
-          if( (i.answer !== -1 && (i.isYes || i.isNo))
-            || (i.answer === -1 && i.isReport)
-          ) {
+      this.localReportsCount = 0;
+      if(this.labelQuestions) {
+        for (let i of this.labelQuestions) {
+          if (i.answer !== -1 && (i.isYes || i.isNo)) {
             this.localAnswersCount++
+          } else if(i.answer === -1 && i.isReport) {
+            this.localReportsCount++;
           }
         }
+      }
     },
     setItemAnswerTo(item, state) {
       switch (state) {
