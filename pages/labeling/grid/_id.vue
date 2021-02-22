@@ -64,18 +64,18 @@
                 <div
                   @click="setItemAnswerTo(item, 'yes')"
 
-                  data-title="درسته"
+                  data-title="درست است"
                   class="grid-images-overlay-icons grid-images-overlay-yes"></div>
                 <div
                   @click="setItemAnswerTo(item, 'no')"
 
-                  data-title="اشتباهه"
+                  data-title="اشتباه است"
                   class="grid-images-overlay-icons grid-images-overlay-no"></div>
                 <div
                   @click="setItemAnswerTo(item, 'report')"
                   data-id="0"
 
-                  data-title="تصویر ایراد داره"
+                  data-title="تصویر ایراد دارد"
                   class="grid-images-overlay-icons grid-images-overlay-report"></div>
               </div>
             </li>
