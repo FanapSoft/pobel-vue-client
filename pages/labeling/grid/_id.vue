@@ -63,13 +63,19 @@
                 class="grid-images-overlay-bg">
                 <div
                   @click="setItemAnswerTo(item, 'yes')"
+
+                  data-title="درسته"
                   class="grid-images-overlay-icons grid-images-overlay-yes"></div>
                 <div
                   @click="setItemAnswerTo(item, 'no')"
+
+                  data-title="اشتباهه"
                   class="grid-images-overlay-icons grid-images-overlay-no"></div>
                 <div
                   @click="setItemAnswerTo(item, 'report')"
                   data-id="0"
+
+                  data-title="تصویر ایراد داره"
                   class="grid-images-overlay-icons grid-images-overlay-report"></div>
               </div>
             </li>
