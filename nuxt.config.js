@@ -7,11 +7,13 @@ export default {
     exclude: [
       /^\/dataset/, // path starts with /dataset
       /^\/datasets/,
+      /^\/dashboard/,
       /^\/labeling/,
       /^\/auth/,
       /^\/loggedIn/,
     ]
   },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -48,17 +50,18 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/utils',
-    '~/plugins/moment',
-    '~/plugins/services/jwt.service',
-    '~/plugins/services/api.service',
-    '~/plugins/services/user.service',
-    '~/plugins/axios',
+    { src: '~/plugins/utils', mode: 'client' },
+    { src: '~/plugins/moment', mode: 'client' },
+    { src: '~/plugins/services/jwt.service', mode: 'client' },
+    { src: '~/plugins/services/api.service', mode: 'client' },
+    { src: '~/plugins/services/user.service', mode: 'client' },
+    { src: '~/plugins/axios', mode: 'client' },
     //'~/plugins/services/mock.service', //Temporary only for test
   ],
 
   router: {
-    middleware: ['checkAuth']
+    middleware: ['checkAuth'],
+    //base: '/test/'
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components

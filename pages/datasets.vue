@@ -134,7 +134,7 @@ export default {
         let datasetItems = await this.$apiService.get('/api/services/app/DataSetItems/GetAll', data);
         if(datasetItems.data && datasetItems.data.result && datasetItems.data.result.items) {
           data.SkipCount = Math.floor(Math.random() * datasetItems.data.result.totalCount);
-          datasetItems = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/DataSetItems/GetAll', data));
+          datasetItems = await this.$apiService.get('/api/services/app/DataSetItems/GetAll', data);
           return (datasetItems.data.result ? datasetItems.data.result.items[0] : null)
         }
       } catch (error) {
@@ -157,7 +157,7 @@ export default {
           data = {
             id: targets.data.result.items[0].targetDefinitionId
           };
-          let targetDefinition = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/TargetDefinitions/Get', data));
+          let targetDefinition = await this.$apiService.get('/api/services/app/TargetDefinitions/Get', data);
           //if(targetDefinition.data && targetDefinition.data.result) {
           return (targetDefinition.data.result ? targetDefinition.data.result.answerCount : '0');
           //}

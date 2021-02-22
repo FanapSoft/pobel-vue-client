@@ -191,7 +191,7 @@ export default {
           data = {
             id: targets.data.result.items[0].targetDefinitionId
           };
-          let targetDefinition = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/TargetDefinitions/Get', data));
+          let targetDefinition = await this.$apiService.get('/api/services/app/TargetDefinitions/Get', data);
           this.userTargetDefinition = targetDefinition.data.result;
           this.$set(this.userTargetDefinition, 'currentUserAnswersCount', 0);
 
