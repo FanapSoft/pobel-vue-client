@@ -90,8 +90,6 @@
 <script>
 import { mapGetters } from "vuex"
 
-//import Logo from '~/components/Logo.vue'
-import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import Datasets from "../components/home/Datasets";
 import Users from "../components/home/Users";
 import TopBarHome from "../components/TopBarHome";
@@ -114,8 +112,7 @@ export default {
     TopBarHome,
     Users,
     Datasets,
-    Logo,
-    VuetifyLogo
+    Logo
   },
   computed: {
     ...mapGetters({

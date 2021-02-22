@@ -26,18 +26,76 @@
           <div class="dataset-history-wrapper" id="cash-out-wrapper"><small>اعتبار کیف پول: </small>
             <p id="wallet-credit">
               <template
-                v-if="walletCredit">
+                v-if="!walletCredit">
                 0 <small>تومان</small>
               </template>
               <template
                 v-else>{{ walletCredit }}<small>ریال</small>
               </template>
             </p>
-            <button
+<!--            <button
+              outlined x-small
+
+              style="letter-spacing: 0"
               @click="requestCashout"
 
               id="cashout-btn"
-              class="set-target-btn">انتقال به کیف پول</button>
+              class="set-target-btn">انتقال به کیف پول</button>-->
+
+
+            <v-dialog width="400">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  outlined x-small
+
+                  :loading="loadingRequestCashout"
+
+                  v-bind="attrs"
+                  v-on="on"
+
+                  id="cashout-btn"
+                  style="letter-spacing: 0;padding: 13px 10px"
+                  class="set-target-btn">انتقال به کیف پول</v-btn>
+              </template>
+
+              <v-card>
+                <v-card-title
+
+                  class="headline "
+                  style="font-family: 'IranSans' !important;font-size: 16px !important;">
+                  درخواست انتقال به کیف پول
+                </v-card-title>
+                <v-card-text class="pt-6">
+                  <v-form v-model="userPhoneNumberValid">
+                    <v-text-field
+                       filled dense rounded
+                       color="#333"
+                       type="number"
+                       :rules="[
+                         $utils.validators.iranmobile,
+                         $utils.validators.betweenLength(userPhoneNumber, 3, 11)
+                       ]"
+                       dir="ltr"
+
+                      label="تلفن همراه"
+                      v-model="userPhoneNumber"></v-text-field>
+                  </v-form>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    text
+
+                    :disabled="!userPhoneNumberValid"
+                    @click="requestCashout"
+
+                    color="primary">
+                    ثبت
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </div>
         </div>
       </div>
@@ -52,10 +110,11 @@ import Transactions from "../components/dataset/Transactions";
 import CustomCartType1 from "../components/general/CustomCardType1";
 
 import {mapGetters} from "vuex"
+import Modal from "../plugins/external/Modal";
 
 export default {
   components: {CustomCartType1, Transactions},
-  name: "conteact",
+  name: "dashboard",
   layout: 'main',
   computed: {
     ...mapGetters({
@@ -70,6 +129,9 @@ export default {
       transactions: null,
       loadingAnswer: false,
       loadingTransactions: false,
+      loadingRequestCashout: false,
+      userPhoneNumber: '',
+      userPhoneNumberValid: true
     }
   },
   methods: {
@@ -79,7 +141,7 @@ export default {
       }
 
       try {
-        const walletCredit = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetBalance',data));
+        const walletCredit = await this.$apiService.get('/api/services/app/Transactions/GetBalance',data);
         if (walletCredit.data && walletCredit.data.result) {
           this.walletCredit = this.$utils.formatNumber(this.$utils.toFixed(walletCredit.data.result.total))
         }
@@ -94,7 +156,7 @@ export default {
       }
 
       try {
-        const transactions = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Transactions/GetAll',data));
+        const transactions = await this.$apiService.get('/api/services/app/Transactions/GetAll',data);
         if (transactions.data && transactions.data.result) {
           this.transactions = transactions.data.result.items;
           this.transactions.forEach(async item => {
@@ -118,7 +180,7 @@ export default {
 
 
       try {
-        const ds = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Datasets/Get', data));
+        const ds = await this.$apiService.get('/api/services/app/Datasets/Get', data);
         console.log(ds)
         if (ds.data && ds.data.result) {
 
@@ -135,7 +197,7 @@ export default {
       }
 
       try {
-        const answersCount = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Answers/GetAll', data));
+        const answersCount = await this.$apiService.get('/api/services/app/Answers/GetAll', data);
         if (answersCount.data && answersCount.data.result) {
           this.answersCount = answersCount.data.result.totalCount
         }
@@ -145,7 +207,51 @@ export default {
         this.loadingAnswers = false
       }
     },
-    requestCashout(){
+    async requestCashout() {
+      this.loadingRequestCashout = true;
+      let data = {
+        PhoneNumber: '09354863644'
+      }
+
+      /*let continueModal = Modal({
+        title: 'ارسال پاسخ و ادامه',
+        body: `gh
+        <v-text-field v-model="userPhoneNumber"></v-text-field>fh`,
+        actions: [
+          {
+            title: 'باشه',
+            class: ['active'],
+            fn: async () => {
+              continueModal.close();
+            }
+          },
+          {
+            title: 'خیر، بازگشت',
+            class: ['noBorder'],
+            fn: () => {
+              continueModal.close();
+            }
+          }
+        ],
+        closeBtnAction: () => {
+          continueModal.close();
+        }
+      })*/
+
+      try {
+        const requestCashOut = await this.$axios.post('/api/services/app/Wallet/TransferCreditToWallet', data);
+        if (requestCashOut.data && requestCashOut.data.result) {
+          console.log(requestCashOut)
+
+
+
+         // this.answersCount = answersCount.data.result.totalCount
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingRequestCashout = false
+      }
       console.log('انتقال اعتبار به کیف پول پاد در حال پیاده سازی می باشد!');
     }
   },
@@ -210,5 +316,10 @@ export default {
   left: 10px;
   top: 4px;
 }
-
+#cashout-btn {
+  color: #000;
+}
+#cashout-btn:hover {
+  color: #ffe58a;
+}
 </style>

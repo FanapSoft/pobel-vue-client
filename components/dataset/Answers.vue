@@ -16,15 +16,15 @@
         </li>
       </ul>
     </div>
-    <v-row class="px-12" justify="center">
+<!--    <v-row class="px-12" justify="center">
       <v-progress-linear
         indeterminate
 
         v-if="loadingAnswers"
 
-        style="opacity: .8"
+        style="opacity: .8; width: 300px"
       color="#ff257c"></v-progress-linear>
-    </v-row>
+    </v-row>-->
   </div>
 </template>
 
@@ -49,7 +49,8 @@ export default {
   },
   methods: {
     async getUserAnswers() {
-      this.loadingAnswers = true;
+      //this.loadingAnswers = true;
+      this.$nuxt.$loading.start()
 
       let data = {
         DataSetId: this.dataset.id,
@@ -60,12 +61,20 @@ export default {
       }
 
       try {
-        const answers = await this.$axios.get(this.$utils.addParamsToUrl('/api/services/app/Answers/GetAll',data));
+        const answers = await this.$apiService.get('/api/services/app/Answers/GetAll', data);
         if (answers.data && answers.data.result) {
-          this.userAnswers = [
+          let tmp = answers.data.result.items.filter(item => {
+            return !this.userAnswers.map(item => item.id).includes(item.id);
+          })
+
+          this.$set(this, 'userAnswers', [
+            ...this.userAnswers,
+            ...tmp
+          ])
+         /* this.userAnswers = [
             ...this.userAnswers,
             ...answers.data.result.items
-          ];
+          ];*/
 
           if(!this.pagination.realCount) {
             this.pagination.realCount = answers.data.result.totalCount;
@@ -79,7 +88,8 @@ export default {
       } catch (error) {
         console.log(error)
       } finally {
-        this.loadingAnswers = false;
+        //this.loadingAnswers = false;
+        this.$nuxt.$loading.finish()
       }
     },
     loadMore(){

@@ -2,8 +2,10 @@ export default function (context) {
   let {
     $axios,
     nuxtError,
+    route,
     $apiService,
-    $jwtService
+    $jwtService,
+    $utils,
   } = context;
   $axios.defaults.validateStatus = () => {//status
     return true;
@@ -20,17 +22,15 @@ export default function (context) {
   $axios.onRequest(req => {
     req.headers.Authorization = `Bearer ${$jwtService.getToken()}`;
     return req;
-  })
-
-
-  $axios.onRequest(req => {
-    req.headers.Authorization = `Bearer ${$jwtService.getToken()}`;
-    return req;
   });
 
+  // $axios.onRequest(req => {
+  //   req.headers.Authorization = `Bearer ${$jwtService.getToken()}`;
+  //   return req;
+  // });
+
   $axios.onResponse(response => {
-    //return response;
-    if(response.status >= 400) {
+    if(response.status >= 400 && !$utils.routeOption(route, 'auth', false)) {
       if (response.status === 401) {
         console.log("User has been logged out! Redirecting back to login page ...");
         window.location.href = $apiService.loginUrl;
@@ -49,11 +49,10 @@ export default function (context) {
   $axios.onResponseError( error => {
     console.log(error)
     if (error.response && error.response.status === 401) {
-      console.log("User has been logged out! Redirecting back to login page ...");
-      window.location.href = $apiService.loginUrl;
+      //console.log("User has been logged out! Redirecting back to login page ...");
+      //window.location.href = $apiService.loginUrl;
     }
 
     return error;
   })
-
 }

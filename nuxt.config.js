@@ -7,11 +7,13 @@ export default {
     exclude: [
       /^\/dataset/, // path starts with /dataset
       /^\/datasets/,
+      /^\/dashboard/,
       /^\/labeling/,
       /^\/auth/,
       /^\/loggedIn/,
     ]
   },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
@@ -33,7 +35,7 @@ export default {
     link: [
       { rel: 'shortcut icon', href: '/favicon.png' },
       { rel:"stylesheet", href:"https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" },
-      { rel:"stylesheet", href:"https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" }
+      { rel:"stylesheet", href:"https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" },
     ],
     script: [
       {hid:'123', src: 'https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js', defer: true}
@@ -42,22 +44,24 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    "~/plugins/external/Modal/index.css",
     "~/assets/scss/styles" //This project styles
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/utils',
-    '~/plugins/moment',
-    '~/plugins/services/jwt.service',
-    '~/plugins/services/api.service',
-    '~/plugins/services/user.service',
-    '~/plugins/axios',
-    '~/plugins/services/mock.service', //Temporary only for test
+    { src: '~/plugins/utils', mode: 'client' },
+    { src: '~/plugins/moment', mode: 'client' },
+    { src: '~/plugins/services/jwt.service', mode: 'client' },
+    { src: '~/plugins/services/api.service', mode: 'client' },
+    { src: '~/plugins/services/user.service', mode: 'client' },
+    { src: '~/plugins/axios', mode: 'client' },
+    //'~/plugins/services/mock.service', //Temporary only for test
   ],
 
   router: {
-    middleware: ['checkAuth']
+    middleware: ['checkAuth'],
+    base: process.env.NODE_ENV == 'production' ? '/test/' : ''
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -24,8 +24,12 @@ export default {
   methods: {
     async getItems() {
       this.loading = true;
+
+      const data = {
+        DatasetId: this.$route.params.DatasetId
+      }
       try {
-        const targets = await this.$http.get(`/api/services/app/TargetDefinitions/GetAll?DatasetId=${this.$route.params.DatasetId}`);
+        const targets = await this.$apiService.get(`/api/services/app/TargetDefinitions/GetAll`, data);
         if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
           this.targets = targets.data.result.items
         }

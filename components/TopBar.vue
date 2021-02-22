@@ -14,7 +14,6 @@
 
 <script>
 import NavbarType1 from "./navbars/NavbarType1";
-import HeroSmall from "./heroes/HeroSmall";
 
 export default {
   name: "TopBar",
@@ -23,7 +22,7 @@ export default {
       showHero: true
     }
   },
-  components: {HeroSmall, NavbarType1},
+  components: {NavbarType1},
   created() {
     if(this.$utils.routeOption(this.$route, 'hero', false)) {
       this.showHero = false;

@@ -84,7 +84,150 @@ const Utils = {
     let num = number ? number : 3;
     let re = new RegExp("\\B(?=(\\d{" + num + "})+(?!\\d))", "g");
     return value.toString().replace(re, ",");
-  }
+  },
+
+  validators: {
+    /**
+     * This field is required and cant't be left empty
+     * @param value
+     * @returns {boolean|string}
+     */
+    required: value => !!value || 'این فیلد الزامیست',
+    /**
+     * Only numbers are allowed
+     * @param value
+     * @returns {boolean|string}
+     */
+    onlyNumbers: value => {
+      const pattern = /^(\d)*$/;
+      if(!value || pattern.test(value)) {
+        return true;
+      }
+      else {
+        return 'فقط عدد مجاز است';
+      }
+    },
+    /**
+     * Only posetive and negative numbers are allowed
+     * @param value
+     * @returns {boolean|string}
+     */
+    onlyNumberAndHyphen: value => {
+      const pattern = /^(-)*(\d)*$/;
+      if(!value || pattern.test(value)) {
+        return true;
+      }
+      else {
+        return 'فقط عدد مجاز است';
+      }
+    },
+    /**
+     * Only Iran money format is allowed
+     * @param value
+     * @returns {boolean|string}
+     */
+    onlyMoney: value =>{
+      const pattern = /^[\d,]*$/;
+      return pattern.test(value) || 'فقط فرمت پول مجاز است';
+    },
+    /**
+     * Hyphen is not allowed
+     * @param variable
+     * @param number
+     * @returns {boolean|string}
+     */
+    noHyphen: value => value.trim() != '-' || 'مقدار وارد شده معتبر نیست.',
+    /**
+     * Variable length must be less than number
+     * @param variable
+     * @param number
+     * @returns {boolean|string}
+     */
+    maxChars(variable, number){
+      return variable.length <= number || 'حداکثر ' + number + ' کاراکتر مجاز است'
+    },
+    /**
+     * Variable length must be exactly same as length or null
+     * @param variable
+     * @param length
+     * @returns {boolean|string}
+     */
+    fixedLength(variable, length){
+      return ((variable != null && variable.length == length) || !variable) || 'طول فیلد باید ' + length + ' کاراکتر باشد'
+    },
+    /**
+     * Variable must be between minLength and maxLength
+     * @param variable
+     * @param minLength
+     * @param maxLength
+     * @returns {boolean|string}
+     */
+    betweenLength(variable, minLength, maxLength){
+      return ((variable != null && variable.length <= maxLength && variable.length >= minLength) || !variable) || `طول فیلد باید بین ${minLength} تا ${maxLength}  کاراکتر باشد. `
+    },
+    /**
+     * String must starts with chars
+     * @param variable
+     * @param chars
+     * @returns {string|boolean}
+     */
+    startsWith(variable, chars){
+      if(variable && variable.length){
+        const pattern = new RegExp('^' + chars);
+        if(pattern.test(variable)) {
+          return  true;
+        } else {
+          return 'باید با ' + chars + 'شروع شود';
+        }
+      } else {
+        return true;
+      }
+    },
+    /**
+     * Only iran mobile format is allowed
+     * @param value
+     * @returns {boolean | string}
+     */
+    iranmobile: value => {
+      const pattern = /^09\d{9}$/;
+      return pattern.test(value) || 'مثال شماره موبایل صحیح: 09111111111'
+    },
+    /**
+     * value must contains atleast one space
+     * @param value
+     * @param message
+     * @returns {boolean | string}
+     */
+    oneSpace(value, message) {
+      return (value && value.split(' ').length > 1) || (message || 'حداقل 2 کلمه')
+    },
+    notEmpty: value => {
+      if(value && value.toString().length) {
+        return true
+      } else {
+        return 'فیلد نباید خالی باشد'
+      }
+      // return value.length > 0 ||  'فیلد نباید خالی باشد'
+    },
+    minNumber(value, min) {
+
+      if(value >= min) {
+        return true
+      } else {
+        return `کمتر از ${min} مجاز نیست`
+      }
+    },
+    maxNumber(value, max) {
+
+
+      if(value <= max) {
+        return true
+      } else {
+        return `بیشتر از ${max} مجاز نیست`
+      }
+    },
+
+  },
 }
 
 export default Utils.install
