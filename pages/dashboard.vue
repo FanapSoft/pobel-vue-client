@@ -34,10 +34,22 @@
               </template>
             </p>
 <!--            <button
+              outlined x-small
+
+              style="letter-spacing: 0"
               @click="requestCashout"
 
               id="cashout-btn"
               class="set-target-btn">انتقال به کیف پول</button>-->
+            <v-btn
+              outlined x-small
+
+              :loading="loadingRequestCashout"
+              @click="requestCashout"
+
+              id="cashout-btn"
+              style="letter-spacing: 0;padding: 13px 10px"
+              class="set-target-btn">انتقال به کیف پول</v-btn>
           </div>
         </div>
       </div>
@@ -70,6 +82,7 @@ export default {
       transactions: null,
       loadingAnswer: false,
       loadingTransactions: false,
+      loadingRequestCashout: false
     }
   },
   methods: {
@@ -145,7 +158,25 @@ export default {
         this.loadingAnswers = false
       }
     },
-    requestCashout(){
+    async requestCashout() {
+      this.loadingRequestCashout = true;
+      let data = {
+        PhoneNumber: '09354863644'
+      }
+
+      try {
+        const requestCashOut = await this.$axios.post('/api/services/app/Wallet/TransferCreditToWallet', data);
+        if (requestCashOut.data && requestCashOut.data.result) {
+          console.log(requestCashOut)
+
+          Modal()
+         // this.answersCount = answersCount.data.result.totalCount
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingRequestCashout = false
+      }
       console.log('انتقال اعتبار به کیف پول پاد در حال پیاده سازی می باشد!');
     }
   },
@@ -210,5 +241,10 @@ export default {
   left: 10px;
   top: 4px;
 }
-
+#cashout-btn {
+  color: #000;
+}
+#cashout-btn:hover {
+  color: #ffe58a;
+}
 </style>

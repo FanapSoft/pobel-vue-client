@@ -16,7 +16,7 @@
         </li>
       </ul>
     </div>
-    <v-row class="px-12" justify="center">
+<!--    <v-row class="px-12" justify="center">
       <v-progress-linear
         indeterminate
 
@@ -24,7 +24,7 @@
 
         style="opacity: .8; width: 300px"
       color="#ff257c"></v-progress-linear>
-    </v-row>
+    </v-row>-->
   </div>
 </template>
 
@@ -49,7 +49,8 @@ export default {
   },
   methods: {
     async getUserAnswers() {
-      this.loadingAnswers = true;
+      //this.loadingAnswers = true;
+      this.$nuxt.$loading.start()
 
       let data = {
         DataSetId: this.dataset.id,
@@ -87,7 +88,8 @@ export default {
       } catch (error) {
         console.log(error)
       } finally {
-        this.loadingAnswers = false;
+        //this.loadingAnswers = false;
+        this.$nuxt.$loading.finish()
       }
     },
     loadMore(){
