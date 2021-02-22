@@ -4,11 +4,11 @@
         v-if="!dataset || !userTargetDefinition"
 
         style="display: flex; align-items: center; justify-content: center;">
-        <v-progress-linear
+<!--        <v-progress-linear
           indeterminate
 
           size="20"
-          color="#ff257c"></v-progress-linear>
+          color="#ff257c"></v-progress-linear>-->
       </div>
       <datasets-nav
         v-else
