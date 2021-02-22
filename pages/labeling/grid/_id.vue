@@ -253,7 +253,6 @@ export default {
       }
     },
     async submitAnswersToServer() {
-
       let isAnswersSubmited = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
       //TODO: make sure user can not reach here without answers
@@ -278,7 +277,7 @@ export default {
           console.log(error)
         }
       }
-      let reports = null;
+      /*let reports = null;
       reports = this.labelQuestions.filter(item => item.isReport === true);
       if(reports) {
         let data = {
@@ -291,7 +290,7 @@ export default {
         } catch (error) {
           console.log(error)
         }
-      }
+      }*/
     },
     async submitAnswers() {
       let continueModal = Modal({
