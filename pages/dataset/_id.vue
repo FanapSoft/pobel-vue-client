@@ -107,19 +107,6 @@
       </div>
 
       <transactions :dataset="dataset" :user="user"></transactions>
-<!--      <div class="row-old" id="trasactions-history">
-        <div class="col-12-old">
-          <h3>تاریخچه‌ی تراکنش‌ها</h3>
-          <ul id="transactions-table">
-            <li class="header">
-              <span class="reason">مجموعه داده</span>
-              <span class="description">توضیحات</span>
-              <span class="credit-amount">مبلغ</span>
-              <span class="time">تاریخ</span>
-            </li>
-          </ul>
-        </div>
-      </div>-->
 
       <answers
         v-if="dataset"

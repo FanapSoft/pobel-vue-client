@@ -62,10 +62,18 @@ export default {
       try {
         const answers = await this.$apiService.get('/api/services/app/Answers/GetAll', data);
         if (answers.data && answers.data.result) {
-          this.userAnswers = [
+          let tmp = answers.data.result.items.filter(item => {
+            return !this.userAnswers.map(item => item.id).includes(item.id);
+          })
+
+          this.$set(this, 'userAnswers', [
+            ...this.userAnswers,
+            ...tmp
+          ])
+         /* this.userAnswers = [
             ...this.userAnswers,
             ...answers.data.result.items
-          ];
+          ];*/
 
           if(!this.pagination.realCount) {
             this.pagination.realCount = answers.data.result.totalCount;
