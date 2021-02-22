@@ -61,7 +61,7 @@ export default {
 
   router: {
     middleware: ['checkAuth'],
-    //base: '/test/'
+    base: process.env.NODE_ENV == 'production' ? '/test/' : ''
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
