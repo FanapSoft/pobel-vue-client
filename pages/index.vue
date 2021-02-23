@@ -2,7 +2,7 @@
   <div class="container-old home" style="padding: 0">
     <!-- Section 0 Pobel Intro -->
     <div class="row-old" style="margin: 0" id="pobel-intro">
-      <div class="col-12-old" style="padding: 0;">
+      <div class="col-12-old home-head" style="padding: 0;">
         <h1>POBEL</h1>
         <h2 class="shadow">POBEL</h2>
         <p>POD's Crowdsourcing Labeling Service</p>
@@ -192,8 +192,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '~vuetify/src/styles/settings/_variables.scss';
+
 p{
   margin-bottom: 0;
+}
+
+@media #{map-get($display-breakpoints, 'sm-and-down')} {
+  .home-head {
+    h1 {
+      font-size: 100px !important;
+    }
+    h2 {
+      font-size: 200px !important;
+      left: -100px !important;
+    }
+    p{
+      font-size: 30px !important;
+      line-height: 1.3;
+    }
+  }
 }
 </style>

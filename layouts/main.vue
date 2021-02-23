@@ -1,36 +1,5 @@
 <template>
   <v-app class="app">
-<!--    <v-navigation-drawer v-model="sidebar" app>
-      <v-list>
-        <v-list-item
-          v-for="item of items"
-          :key="item.title"
-          :to="item.path">
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>{{ item.title }}</v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar app>
-      <span class="hidden-sm-and-up">
-        <v-toolbar-side-icon @click="sidebar = !sidebar">
-        </v-toolbar-side-icon>
-      </span>
-      <v-spacer></v-spacer>
-      <v-toolbar-items class="hidden-xs-only">
-        <NuxtLink
-          flat
-          v-for="item in items"
-          :key="item.title"
-          :to="item.path">
-          <v-icon left dark>{{ item.icon }}</v-icon>
-          {{ item.title }}
-        </NuxtLink>
-      </v-toolbar-items>
-    </v-toolbar>-->
-
     <top-bar></top-bar>
 
     <main class="wrapper">

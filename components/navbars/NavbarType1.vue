@@ -1,15 +1,43 @@
 <template>
   <nav class="nav">
-    <ul class="links">
-      <template  v-for="item in items">
-        <li v-if="!item.onlyLoggedIns || isAuthenticated">
+    <ul
+      v-if="!$vuetify.breakpoint.smAndDown" class="links">
+      <template
+        v-for="item in items">
+        <li
+          v-if="!item.onlyLoggedIns || isAuthenticated">
           <NuxtLink
 
             :to="item.link">{{item.title}}</NuxtLink>
         </li>
       </template>
-
     </ul>
+    <template v-else>
+      <ul style="z-index: 2" class="links">
+        <template >
+          <v-btn
+            outlined fab small
+            @click="() => navigationDrawer = true"
+
+            color="#741457">
+            <v-icon>mdi-menu</v-icon>
+          </v-btn>
+        </template>
+      </ul>
+      <v-navigation-drawer
+        app right
+        v-model="navigationDrawer"
+
+      style="z-index: 3">
+        <v-list
+          :key="index"
+          v-for="(item, index) in items">
+          <v-list-item :to="item.link">
+            <v-list-item-title>{{item.title}}</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </template>
 
     <ul style="padding-left: 0">
       <li v-if="isAuthenticated">
@@ -26,7 +54,6 @@
           to="/auth/logout">خروج</NuxtLink>
       </li>
     </ul>
-
   </nav>
 </template>
 
@@ -37,6 +64,7 @@ export default {
   name: "NavbarType1",
   data() {
     return {
+      navigationDrawer: false,
       items: [
         {
           title: "صفحه اصلی",
@@ -81,6 +109,7 @@ export default {
     })
   },
   mounted() {
+    console.log(this.$vuetify)
   }
 }
 </script>
