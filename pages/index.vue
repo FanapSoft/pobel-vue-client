@@ -200,13 +200,14 @@ p{
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-down')} {
-  .home-head {
+  #pobel-intro  {
     h1 {
       font-size: 100px !important;
     }
-    h2 {
+    h2.shadow {
       font-size: 200px !important;
       left: -100px !important;
+      top: 0 !important;
     }
     p{
       font-size: 30px !important;

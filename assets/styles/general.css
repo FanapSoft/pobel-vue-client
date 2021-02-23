@@ -111,7 +111,7 @@ a, a:hover, a:visited {
     position: absolute;
     font-size: 450px;
     z-index: 1;
-    top: 50px;
+    top: -100px !important;
     left: -300px;
     color: rgba(0, 0, 0, 0.05);
 }
