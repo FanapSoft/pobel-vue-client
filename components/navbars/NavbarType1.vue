@@ -29,11 +29,11 @@
         v-model="navigationDrawer"
 
       style="z-index: 3">
-        <v-list
-          :key="index">
+        <v-list >
           <template
-            v-for="(item, index) in items"
-            >
+
+
+            v-for="(item, index) in items" >
             <v-list-item
               link
 

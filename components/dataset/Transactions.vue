@@ -1,8 +1,61 @@
 <template>
-  <div class="row-old" id="trasactions-history">
-    <div class="col-12-old">
+  <v-row id="trasactions-history">
+    <v-col cols="12">
       <h3>تاریخچه‌ی تراکنش‌ها</h3>
-      <ul id="transactions-table">
+      <v-card elevation="0" class="pa-4 my-8">
+        <v-data-table
+          v-if="transactions"
+
+          disable-sort
+          hide-default-footer
+          disable-filtering
+          disable-pagination
+          elevation="0"
+
+          :headers="[
+          {
+            text: 'مجموعه داده',
+            align: 'start',
+            sortable: false,
+            value: 'dataset',
+          },
+          { text: 'توضیحات', value: 'description' },
+          { text: 'مبلغ', value: 'amount'},
+          { text: 'تاریخ', value: 'date' },
+        ]"
+          :items="transactions"
+          :items-per-page="5"
+          id="transactions-table"
+          class="transactions-list elevation-0  pa-0 mt-0">
+          <template v-slot:header.dataset="{ header }">
+            <span class="reason">{{ header.text }}</span>
+          </template>
+          <template v-slot:header.amount="{ header }">
+            <span class="credit-amount">
+                    {{ header.text }}
+            </span>
+          </template>
+          <template v-slot:item.dataset="{ item }">
+            <span
+              v-if="item.dataset" class="reason">{{item.dataset.name}}</span>
+              <span
+                v-else class="reason">...</span>
+          </template>
+          <template v-slot:item.description="{ item }">
+            <span class="description">{{ item.reasonDescription || 'توضیحات' }}</span>
+          </template>
+          <template v-slot:item.amount="{ item }">
+            <span class="credit-amount">
+                    {{ $utils.formatNumber($utils.toFixed(item.creditAmount)) }}
+            </span>
+          </template>
+          <template v-slot:item.date="{ item }">
+            <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
+          </template>
+        </v-data-table>
+      </v-card>
+
+<!--      <ul id="transactions-table">
         <p
           v-if="!transactions || !transactions.length"
 
@@ -23,13 +76,13 @@
             <span class="description">{{ item.reasonDescription || 'توضیحات' }}</span>
             <span class="credit-amount">
                   {{ $utils.formatNumber($utils.toFixed(item.creditAmount)) }}
-                </span>
+            </span>
             <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
           </li>
         </template>
-      </ul>
-    </div>
-  </div>
+      </ul>-->
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -94,6 +147,50 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" >
+.transactions-list .v-data-table__wrapper > table > tbody > tr {
 
+   td,  th {
+    text-align: center ;
+  }
+  th {
+
+  }
+}
+
+.v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > tbody > tr ,
+.v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > thead > tr ,
+.v-application--is-rtl .v-data-table > .v-data-table__wrapper > table > tfoot > tr {
+  > th {
+    text-align: center !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    color: #000000 !important;
+    border-bottom: thin solid rgba(0, 0, 0, 0.04) !important;
+  }
+}
+.theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > td:not(.v-data-table__mobile-row), .theme--light.v-data-table > .v-data-table__wrapper > table > tbody > tr:not(:last-child) > th:not(.v-data-table__mobile-row) {
+  border-bottom: thin solid rgba(0, 0, 0, 0.04) !important;
+}
+
+#transactions-table thead span.description {
+  width: 45%;
+  font-size: 14px;
+  text-align: center;
+  color: #212121;
+}
+
+#transactions-table tbody span.description {
+  color: #888;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+#transactions-table tbody  {
+  span.reason, span.time{
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+  }
+}
 </style>

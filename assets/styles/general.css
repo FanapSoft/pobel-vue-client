@@ -1246,13 +1246,17 @@ input::placeholder {
     color: #212121;
 }
 
-#transactions-table li span.credit-amount {
+#transactions-table .credit-amount {
     font-weight: bold;
     color: #650039;
     transition: all .2s;
 }
 
-#transactions-table li:not(:first-child):hover span.credit-amount {
+/*#transactions-table li:not(:first-child):hover span.credit-amount {
+    color: #d6005d;
+}*/
+
+#transactions-table tbody tr:hover span.credit-amount {
     color: #d6005d;
 }
 
