@@ -30,11 +30,22 @@
 
       style="z-index: 3">
         <v-list
-          :key="index"
-          v-for="(item, index) in items">
-          <v-list-item :to="item.link">
-            <v-list-item-title>{{item.title}}</v-list-item-title>
-          </v-list-item>
+          :key="index">
+          <template
+            v-for="(item, index) in items"
+            >
+            <v-list-item
+              link
+
+              v-if="!item.onlyLoggedIns || isAuthenticated"
+
+              :to="item.link" >
+              <v-list-item-content>
+                {{item.title}}
+              </v-list-item-content>
+            </v-list-item>
+          </template>
+
         </v-list>
       </v-navigation-drawer>
     </template>
