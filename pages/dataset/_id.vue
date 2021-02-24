@@ -10,33 +10,45 @@
         color="#ff257c"></v-progress-circular>
     </div>
     <div v-else>
-      <div class="row-old header">
-        <div class="col-6-sm-old dataset-list-name">
+      <v-row class="header">
+        <v-col cols="6" sm="6" class=" dataset-list-name">
           <h3>{{ dataset.name }} <small>{{ dataset.description }}</small></h3>
-        </div>
+        </v-col>
 
-        <div class="col-6-sm-old back-btn-wrapper">
-
-          <!--        {{#dataset.labelingStatus}}-->
+        <v-col cols="6" sm="6" class=" back-btn-wrapper">
           <div
             v-if="dataset.labelingStatus"
 
             id="dataset-action-wrapper">
 
+            <v-btn
+              v-if="$vuetify.breakpoint.xs"
+
+              text  outlined
+
+              :to="`/labeling/grid/${dataset.id}`"
+
+              class="start-btn">
+              <v-icon>mdi-movie-open-play</v-icon>
+            </v-btn>
             <NuxtLink
+              v-else
+
               :to="`/labeling/grid/${dataset.id}`"
 
               class="start-btn">شروع برچسب زنی</NuxtLink>
-<!--            <a href="/labeling/grid/${datasetId}" class="start-btn">شروع برچسب زنی</a>-->
+
+
           </div>
-          <!--        {{/dataset.labelingStatus}}-->
           &nbsp;
           <button class="back-btn" onclick="window.location.href='/datasets'">🡠</button>
-        </div>
-      </div>
+        </v-col>
+      </v-row>
 
-      <div class="row-old dataset-history">
-        <div class="col-6-sm-old">
+      <v-row class=" dataset-history">
+        <v-col
+          cols="12" sm="6"
+          :class="{ 'pb-0': $vuetify.breakpoint.xs }">
           <div class="dataset-history-wrapper" id="set-show-target">
             <small>هدف شما</small>
             <p id="weekly-target">
@@ -57,11 +69,14 @@
             <p id="stats-credit">
               {{ userCredit ? $utils.formatNumber($utils.toFixed(userCredit)) : '0.00'}}
             </p></div>
-        </div>
+        </v-col>
 
-        <div class="col-6-sm-old">
+        <v-col
+          cols="12" sm="6"
+          :class="{ 'pt-0': $vuetify.breakpoint.xs }">
           <div
             class="dataset-history-wrapper wobbling"
+            style="height: 480px"
             ref="wobblingBg"
             id="wobbling-bg">
             <small>تعداد پاسخ‌های ثبت شده شما</small>
@@ -76,35 +91,41 @@
                 id="myChart"></canvas>
             </div>
           </div>
-        </div>
-      </div>
+        </v-col>
+      </v-row>
 
-
-      <div
+      <v-row
         v-if="dataset.isActive"
 
-        class="row-old user-targets-wrapper"
+        class=" user-targets-wrapper"
         id="set-target">
-        <div class="col-12-old">
+        <v-col class="">
           <h3>هدف گذاری</h3>
           <small>هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد
             برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.</small>
           <br>
           <small>با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید.</small>
-          <ol id="define-target">
-            <li
+          <v-row id="define-target" >
+            <v-col
               v-for="(item, index) of datasetTargets"
 
-              :id="`target-${item.id}`"
-              :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
-              @click="changeUserTargetTo(item)"
-              class="target-list-items">
-              <p style="margin-bottom: 0;">{{ `هدف شماره ${index + 1}` }}</p>
-              <h3>{{ item.answerCount }}</h3>
-            </li>
-          </ol>
-        </div>
-      </div>
+              :key="index"
+
+              cols="12" sm="6" class="px-1 py-0">
+              <div
+
+                :id="`target-${item.id}`"
+                :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
+                @click="changeUserTargetTo(item)"
+
+                class="target-list-items" style="width: 100%">
+                <p style="margin-bottom: 0;">{{ `هدف شماره ${index + 1}` }}</p>
+                <h3>{{ item.answerCount }}</h3>
+              </div>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
 
       <transactions :dataset="dataset" :user="user"></transactions>
 
@@ -445,6 +466,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .dataset-list-name {
+    h3 {
+      font-size: 12px;
+      small {
+        font-size: 10px;
+      }
+    }
+  }
 
+  .back-btn {
+    font-size: 18px;
+    min-width: 40px;
+    height: 40px;
+    line-height: 42px;
+  }
+}
 </style>

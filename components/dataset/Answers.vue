@@ -1,8 +1,11 @@
 <template>
-  <div class="row-old dataset-answers" v-if="userAnswers.length">
-    <div class="col-12-old">
+  <v-row class="dataset-answers" v-if="userAnswers.length">
+    <v-col cols="12" class="">
       <h3>پاسخ های شما: </h3>
-      <ul class="dataset-answers-history" id="answers-wrapper">
+      <ul
+        class="dataset-answers-history"
+        style="padding-left: 0"
+        id="answers-wrapper">
         <li
 
           v-for="(item, index) of userAnswers"
@@ -15,7 +18,7 @@
 
         </li>
       </ul>
-    </div>
+    </v-col>
 <!--    <v-row class="px-12" justify="center">
       <v-progress-linear
         indeterminate
@@ -25,7 +28,7 @@
         style="opacity: .8; width: 300px"
       color="#ff257c"></v-progress-linear>
     </v-row>-->
-  </div>
+  </v-row>
 </template>
 
 <script>

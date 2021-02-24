@@ -4,7 +4,7 @@
       <h3>تاریخچه‌ی تراکنش‌ها</h3>
       <v-card elevation="0" class="pa-4 my-8">
         <v-data-table
-          v-if="transactions"
+          v-if="transactions && transactions.length"
 
           disable-sort
           hide-default-footer
@@ -53,13 +53,14 @@
             <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
           </template>
         </v-data-table>
+        <p
+          v-else
+
+          class="no-transaction" style="margin-bottom: 0">تراکنشی موجود نیست!</p>
       </v-card>
 
 <!--      <ul id="transactions-table">
-        <p
-          v-if="!transactions || !transactions.length"
 
-          class="no-transaction" style="margin-bottom: 0">تراکنشی موجود نیست!</p>
         <template v-else>
           <li class="header">
             <span class="reason">مجموعه داده</span>

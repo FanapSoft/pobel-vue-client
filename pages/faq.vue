@@ -130,7 +130,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .faq .container-old {
   padding: 0;
 }
@@ -143,5 +143,22 @@ export default {
   font-family: IranSans !important;
   font-size: 1em !important;
   margin-bottom: 0;
+}
+
+@media #{map-get($display-breakpoints, 'sm-and-down')} {
+  .faq {
+    h2 {
+      font-size: 1.5em !important;
+    }
+
+    .accordion {
+      .title {
+        font-size: .8em !important;
+      }
+      p{
+        font-size: .8em !important;
+      }
+    }
+  }
 }
 </style>

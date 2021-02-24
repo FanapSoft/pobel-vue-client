@@ -81,6 +81,34 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .header {
+    h4 {
+      font-size: 12px;
+      small {
+        font-size: 10px;
+      }
+    }
 
+    .timer label, .timer span {
+      font-size: 12px !important;
+    }
+
+    #targetCount {
+      font-size: 12px;
+    }
+
+    .target-counter label, .target-counter span {
+      font-size: 16px;
+    }
+  }
+
+  .back-btn {
+    font-size: 18px;
+    min-width: 40px;
+    height: 40px;
+    line-height: 42px;
+  }
+}
 </style>

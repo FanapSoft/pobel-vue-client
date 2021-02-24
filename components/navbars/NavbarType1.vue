@@ -16,7 +16,7 @@
       <ul style="z-index: 2" class="links">
         <template >
           <v-btn
-            outlined fab small
+             text fab small
             @click="() => navigationDrawer = true"
 
             color="#741457">

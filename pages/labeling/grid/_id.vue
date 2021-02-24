@@ -46,7 +46,10 @@
             </strong>
             را مشخص کنید.
           </p>
-          <ol class="grid-images-list">
+          <ol
+            v-if="!$vuetify.breakpoint.xs"
+
+            class="grid-images-list" >
             <li
               v-for="item of labelQuestions"
 
@@ -80,6 +83,55 @@
               </div>
             </li>
           </ol>
+
+          <v-carousel
+            v-else
+            vertical hide-delimiter-background cycle light
+
+            height="315px"
+            style="overflow: hidden"
+             vertical-delimiters="i">
+            <v-carousel-item
+              :key="index"
+              v-for="(item, index) of labelQuestions">
+
+              <v-sheet
+                color="transparent"
+                height="100%"
+                tile
+              >
+                <v-row
+                  class="fill-height"
+                  align="center"
+                  justify="center"
+                >
+                  <div class="display-3">
+                    <img
+                      height="200px"
+                      width="200px"
+
+                      src="https://static2.khoondanionline.com/thumbnail/KGuPcGgDttnK/9-wZKh4hicXyJvwVQ1c9MgnJ79Dd3XqXIM1JsiCe47NYS6jramGkBPdo-QVEe9EuUKNBJTAl-ko,/%D8%B9%D9%84%DB%8C+%D8%A7%D9%86%D8%B5%D8%A7%D8%B1%DB%8C%D8%A7%D9%86.jpg" alt="">
+                    <v-layout column>
+                        <v-btn
+                          outlined
+
+                          color="#444"
+                          class="mb-1">هست</v-btn>
+                        <v-btn
+                          outlined
+
+                          color="#444"
+                          class="mb-1">نیست</v-btn>
+                        <v-btn
+                          outlined
+
+                          color="#444">گزارش خطا</v-btn>
+                    </v-layout>
+                    </div>
+                </v-row>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
         </div>
       </div>
       <div class="row-old footer grid-footer">
@@ -438,8 +490,26 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 ol {
   padding: 0 !important;
+}
+
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .grid-images-list {
+    transform: scale(.7);
+  }
+
+  p {
+    font-size: .8em !important;
+  }
+
+  .dataset-name:before {
+    top: 12px;
+  }
+
+  .footer {
+    margin-top: 0;
+  }
 }
 </style>
