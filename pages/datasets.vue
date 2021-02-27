@@ -1,5 +1,5 @@
 <template>
-  <div class="container-old datasets-wrapper">
+  <v-container class="datasets-wrapper">
     <div
       style="display: flex; align-items: center; justify-content: center;"
       v-if="!datasets" >
@@ -9,34 +9,35 @@
         size="50"
         color="#ff257c"></v-progress-circular>
     </div>
-    <div
-      v-else
+    <template v-else>
+      <h2 class="mr-5">دیتاست ها</h2>
+      <v-row class="datasets-list px-8 mt-4">
 
-      class="row-old">
-      <h2>دیتاست ها</h2>
-      <div class="datasets-list">
+          <v-col
+            :key="index"
+            v-for="(ds, index) of datasets"
 
-        <div
-          :key="index"
-          v-for="(ds, index) of datasets"
+            cols="12"
+            sm="4"
+            md="3"
+            class=" datasets-list-items ">
+            <div
 
-          class="col-4-old col-6-sm-old datasets-list-items">
-          <div
-
-            class="dataset-cover"
-            :style="{'background-image': (ds.coverItem ? `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.coverItem.id})` : 'none')}"
-            :id="`ds-cover-${ds.id}`">
+              class="dataset-cover"
+              :style="{'background-image': (ds.coverItem ? `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.coverItem.id})` : 'none')}"
+              :id="`ds-cover-${ds.id}`">
             <span
               v-if="ds.labelingStatus"
               class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
-          </div>
+            </div>
 
-          <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-          <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name"></NuxtLink>
-          <div class="row-old">
-            <div class="col-6-old">
-              <p>هدف/<strong>پاسخ</strong><br/>
-                <span :id="`ds-ur-answers-${ds.id}`">
+            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
+<!--            <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name"></NuxtLink>-->
+            <v-container>
+              <v-row >
+                <v-col cols="6">
+                  <p>هدف/<strong>پاسخ</strong><br/>
+                    <span :id="`ds-ur-answers-${ds.id}`">
                   <template v-if="ds.targetSize && ds.userAnswersCount">
                     <strong>{{$utils.formatNumber(ds.userAnswersCount) }}</strong>/{{ $utils.formatNumber(ds.targetSize) }}
                   </template>
@@ -44,32 +45,33 @@
                     0/0
                   </template>
                 </span>
-              </p>
-            </div>
-            <div class="col-6-old">
-              <p class="left-in-mobile">اعتبار<br/><span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span> تومان</p>
-            </div>
-          </div>
+                  </p>
+                </v-col>
+                <v-col cols="6">
+                  <p class="left-in-mobile">اعتبار<br/><span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span> تومان</p>
+                </v-col>
+              </v-row>
+            </v-container>
 
-          <!-- Actions -->
-          <div class="row-old dataset-actions-list" :id="`ds-{{id}}`">
-            <div
-              v-if="ds.labelingStatus"
+            <!-- Actions -->
+            <div class="row-old dataset-actions-list" :id="`ds-{{id}}`">
+              <div
+                v-if="ds.labelingStatus"
 
-              class="col-12-old">
-              <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn">شروع</NuxtLink>
-            </div>
-            <div
-              v-else
+                class="col-12-old">
+                <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn">شروع</NuxtLink>
+              </div>
+              <div
+                v-else
 
-              class="col-12-old">
-              <a href="" class="start-btn disabled">غیرفعال است</a>
+                class="col-12-old">
+                <a href="" class="start-btn disabled">غیرفعال است</a>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+          </v-col>
+        </v-row>
+    </template>
+  </v-container>
 </template>
 
 <script>

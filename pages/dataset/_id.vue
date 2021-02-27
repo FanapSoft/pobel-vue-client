@@ -65,7 +65,7 @@
               </template>
             </p>
           </div>
-          <div class="dataset-history-wrapper" id="collect-credit"><small>امتیاز شما</small>
+          <div class="dataset-history-wrapper " style="margin-bottom: 0" id="collect-credit"><small>امتیاز شما</small>
             <p id="stats-credit">
               {{ userCredit ? $utils.formatNumber($utils.toFixed(userCredit)) : '0.00'}}
             </p></div>
