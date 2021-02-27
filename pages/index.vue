@@ -6,7 +6,7 @@
         <h1>POBEL</h1>
         <h2 class="shadow">POBEL</h2>
         <p>POD's Crowdsourcing Labeling Service</p>
-        <a href="/datasets" class="contribute-btn">شروع مشارکت</a>
+        <nuxt-link to="/datasets" class="contribute-btn">شروع مشارکت</nuxt-link>
         <br><br><br>
         <br><br><br>
         <div id="go-bottom" class="animate__animated animate__bounce animate__infinite animate__slow" style="z-index: 2"><span>↓</span></div>
@@ -192,11 +192,13 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss" >
 @import '~vuetify/src/styles/settings/_variables.scss';
 
-p{
-  margin-bottom: 0;
+.home {
+  p{
+    margin-bottom: 0;
+  }
 }
 
 @media #{map-get($display-breakpoints, 'sm-and-down')} {
@@ -214,5 +216,50 @@ p{
       line-height: 1.3;
     }
   }
+
+  .home {
+    h3 {
+      font-size: 16px;
+      padding: 20px 0;
+    }
+
+    p {
+      font-size: .8em !important;
+    }
+
+    #labeling-datasets {
+      padding: 5px 20px 20px;
+      p{
+        text-align: justify;
+      }
+    }
+
+    #business-shape-wrapper {
+      margin: 10px auto;
+
+      p{
+        text-align: justify;
+      }
+    }
+  }
 }
+
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  #pobel-intro  {
+    h1 {
+      font-size: 70px !important;
+    }
+    h2.shadow {
+      font-size: 150px !important;
+      left: -100px !important;
+      top: 0 !important;
+    }
+    p{
+      font-size: 30px !important;
+      line-height: 1.3;
+      text-align: left;
+    }
+  }
+}
+
 </style>

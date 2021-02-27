@@ -21,30 +21,36 @@
 
             id="dataset-action-wrapper">
 
-            <v-btn
-              v-if="$vuetify.breakpoint.xs"
+            <template v-if="userTargetDefinition">
+              <v-btn
+                v-if="$vuetify.breakpoint.xs"
 
-              text  outlined
+                text  outlined
 
-              :to="`/labeling/grid/${dataset.id}`"
+                :to="`/labeling/grid/${dataset.id}`"
 
-              class="start-btn">
-              <v-icon>mdi-movie-open-play</v-icon>
-            </v-btn>
-            <NuxtLink
-              v-else
+                class="start-btn">
+                <v-icon>mdi-movie-open-play</v-icon>
+              </v-btn>
+              <NuxtLink
+                v-else
 
-              :to="`/labeling/grid/${dataset.id}`"
+                :to="`/labeling/grid/${dataset.id}`"
 
-              class="start-btn">شروع برچسب زنی</NuxtLink>
+                class="start-btn">شروع برچسب زنی</NuxtLink>
+            </template>
+            <template v-else>
+              <NuxtLink
 
+                to="#set-target"
 
+                class="start-btn">انتخاب تارگت</NuxtLink>
+            </template>
           </div>
           &nbsp;
           <button class="back-btn" onclick="window.location.href='/datasets'">🡠</button>
         </v-col>
       </v-row>
-
       <v-row class=" dataset-history">
         <v-col
           cols="12" sm="6"
