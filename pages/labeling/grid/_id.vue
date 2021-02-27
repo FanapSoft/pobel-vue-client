@@ -84,54 +84,106 @@
             </li>
           </ol>
 
-          <v-carousel
-            v-else
-            vertical hide-delimiter-background cycle light
+          <div v-else
+               style="position:relative;width: 100%; display: block"
+          >
+            <v-carousel
+              vertical hide-delimiter-background light hide-delimiters
 
-            height="315px"
-            style="overflow: hidden"
-             vertical-delimiters="i">
-            <v-carousel-item
-              :key="index"
-              v-for="(item, index) of labelQuestions">
+              v-model="carouselModel"
 
-              <v-sheet
-                color="transparent"
-                height="100%"
-                tile
-              >
-                <v-row
-                  class="fill-height"
-                  align="center"
-                  justify="center"
+              :cycle="false"
+
+              ref='carousel'
+              height="315px"
+              style="overflow: hidden"
+              vertical-delimiters="i">
+              <v-carousel-item
+                :key="index"
+                v-for="(item, index) of labelQuestions">
+
+                <v-sheet
+                  color="transparent"
+                  height="100%"
+                  tile
                 >
-                  <div class="display-3">
-                    <img
-                      height="200px"
-                      width="200px"
+                  <v-row
+                    class="fill-height"
+                    align="center"
+                    justify="center"
+                  >
+                    <div
+                      :class="{
+                        'completed yes': item.answer !== -1 && item.isYes,
+                        'completed no': item.answer !== -1 && item.isNo,
+                        'completed report': item.isReport,
+                     }"
 
-                      src="https://static2.khoondanionline.com/thumbnail/KGuPcGgDttnK/9-wZKh4hicXyJvwVQ1c9MgnJ79Dd3XqXIM1JsiCe47NYS6jramGkBPdo-QVEe9EuUKNBJTAl-ko,/%D8%B9%D9%84%DB%8C+%D8%A7%D9%86%D8%B5%D8%A7%D8%B1%DB%8C%D8%A7%D9%86.jpg" alt="">
-                    <v-layout column>
+                      class="display-3 ">
+                      <img
+                        class="grid-images-list-items"
+                        height="200px"
+                        width="200px"
+                        :src="`${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId}`">
+<!--
+        https://static2.khoondanionline.com/thumbnail/KGuPcGgDttnK/9-wZKh4hicXyJvwVQ1c9MgnJ79Dd3XqXIM1JsiCe47NYS6jramGkBPdo-QVEe9EuUKNBJTAl-ko,/%D8%B9%D9%84%DB%8C+%D8%A7%D9%86%D8%B5%D8%A7%D8%B1%DB%8C%D8%A7%D9%86.jpg
+        -->
+                      <v-layout
+                        column
+
+                        class="question-history">
                         <v-btn
                           outlined
+
+                          :class="{
+                            'completed yes': item.answer !== -1 && item.isYes,
+                          }"
+                          @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'yes')}"
 
                           color="#444"
                           class="mb-1">هست</v-btn>
                         <v-btn
                           outlined
 
+                          :class="{
+                            'completed no': item.answer !== -1 && item.isNo,
+                          }"
+                          @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'no')}"
+
                           color="#444"
                           class="mb-1">نیست</v-btn>
                         <v-btn
                           outlined
 
+                          :class="{
+                            'completed report': item.isReport,
+                          }"
+                          @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'report')}"
+
                           color="#444">گزارش خطا</v-btn>
-                    </v-layout>
+                      </v-layout>
                     </div>
-                </v-row>
-              </v-sheet>
-            </v-carousel-item>
-          </v-carousel>
+                  </v-row>
+                </v-sheet>
+              </v-carousel-item>
+            </v-carousel>
+            <div class="items-status question-history">
+              <div
+                v-for="(item, index) of labelQuestions"
+
+                :class="{
+                  'active': carouselModel === index,
+                  'default': !item.isYes && !item.isNo && !item.isReport,
+                  'completed yes': item.answer !== -1 && item.isYes,
+                  'completed no': item.answer !== -1 && item.isNo,
+                  'completed report': item.isReport,
+              }"
+                @click="()=> carouselModel = index"
+              style="position:relative;">
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
       <div class="row-old footer grid-footer">
@@ -176,7 +228,8 @@ export default {
       window: window,
       timer: null,
       localAnswersCount: 0,
-      localReportsCount: 0
+      localReportsCount: 0,
+      carouselModel: 0
     }
   },
   methods: {
@@ -512,4 +565,90 @@ ol {
     margin-top: 0;
   }
 }
+
+.question-history .completed.yes:after {
+  content: '✓';
+  position: absolute;
+  top: -12px;
+  right: 5px;
+  color: #1d7e00;
+}
+
+.question-history .completed.no:after {
+  content: '⤫';
+  position: absolute;
+  top: -12px;
+  right: 5px;
+  color: #a4001d;
+}
+
+.question-history .completed.skip:after {
+  content: '?';
+  position: absolute;
+  top: -12px;
+  right: 5px;
+  color: #ffd217;
+}
+
+.question-history .completed.report:after {
+  content: '⚐';
+  position: absolute;
+  top: -12px;
+  right: 5px;
+  color: #6e2e45;
+}
+
+.items-status {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+
+  div{
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
+    cursor: pointer;
+
+
+    &.default {
+      background-color: #e6e4e4;
+      border-radius: 50%;
+
+      &:after {
+        content: " ";
+        background-color: #cecece;
+        border-radius: 50%;
+        width: 10px;
+        height: 10px;
+        display: block;
+        top: 5px !important;
+        right: 5px;
+      }
+
+      &.active {
+        width: 25px;
+        height: 25px;
+
+        &:after {
+          width: 13px;
+          height: 13px;
+          top: 6px !important;
+          right: 6px;
+        }
+      }
+    }
+
+    &:after {
+      position: relative !important;
+      top: unset !important;
+    }
+  }
+
+}
+
 </style>

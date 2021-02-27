@@ -7,6 +7,16 @@
       </h4>
     </div>
     <div class="col-6-sm-old back-btn-wrapper">
+<!--            :small="$vuetify.breakpoint.smAndUp"
+        :x-small="$vuetify.breakpoint.xsOnly"
+          -->
+      <v-btn
+        dark fab depressed x-small
+
+        @click="showHelpModal"
+        class="back-btn ml-3 ">
+        <v-icon>mdi-help</v-icon>
+      </v-btn>
       <div class="stats-wrapper">
         <p class="timer" style="margin-bottom: 0">
           <label id="hours">{{ timer.hours || '00' }}</label><span>:</span><label id="minutes">{{ timer.minutes || '00' }}</label><span>:</span><label id="seconds">{{ timer.seconds || '00' }}</label>
@@ -30,6 +40,7 @@
 
 <script>
 import {mapState, mapGetters} from "vuex"
+import Modal from "~/plugins/external/Modal";
 
 export default {
   name: "DatasetsNav",
@@ -73,6 +84,36 @@ export default {
       } else {
         return valString;
       }
+    },
+
+    showHelpModal(){
+      let continueModal = Modal({
+        title: 'راهنما',
+        body: `در مجموعه داده فعلی برای برچسب زنی شما گزینه های زیر را دارید:
+        <br />
+        1. تصویر مطابقت دارد
+        <br />
+        2. تصویر مطابقت ندارد
+        <br />
+        3. گزارش ایراد در تصویر (ناخوانا، تار بودن، لود نشدن و غیره...)
+        <br />
+        نکته: در حال حاضر گزارش تصاویر دارای ایراد، فاقد امتیاز می باشد.
+`,
+        fullscreen: true,
+        actions: [
+          {
+            title: 'متوجه شدم',
+            class: ['active'],
+            fn: async () => {
+              continueModal.close();
+            },
+
+          },
+        ],
+        closeBtnAction: () => {
+          continueModal.close();
+        }
+      });
     }
   },
   mounted() {
@@ -91,6 +132,11 @@ export default {
       }
     }
 
+    .timer, .target-counter {
+      padding: 0 !important;
+      min-width: 65px;
+    }
+
     .timer label, .timer span {
       font-size: 12px !important;
     }
@@ -101,6 +147,11 @@ export default {
 
     .target-counter label, .target-counter span {
       font-size: 16px;
+    }
+
+    .dataset-name:before {
+      right: -3px;
+      top: 11px;
     }
   }
 
