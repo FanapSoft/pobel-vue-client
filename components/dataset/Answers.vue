@@ -83,7 +83,7 @@ export default {
             this.pagination.realCount = answers.data.result.totalCount;
           }
           this.pagination.skip = this.userAnswers.length;
-          if(this.userAnswers.length >= this.pagination.realCount) {
+          if(this.userAnswers.length >= this.pagination.realCount || this.userAnswers.length >= 250) {
             this.pagination.hasMore = false;
             this.$emit("answersCount", this.pagination.realCount)
           }
