@@ -322,7 +322,7 @@ export default {
     async requestCashout() {
       this.loadingRequestCashout = true;
       let data = {
-        PhoneNumber: '09354863644'
+        PhoneNumber: this.userPhoneNumber
       }
 
       /*let continueModal = Modal({
