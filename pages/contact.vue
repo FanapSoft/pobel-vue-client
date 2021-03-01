@@ -19,22 +19,11 @@
 import NavbarType1 from "../components/navbars/NavbarType1"
 
 export default {
+  name: "contact",
   components: {NavbarType1},
-  name: "conteact",
   layout: 'main',
   auth: false,
   hero: false,
-  // head() {
-  //   return {
-  //     script: [
-  //       {
-  //         src: 'https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js',
-  //         defer: true
-  //       }
-  //     ]
-  //   }
-  // },
-
   mounted() {
 
     //console.log(L)
