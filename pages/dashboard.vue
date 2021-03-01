@@ -155,7 +155,7 @@
               </template>
             </p>
 
-            <v-dialog width="400">
+            <v-dialog v-model="creditModalKey" width="400">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   outlined x-small
@@ -167,7 +167,7 @@
 
                   id="cashout-btn"
                   style="letter-spacing: 0;padding: 13px 10px"
-                  class="set-target-btn">انتقال به کیف پول</v-btn>
+                  class="set-target-btn">انتقال به کیف پول پاد</v-btn>
               </template>
 
               <v-card>
@@ -175,7 +175,7 @@
 
                   class="headline "
                   style="font-family: 'IranSans' !important;font-size: 16px !important;">
-                  درخواست انتقال به کیف پول
+                  درخواست انتقال به کیف پول پاد
                 </v-card-title>
                 <v-card-text class="pt-6">
                   <v-form v-model="userPhoneNumberValid">
@@ -243,7 +243,8 @@ export default {
       loadingTransactions: false,
       loadingRequestCashout: false,
       userPhoneNumber: '',
-      userPhoneNumberValid: true
+      userPhoneNumberValid: true,
+      creditModalKey: false
     }
   },
   methods: {
@@ -320,41 +321,58 @@ export default {
       }
     },
     async requestCashout() {
+      this.creditModalKey = false;
+      if(!this.walletCredit) {
+        let continueModal = Modal({
+          title: "خطا، انتقال انتجام نشد",
+          body: `چیزی برای برداشت ندارید!`,
+          actions: [
+            {
+              title: 'بستن',
+              class: ['noBorder'],
+              fn: () => {
+                continueModal.close();
+              }
+            }
+          ],
+          closeBtnAction: () => {
+            continueModal.close();
+          }
+        });
+
+        return;
+      }
       this.loadingRequestCashout = true;
       let data = {
         PhoneNumber: this.userPhoneNumber
       }
 
-      /*let continueModal = Modal({
-        title: 'ارسال پاسخ و ادامه',
-        body: `gh
-        <v-text-field v-model="userPhoneNumber"></v-text-field>fh`,
-        actions: [
-          {
-            title: 'باشه',
-            class: ['active'],
-            fn: async () => {
-              continueModal.close();
-            }
-          },
-          {
-            title: 'خیر، بازگشت',
-            class: ['noBorder'],
-            fn: () => {
-              continueModal.close();
-            }
-          }
-        ],
-        closeBtnAction: () => {
-          continueModal.close();
-        }
-      })*/
-
       try {
         const requestCashOut = await this.$axios.post('/api/services/app/Wallet/TransferCreditToWallet', data);
         if (requestCashOut.data && requestCashOut.data.result) {
-          console.log(requestCashOut)
-
+          //console.log(requestCashOut)
+          await this.getWalletBalance();
+          let continueModal = Modal({
+            title: "انتقال موفق",
+            body: `مبلغ
+              ${this.walletCredit}
+               ریال
+               به کیف پول پاد شما منتقل شد.`,
+            backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+            fullscreen: true,
+            actions: [
+              {
+                title: 'بستن',
+                class: ['noBorder'],
+                fn: () => {
+                  continueModal.close();
+                }
+              }
+            ],
+            closeBtnAction: () => {
+              continueModal.close();
+            }
+          });
 
 
          // this.answersCount = answersCount.data.result.totalCount
@@ -364,7 +382,6 @@ export default {
       } finally {
         this.loadingRequestCashout = false
       }
-      console.log('انتقال اعتبار به کیف پول پاد در حال پیاده سازی می باشد!');
     }
   },
   mounted() {

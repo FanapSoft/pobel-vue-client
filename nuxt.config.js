@@ -2,7 +2,7 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,
+  ssr: false,//process.env.NODE_ENV === 'production' ,
   generate: {
     exclude: [
       /^\/dataset/, // path starts with /dataset
@@ -50,12 +50,12 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/utils', mode: 'client', ssr: false },
-    { src: '~/plugins/moment', mode: 'client', ssr: false },
-    { src: '~/plugins/services/jwt.service', mode: 'client', ssr: false },
-    { src: '~/plugins/services/api.service', mode: 'client', ssr: false },
-    { src: '~/plugins/services/user.service', mode: 'client', ssr: false },
-    { src: '~/plugins/axios', mode: 'client', ssr: false },
+    { src: '~/plugins/utils', mode: 'client' },
+    { src: '~/plugins/moment', mode: 'client' },
+    { src: '~/plugins/services/jwt.service', mode: 'client' },
+    { src: '~/plugins/services/api.service', mode: 'client' },
+    { src: '~/plugins/services/user.service', mode: 'client' },
+    { src: '~/plugins/axios', mode: 'client' },
     //'~/plugins/services/mock.service', //Temporary only for test
   ],
 

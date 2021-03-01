@@ -74,7 +74,23 @@
           <div class="dataset-history-wrapper " style="margin-bottom: 0" id="collect-credit"><small>امتیاز شما</small>
             <p id="stats-credit">
               {{ userCredit ? $utils.formatNumber($utils.toFixed(userCredit)) : '0.00'}}
-            </p></div>
+            </p>
+<!--            <button
+              @click="convertScoreToMoney"
+              id="collectCreditFromDataset"
+              class="set-target-btn">دریافت مبلغ اعتبار</button>-->
+
+            <v-btn
+              outlined x-small
+
+              :loading="loadingRequestCashout"
+
+              @click="convertScoreToMoney"
+              id="cashout-btn"
+              style="letter-spacing: 0;padding: 13px 10px"
+              class="set-target-btn">انتقال به کیف پول</v-btn>
+
+          </div>
         </v-col>
 
         <v-col
@@ -155,6 +171,7 @@ import {mapGetters} from "vuex";
 
 import Chart from "chart.js"
 import Answers from "../../components/dataset/Answers";
+import Modal from "~/plugins/external/Modal";
 
 export default {
   name: "Dataset._id",
@@ -168,7 +185,8 @@ export default {
       userAnswersCount: 0,
 
       datasetTargets: null,
-      userTargetDefinition: null
+      userTargetDefinition: null,
+      loadingRequestCashout: false
     }
   },
   computed: {
@@ -369,6 +387,80 @@ export default {
       }
 
       return 0;
+    },
+    async convertScoreToMoney() {
+      if(!this.userCredit) {
+        let continueModal = Modal({
+          title: "خطا",
+          body: `هنوز امتیازی کسب نکرده اید`,
+          backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+
+          actions: [
+            {
+              title: 'بستن',
+              class: ['noBorder'],
+              fn: () => {
+                continueModal.close();
+              }
+            }
+          ],
+          closeBtnAction: () => {
+            continueModal.close();
+          }
+        });
+
+        return;
+      }
+      this.loadingRequestCashout = true
+      const data = {
+        userId: this.user.id,
+        dataSetId: this.$route.params.id
+      }
+      try {
+        const credit = await this.$apiService.post('/api/services/app/Credit/CollectCredit', data);
+        if(credit.data && credit.data.result) {
+          if(credit.data.result.creditAmount > 0) {
+            let continueModal = Modal({
+              title: "انتقال موفق",
+              body: `امتیاز
+              ${credit.data.result.creditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")}
+               به حساب پابل شما منتقل گردید.
+               <br>
+               برای مشاهده به
+               <nuxt-link to="/dashboard">پروفایل</nuxt-link>
+                خود مراجعه نمائید.`,
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              fullscreen: true,
+              actions: [
+                {
+                  title: 'داشبورد',
+                  class: ['active'],
+                  fn: async () => {
+                    continueModal.close()
+                    await this.$router.push("/dashboard")
+                  },
+                },
+                {
+                  title: 'بستن',
+                  class: ['noBorder'],
+                  fn: () => {
+                    continueModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                continueModal.close();
+              }
+            });
+
+            document.getElementById('stats-credit').innerHTML = '0.00';
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingRequestCashout = false;
+      }
     },
     async getUserAnswersCount(ds) {
       let data = {
