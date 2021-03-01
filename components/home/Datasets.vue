@@ -1,50 +1,54 @@
 <template>
-  <div id="pobel-preview-datasets" class="row-old">
-    <div class="col-12-old">
+  <v-row id="pobel-preview-datasets">
+    <v-col class="px-0">
       <h3>مجموعه داده‌ها</h3>
-      <div class="datasets-list mini">
-        <!--          {{#datasets}}-->
-        <div
+      <v-row class="datasets-list mini">
+        <v-col
           :key="index"
+
           v-for="(ds, index) of datasets"
 
-          class="col-4-old col-6-sm-old datasets-list-items">
-          <div
+          cols="6" sm="4"
+          >
+          <div class="datasets-list-items">
+            <div
+              :style="{'background-image': `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.randomItemId})`}"
+              :id="`ds-cover-${ds.id}`"
 
-            class="dataset-cover"
-               :style="{'background-image': `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.randomItemId})`}"
-               :id="`ds-cover-${ds.id}`">
-            <span
-              v-if="ds.labelingStatus"
-              class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
-          </div>
+              class="dataset-cover">
+              <span
+                v-if="ds.labelingStatus"
 
-          <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-          <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name">
-            <small :data-title="ds.description">{{ds.description}}</small>
-          </NuxtLink>
-          <div class="row-old">
-            <div class="col-6-old" style="flex: none">
-              <p>
-                کل آیتم‌ها
-                <br/>
-                <strong>{{ds.itemsCount? ds.itemsCount : '0'}}</strong></p>
+                class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
             </div>
-            <div class="col-6-old" style="flex: none">
-              <p class="left-in-mobile">
-                وضعیت
-                <br/>
-                <strong
-                  v-if="ds.labelingStatus">فعال</strong>
-                <strong
-                  v-else>غیرفعال</strong>
-              </p>
-            </div>
+
+            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
+            <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name">
+              <small :data-title="ds.description">{{ds.description}}</small>
+            </NuxtLink>
+            <v-row>
+              <v-col cols="6" style="flex: none">
+                <p>
+                  کل آیتم‌ها
+                  <br/>
+                  <strong>{{ds.itemsCount? ds.itemsCount : '0'}}</strong></p>
+              </v-col>
+              <v-col cols="6" style="flex: none">
+                <p class="left-in-mobile">
+                  وضعیت
+                  <br/>
+                  <strong
+                    v-if="ds.labelingStatus">فعال</strong>
+                  <strong
+                    v-else>غیرفعال</strong>
+                </p>
+              </v-col>
+            </v-row>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </v-col>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -82,5 +86,7 @@ export default {
 </script>
 
 <style scoped>
-
+.left-in-mobile{
+  text-align: left !important;
+}
 </style>

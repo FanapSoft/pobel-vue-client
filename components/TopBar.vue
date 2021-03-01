@@ -24,13 +24,13 @@ export default {
   },
   components: {NavbarType1},
   created() {
-    if(this.$utils.routeOption(this.$route, 'hero', false)) {
+    if(this.$utils && this.$utils.routeOption(this.$route, 'hero', false)) {
       this.showHero = false;
     }
   },
   watch: {
     $route() {
-      if(this.$utils.routeOption(this.$route, 'hero', false)) {
+      if(this.$utils && this.$utils.routeOption(this.$route, 'hero', false)) {
         this.showHero = false;
       } else {
         this.showHero = true;

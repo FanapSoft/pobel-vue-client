@@ -11,9 +11,11 @@ export default async function (context) {
     redirect
   } = context;
 
-  if(!store.getters["auth/isAuthenticated"]) {
+  if($utils && !store.getters["auth/isAuthenticated"]) {
     //is not authorized, check if token is saved in browser
-    if($jwtService.getToken() && $userService.getUser()) {
+    if($jwtService.getToken() && $userService.getUser() && $userService.getUser().uid) {
+      console.log($userService.getUser())
+
       await store
         .dispatch(`auth/${SET_AUTH}`, {token: $jwtService.getToken(), uid: $userService.getUser().uid})
         //.then(() => {})
