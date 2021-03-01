@@ -187,7 +187,7 @@ a, a:hover, a:visited {
     color: rgba(0, 0, 0, 0.3);
     position: absolute;
     bottom: 80px;
-    left: calc(50% + 25px);
+    left: calc(50% - 25px);
     cursor: pointer;
     transition: all .2s;
 }

@@ -2,15 +2,15 @@ import colors from 'vuetify/es5/util/colors'
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
-  ssr: false,//process.env.NODE_ENV === 'production' ,
+  ssr: true,//process.env.NODE_ENV === 'production' ,
   generate: {
     exclude: [
-      /^\/dataset/, // path starts with /dataset
+      /^\/dataset\//, // path starts with /dataset
       /^\/datasets/,
       /^\/dashboard/,
-      /^\/labeling/,
-      /^\/auth/,
-      /^\/loggedIn/,
+      /^\/labeling\//,
+      /^\/auth\//,
+      /^\/loggedIn\//,
     ]
   },
 
