@@ -152,9 +152,6 @@ export default {
       }
     }
   },
-  /*created() {
-    this.importFluid();
-  }*/
   mounted() {
     Fluid.initialize();
 

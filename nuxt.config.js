@@ -57,6 +57,7 @@ export default {
     { src: '~/plugins/services/user.service', mode: 'client' },
     { src: '~/plugins/axios', mode: 'client' },
     //'~/plugins/services/mock.service', //Temporary only for test
+
   ],
 
   router: {
