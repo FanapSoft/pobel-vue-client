@@ -10,33 +10,51 @@
         color="#ff257c"></v-progress-circular>
     </div>
     <div v-else>
-      <div class="row-old header">
-        <div class="col-6-sm-old dataset-list-name">
+      <v-row class="header">
+        <v-col cols="6" sm="6" class=" dataset-list-name">
           <h3>{{ dataset.name }} <small>{{ dataset.description }}</small></h3>
-        </div>
+        </v-col>
 
-        <div class="col-6-sm-old back-btn-wrapper">
-
-          <!--        {{#dataset.labelingStatus}}-->
+        <v-col cols="6" sm="6" class=" back-btn-wrapper">
           <div
             v-if="dataset.labelingStatus"
 
             id="dataset-action-wrapper">
 
-            <NuxtLink
-              :to="`/labeling/grid/${dataset.id}`"
+            <template v-if="userTargetDefinition">
+              <v-btn
+                v-if="$vuetify.breakpoint.xs"
 
-              class="start-btn">شروع برچسب زنی</NuxtLink>
-<!--            <a href="/labeling/grid/${datasetId}" class="start-btn">شروع برچسب زنی</a>-->
+                text  outlined
+
+                :to="`/labeling/grid/${dataset.id}`"
+
+                class="start-btn">
+                <v-icon>mdi-movie-open-play</v-icon>
+              </v-btn>
+              <NuxtLink
+                v-else
+
+                :to="`/labeling/grid/${dataset.id}`"
+
+                class="start-btn">شروع برچسب زنی</NuxtLink>
+            </template>
+            <template v-else>
+              <NuxtLink
+
+                to="#set-target"
+
+                class="start-btn">انتخاب تارگت</NuxtLink>
+            </template>
           </div>
-          <!--        {{/dataset.labelingStatus}}-->
           &nbsp;
           <button class="back-btn" onclick="window.location.href='/datasets'">🡠</button>
-        </div>
-      </div>
-
-      <div class="row-old dataset-history">
-        <div class="col-6-sm-old">
+        </v-col>
+      </v-row>
+      <v-row class=" dataset-history">
+        <v-col
+          cols="12" sm="6"
+          :class="{ 'pb-0': $vuetify.breakpoint.xs }">
           <div class="dataset-history-wrapper" id="set-show-target">
             <small>هدف شما</small>
             <p id="weekly-target">
@@ -53,15 +71,34 @@
               </template>
             </p>
           </div>
-          <div class="dataset-history-wrapper" id="collect-credit"><small>امتیاز شما</small>
+          <div class="dataset-history-wrapper " style="margin-bottom: 0" id="collect-credit"><small>امتیاز شما</small>
             <p id="stats-credit">
               {{ userCredit ? $utils.formatNumber($utils.toFixed(userCredit)) : '0.00'}}
-            </p></div>
-        </div>
+            </p>
+<!--            <button
+              @click="convertScoreToMoney"
+              id="collectCreditFromDataset"
+              class="set-target-btn">دریافت مبلغ اعتبار</button>-->
 
-        <div class="col-6-sm-old">
+            <v-btn
+              outlined x-small
+
+              :loading="loadingRequestCashout"
+
+              @click="convertScoreToMoney"
+              id="cashout-btn"
+              style="letter-spacing: 0;padding: 13px 10px"
+              class="set-target-btn">انتقال به کیف پول</v-btn>
+
+          </div>
+        </v-col>
+
+        <v-col
+          cols="12" sm="6"
+          :class="{ 'pt-0': $vuetify.breakpoint.xs }">
           <div
             class="dataset-history-wrapper wobbling"
+            style="height: 480px"
             ref="wobblingBg"
             id="wobbling-bg">
             <small>تعداد پاسخ‌های ثبت شده شما</small>
@@ -76,35 +113,41 @@
                 id="myChart"></canvas>
             </div>
           </div>
-        </div>
-      </div>
+        </v-col>
+      </v-row>
 
-
-      <div
+      <v-row
         v-if="dataset.isActive"
 
-        class="row-old user-targets-wrapper"
+        class=" user-targets-wrapper"
         id="set-target">
-        <div class="col-12-old">
+        <v-col class="">
           <h3>هدف گذاری</h3>
           <small>هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد
             برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.</small>
           <br>
           <small>با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید.</small>
-          <ol id="define-target">
-            <li
+          <v-row id="define-target" >
+            <v-col
               v-for="(item, index) of datasetTargets"
 
-              :id="`target-${item.id}`"
-              :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
-              @click="changeUserTargetTo(item)"
-              class="target-list-items">
-              <p style="margin-bottom: 0;">{{ `هدف شماره ${index + 1}` }}</p>
-              <h3>{{ item.answerCount }}</h3>
-            </li>
-          </ol>
-        </div>
-      </div>
+              :key="index"
+
+              cols="12" sm="6" class="px-1 py-0">
+              <div
+
+                :id="`target-${item.id}`"
+                :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
+                @click="changeUserTargetTo(item)"
+
+                class="target-list-items" style="width: 100%">
+                <p style="margin-bottom: 0;">{{ `هدف شماره ${index + 1}` }}</p>
+                <h3>{{ item.answerCount }}</h3>
+              </div>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
 
       <transactions :dataset="dataset" :user="user"></transactions>
 
@@ -128,6 +171,7 @@ import {mapGetters} from "vuex";
 
 import Chart from "chart.js"
 import Answers from "../../components/dataset/Answers";
+import Modal from "~/plugins/external/Modal";
 
 export default {
   name: "Dataset._id",
@@ -141,7 +185,8 @@ export default {
       userAnswersCount: 0,
 
       datasetTargets: null,
-      userTargetDefinition: null
+      userTargetDefinition: null,
+      loadingRequestCashout: false
     }
   },
   computed: {
@@ -343,6 +388,80 @@ export default {
 
       return 0;
     },
+    async convertScoreToMoney() {
+      if(!this.userCredit) {
+        let continueModal = Modal({
+          title: "خطا",
+          body: `هنوز امتیازی کسب نکرده اید`,
+          backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+
+          actions: [
+            {
+              title: 'بستن',
+              class: ['noBorder'],
+              fn: () => {
+                continueModal.close();
+              }
+            }
+          ],
+          closeBtnAction: () => {
+            continueModal.close();
+          }
+        });
+
+        return;
+      }
+      this.loadingRequestCashout = true
+      const data = {
+        userId: this.user.id,
+        dataSetId: this.$route.params.id
+      }
+      try {
+        const credit = await this.$apiService.post('/api/services/app/Credit/CollectCredit', data);
+        if(credit.data && credit.data.result) {
+          if(credit.data.result.creditAmount > 0) {
+            let continueModal = Modal({
+              title: "انتقال موفق",
+              body: `امتیاز
+              ${credit.data.result.creditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")}
+               به حساب پابل شما منتقل گردید.
+               <br>
+               برای مشاهده به
+               <nuxt-link to="/dashboard">پروفایل</nuxt-link>
+                خود مراجعه نمائید.`,
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              fullscreen: true,
+              actions: [
+                {
+                  title: 'داشبورد',
+                  class: ['active'],
+                  fn: async () => {
+                    continueModal.close()
+                    await this.$router.push("/dashboard")
+                  },
+                },
+                {
+                  title: 'بستن',
+                  class: ['noBorder'],
+                  fn: () => {
+                    continueModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                continueModal.close();
+              }
+            });
+
+            document.getElementById('stats-credit').innerHTML = '0.00';
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.loadingRequestCashout = false;
+      }
+    },
     async getUserAnswersCount(ds) {
       let data = {
         datasetId: ds,
@@ -445,6 +564,22 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .dataset-list-name {
+    h3 {
+      font-size: 12px;
+      small {
+        font-size: 10px;
+      }
+    }
+  }
 
+  .back-btn {
+    font-size: 18px;
+    min-width: 40px;
+    height: 40px;
+    line-height: 42px;
+  }
+}
 </style>

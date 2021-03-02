@@ -1,12 +1,22 @@
 <template>
-  <div class="row-old header">
-    <div class="col-6-sm-old dataset-name">
+  <v-row class="header mb-auto">
+    <v-col cols="6"  class=" dataset-name d-flex align-center" style="position: relative">
       <h4>
         {{ dataset.name }}
         <small>{{ dataset.description }}</small>
       </h4>
-    </div>
-    <div class="col-6-sm-old back-btn-wrapper">
+    </v-col>
+    <v-col cols="6" class=" back-btn-wrapper">
+<!--            :small="$vuetify.breakpoint.smAndUp"
+        :x-small="$vuetify.breakpoint.xsOnly"
+          -->
+      <v-btn
+        dark fab depressed x-small
+
+        @click="showHelpModal"
+        class="back-btn ml-3 ">
+        <v-icon>mdi-help</v-icon>
+      </v-btn>
       <div class="stats-wrapper">
         <p class="timer" style="margin-bottom: 0">
           <label id="hours">{{ timer.hours || '00' }}</label><span>:</span><label id="minutes">{{ timer.minutes || '00' }}</label><span>:</span><label id="seconds">{{ timer.seconds || '00' }}</label>
@@ -24,12 +34,13 @@
       <button
         @click="()=> $router.push(`/dataset/${dataset.id}`)"
         class="back-btn">🡠</button>
-    </div>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 import {mapState, mapGetters} from "vuex"
+import Modal from "~/plugins/external/Modal";
 
 export default {
   name: "DatasetsNav",
@@ -73,6 +84,38 @@ export default {
       } else {
         return valString;
       }
+    },
+
+    showHelpModal(){
+      let continueModal = Modal({
+        title: 'راهنما',
+        body: `در مجموعه داده فعلی برای برچسب زنی شما گزینه های زیر را دارید:
+        <br />
+        1. تصویر مطابقت دارد
+        <br />
+        2. تصویر مطابقت ندارد
+        <br />
+        3. گزارش ایراد در تصویر (ناخوانا، تار بودن، لود نشدن و غیره...)
+        <br />
+        نکته1: در حال حاضر گزارش تصاویر دارای ایراد، فاقد امتیاز می باشد.
+        <br />
+        نکته2: برخی آیتم ها طلایی هستند، بدین معنی که ما پاسخ آنها را میدانیم. در صورت پاسخ صحیح به سوالات طلایی امتیاز میگیرید، در صورت پاسخ غلط به آنها از امتیاز شما کسر می گردد و در صورت عدم پاسخ به آنها امتیازی نمیگیرید.
+`,
+        fullscreen: true,
+        actions: [
+          {
+            title: 'متوجه شدم',
+            class: ['active'],
+            fn: async () => {
+              continueModal.close();
+            },
+
+          },
+        ],
+        closeBtnAction: () => {
+          continueModal.close();
+        }
+      });
     }
   },
   mounted() {
@@ -81,6 +124,44 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@media #{map-get($display-breakpoints, 'xs-only')} {
+  .header {
+    h4 {
+      font-size: 12px;
+      small {
+        font-size: 10px;
+      }
+    }
 
+    .timer, .target-counter {
+      padding: 0 !important;
+      min-width: 65px;
+    }
+
+    .timer label, .timer span {
+      font-size: 12px !important;
+    }
+
+    #targetCount {
+      font-size: 12px;
+    }
+
+    .target-counter label, .target-counter span {
+      font-size: 16px;
+    }
+
+    .dataset-name:before {
+      right: -3px;
+      top: 15px;
+    }
+  }
+
+  .back-btn {
+    font-size: 18px;
+    min-width: 40px;
+    height: 40px;
+    line-height: 42px;
+  }
+}
 </style>

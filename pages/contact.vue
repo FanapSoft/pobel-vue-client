@@ -19,38 +19,24 @@
 import NavbarType1 from "../components/navbars/NavbarType1"
 
 export default {
+  name: "contact",
   components: {NavbarType1},
-  name: "conteact",
   layout: 'main',
   auth: false,
   hero: false,
-  // head() {
-  //   return {
-  //     script: [
-  //       {
-  //         src: 'https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js',
-  //         defer: true
-  //       }
-  //     ]
-  //   }
-  // },
-
   mounted() {
+    let myMap = new L.Map('map', {
+      key: '9282916c8343617c6a072362f3f28c70a0866b84',
+      maptype: 'standard-day',
+      poi: true,
+      marker: 'red',
+      traffic: false,
+      center: [35.728195, 51.8300000],
+      zoom: 17
+    });
 
-    //console.log(L)
-      let myMap = new L.Map('map', {
-        key: '9282916c8343617c6a072362f3f28c70a0866b84',
-        maptype: 'standard-day',
-        poi: true,
-        marker: 'red',
-        traffic: false,
-        center: [35.728195, 51.8300000],
-        zoom: 17
-      });
-
-      let marker = L.marker([35.728150, 51.82659380]).addTo(myMap);
-      marker.bindPopup('<b>فناپ سافت</b>');
-
+    let marker = L.marker([35.728150, 51.82659380]).addTo(myMap);
+    marker.bindPopup('<b>فناپ سافت</b>');
   }
 }
 </script>
