@@ -1,12 +1,12 @@
 <template>
-  <div class="row-old header">
-    <div class="col-6-sm-old dataset-name">
+  <v-row class="header mb-auto">
+    <v-col cols="6"  class=" dataset-name d-flex align-center" style="position: relative">
       <h4>
         {{ dataset.name }}
         <small>{{ dataset.description }}</small>
       </h4>
-    </div>
-    <div class="col-6-sm-old back-btn-wrapper">
+    </v-col>
+    <v-col cols="6" class=" back-btn-wrapper">
 <!--            :small="$vuetify.breakpoint.smAndUp"
         :x-small="$vuetify.breakpoint.xsOnly"
           -->
@@ -34,8 +34,8 @@
       <button
         @click="()=> $router.push(`/dataset/${dataset.id}`)"
         class="back-btn">🡠</button>
-    </div>
-  </div>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -153,7 +153,7 @@ export default {
 
     .dataset-name:before {
       right: -3px;
-      top: 11px;
+      top: 15px;
     }
   }
 

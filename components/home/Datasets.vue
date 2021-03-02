@@ -8,7 +8,7 @@
 
           v-for="(ds, index) of datasets"
 
-          cols="6" sm="4"
+          cols="12" sm="4"
           >
           <div class="datasets-list-items">
             <div

@@ -28,11 +28,11 @@
           size="30"
           color="#ff257c"></v-progress-circular>
       </div>
-      <div
+      <v-row
         v-else
 
-        class="row-old main">
-        <div class="col-12-old grid-images-wrapper">
+        class=" main mt-0">
+        <v-col cols="12" class=" grid-images-wrapper pt-0">
           <p class="question-text static">
             تصاویر
             <strong
@@ -185,21 +185,22 @@
             </div>
           </div>
 
-        </div>
-      </div>
-      <div class="row-old footer grid-footer">
+        </v-col>
+      </v-row>
+      <v-row class=" footer grid-footer mt-0 py-2" style="">
         <button
           v-if="!localAnswersCount && !localReportsCount"
 
           @click="changeQuestion"
 
-          class="answer">برو به لیست بعدی</button>
+          class="answer my-0">برو به لیست بعدی</button>
 
         <button
           v-else
 
-        @click="submitAnswers">ارسال پاسخ ها</button>
-      </div>
+        @click="submitAnswers"
+          class="my-0 ">ارسال پاسخ ها</button>
+      </v-row>
     </div>
 </template>
 
