@@ -98,7 +98,7 @@
           :class="{ 'pt-0': $vuetify.breakpoint.xs }">
           <div
             class="dataset-history-wrapper wobbling"
-            style="height: 480px"
+            style="height: 480px; width: 100%"
             ref="wobblingBg"
             id="wobbling-bg">
             <small>تعداد پاسخ‌های ثبت شده شما</small>
