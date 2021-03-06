@@ -34,7 +34,7 @@
         class=" main mt-0">
         <v-col cols="12" class=" grid-images-wrapper pt-0">
           <p class="question-text static">
-            تصاویر
+            آیا تصاویر مربوط به
             <strong
 
               @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${randomLabel.name.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
@@ -44,7 +44,7 @@
 
                ({{ labelType }})
             </strong>
-            را مشخص کنید.
+            هستند؟
           </p>
           <ol
             v-if="!$vuetify.breakpoint.xs"
