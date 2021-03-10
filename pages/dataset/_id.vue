@@ -176,6 +176,7 @@ import Modal from "~/plugins/external/Modal";
 export default {
   name: "Dataset._id",
   layout: 'main',
+  middleware: "authRequired",
   components: {Answers, DatasetItems, Transactions, Targets, DatasetsNav},
   data() {
     return {
@@ -336,7 +337,7 @@ export default {
 
       try {
         const credit = await this.$apiService.get('/api/services/app/Credit/GetCredit', data);
-        if(credit.data && credit.data.result) {
+        if(credit.data && credit.data.result && credit.data.result.credit) {
           this.userCredit = credit.data.result.credit;//this.$utils.formatNumber(this.$utils.toFixed(credit.data.result.credit));
 
           /*if (credit.data.result.credit > 0) {

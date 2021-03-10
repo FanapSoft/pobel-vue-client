@@ -228,6 +228,7 @@ export default {
   components: {CustomCartType1, Transactions},
   name: "dashboard",
   layout: 'main',
+  middleware: "authRequired",
   computed: {
     ...mapGetters({
       isAuthenticated: `auth/isAuthenticated`,
@@ -246,6 +247,12 @@ export default {
       userPhoneNumberValid: true,
       creditModalKey: false
     }
+  },
+  beforeRouteEnter(to, from, next) {
+    console.log("before route called");
+    const previousRoute = from.path || from.fullPath
+    console.log(`Previous Route ${previousRoute}`)
+    next()
   },
   methods: {
     async getWalletBalance() {
@@ -351,11 +358,11 @@ export default {
         const requestCashOut = await this.$axios.post('/api/services/app/Wallet/TransferCreditToWallet', data);
         if (requestCashOut.data && requestCashOut.data.result) {
           //console.log(requestCashOut)
-          await this.getWalletBalance();
+          let balance = this.walletCredit;
           let continueModal = Modal({
             title: "انتقال موفق",
             body: `مبلغ
-              ${this.walletCredit}
+              ${balance}
                ریال
                به کیف پول پاد شما منتقل شد.`,
             backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
@@ -373,7 +380,7 @@ export default {
               continueModal.close();
             }
           });
-
+          await this.getWalletBalance();
 
          // this.answersCount = answersCount.data.result.totalCount
         }

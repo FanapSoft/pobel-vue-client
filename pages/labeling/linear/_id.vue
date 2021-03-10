@@ -156,6 +156,7 @@ export default {
   name: "labeling_linear_id",
   layout: 'default',
   components: {DatasetsNav},
+  middleware: "authRequired",
   computed: {
     ...mapGetters({
       user: "auth/currentUser"

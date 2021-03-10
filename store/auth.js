@@ -39,7 +39,7 @@ const actions = {
     commit('setIsAuthenticated', true)
     //First save the user
     commit(SET_AUTH, user)
-    this.$jwtService.saveToken(state.user.token);
+    this.$jwtService.saveToken(state.user.id_token);
     //Then use token for the request to get the user
     this.$apiService.setHeader();
     return new Promise((resolve, reject) => {

@@ -214,6 +214,7 @@ export default {
   name: "labeling_grid_id",
   layout: 'labeling',
   components: {DatasetsNav},
+  middleware: "authRequired",
   computed: {
     ...mapGetters({
       user: "auth/currentUser"

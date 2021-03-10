@@ -86,6 +86,7 @@ export default {
   components: {NavbarType1},
   name: "datasets",
   layout: 'main',
+  middleware: "authRequired",
   data() {
     return {
       datasets: null,

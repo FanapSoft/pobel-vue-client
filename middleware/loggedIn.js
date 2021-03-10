@@ -12,7 +12,7 @@ export default function (context) {
   if (route.query.token) {
     const token = atob(route.query.token)
     $jwtService.saveToken(token);
-    store.dispatch(`auth/${SET_AUTH}`, {uid: route.params.id, token: token});
+    store.dispatch(`auth/${SET_AUTH}`, {uid: route.params.id, id_token: token});
   }
 
   redirect("/")
