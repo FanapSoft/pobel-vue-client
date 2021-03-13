@@ -14,20 +14,11 @@
 
           class="dataset-answers-history-items">
           <span class="dataset-answers-history-items-result">{{ `${(item.answer) ? '⤫' : '✓'}` }}</span>
-          <span class="dataset-answers-history-items-name">{{ (item.questionObject ? JSON.parse(item.questionObject).Title.replace(/[0-9]/g, '').replace(/_/g, ' '): 'بی نام') }}</span>
+          <span class="dataset-answers-history-items-name">{{ (item.title ? item.title.replace(/[0-9]/g, '').replace(/_/g, ' '): 'بی نام') }}</span>
 
         </li>
       </ul>
     </v-col>
-<!--    <v-row class="px-12" justify="center">
-      <v-progress-linear
-        indeterminate
-
-        v-if="loadingAnswers"
-
-        style="opacity: .8; width: 300px"
-      color="#ff257c"></v-progress-linear>
-    </v-row>-->
   </v-row>
 </template>
 
@@ -74,10 +65,6 @@ export default {
             ...this.userAnswers,
             ...tmp
           ])
-         /* this.userAnswers = [
-            ...this.userAnswers,
-            ...answers.data.result.items
-          ];*/
 
           if(!this.pagination.realCount) {
             this.pagination.realCount = answers.data.result.totalCount;

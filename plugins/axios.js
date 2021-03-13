@@ -31,7 +31,6 @@ export default function (context) {
 
   $axios.onResponse(response => {
     if(response.status >= 400 && !$utils.routeOption(route, 'auth', false)) {
-      console.log('imhere2')
       if (response.status === 401) {
         console.log("User has been logged out! Redirecting back to login page ...");
         window.location.href = $apiService.loginUrl;

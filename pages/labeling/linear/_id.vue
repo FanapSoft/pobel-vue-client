@@ -242,6 +242,12 @@ export default {
             this.$set(item, "isReport", false);
             this.$set(item, "answer", -1);
           })
+        } else {
+          if(result.data && result.data.error && result.data.error.message ) {
+            if(result.data.error.message.indexOf("No target has been defined.") !== -1) {
+              this.$router.push("/dataset/" + this.$route.params.id)
+            }
+          }
         }
       } catch (error) {
         console.log(error)
