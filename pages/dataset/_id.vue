@@ -20,8 +20,9 @@
             v-if="dataset.labelingStatus"
 
             id="dataset-action-wrapper">
+<!-- && !currentTargetReached-->
 
-            <template v-if="userTargetDefinition && !currentTargetReached">
+            <template v-if="userTargetDefinition && userTargetDefinition.answerCount > userAnswersCount">
               <v-btn
                 v-if="$vuetify.breakpoint.xs"
 
@@ -205,7 +206,7 @@ export default {
       datasetTargets: null,
       userTargetDefinition: null,
       loadingRequestCashout: false,
-      currentTargetReached: false
+      //currentTargetReached: false
     }
   },
   computed: {
@@ -479,7 +480,7 @@ export default {
             if(credit.data.error.message.indexOf("You haven't reached the target yet.") !== -1) {
               let alertModal = Modal({
                 title: "خطا در انتقال",
-                body: `پیش از اتمام تارگت فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید.`,
+                body: `پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید.`,
                 backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
                 actions: [
                   {
@@ -578,7 +579,7 @@ export default {
         console.log(error)
       }
     },
-    async checkIsTargetReached() {
+    /*async checkIsTargetReached() {
       let data = {
         DataSetId: this.$route.params.id
       }
@@ -593,7 +594,7 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    }
+    }*/
   },
   async mounted() {
     this.getItem();
@@ -601,7 +602,7 @@ export default {
     this.getUserCredit(this.$route.params.id);
     this.getUserAnswersCount(this.$route.params.id);
     await this.getUserTarget(this.$route.params.id);
-    this.checkIsTargetReached();
+    //this.checkIsTargetReached();
     this.getDatasetTargets(this.$route.params.id);
   },
   watch: {

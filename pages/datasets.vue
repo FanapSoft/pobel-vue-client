@@ -1,5 +1,5 @@
 <template>
-  <v-container class="datasets-wrapper">
+  <v-container class="datasets-wrapper" style="max-width: 60rem;">
     <div
       style="display: flex; align-items: center; justify-content: center;"
       v-if="!datasets" >
@@ -20,7 +20,6 @@
 
             cols="12"
             sm="4"
-            md="3"
             class="  ">
             <div class="datasets-list-items">
               <div
@@ -34,7 +33,6 @@
               </div>
 
               <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-              <!--            <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name"></NuxtLink>-->
               <v-container>
                 <v-row >
                   <v-col cols="6">
@@ -56,7 +54,9 @@
               </v-container>
 
               <!-- Actions -->
-              <div class="row-old dataset-actions-list" :id="`ds-{{id}}`">
+              <div
+                v-if="ds.targetSize && ds.userAnswersCount && ds.userAnswersCount <= ds.targetSize"
+                class="row-old dataset-actions-list" :id="`ds-{{id}}`">
                 <div
                   v-if="ds.labelingStatus"
 
