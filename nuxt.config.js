@@ -13,9 +13,13 @@ export default {
       /^\/loggedIn\//,
     ]
   },
-
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
+
+  router: {
+    middleware: ['checkAuth'],
+    base: process.env.NODE_ENV == 'production' ? '/test/' : ''
+  },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -59,11 +63,6 @@ export default {
     //'~/plugins/services/mock.service', //Temporary only for test
 
   ],
-
-  router: {
-    middleware: ['checkAuth'],
-    base: process.env.NODE_ENV == 'production' ? '/test/' : ''
-  },
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

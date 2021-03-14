@@ -20,8 +20,9 @@
             v-if="dataset.labelingStatus"
 
             id="dataset-action-wrapper">
+<!-- && !currentTargetReached-->
 
-            <template v-if="userTargetDefinition">
+            <template v-if="userTargetDefinition && userTargetDefinition.answerCount > userAnswersCount">
               <v-btn
                 v-if="$vuetify.breakpoint.xs"
 
@@ -85,6 +86,7 @@
 
               :loading="loadingRequestCashout"
 
+
               @click="convertScoreToMoney"
               id="cashout-btn"
               style="letter-spacing: 0;padding: 13px 10px"
@@ -98,7 +100,7 @@
           :class="{ 'pt-0': $vuetify.breakpoint.xs }">
           <div
             class="dataset-history-wrapper wobbling"
-            style="height: 480px"
+            style="height: 480px; width: 100%"
             ref="wobblingBg"
             id="wobbling-bg">
             <small>تعداد پاسخ‌های ثبت شده شما</small>
@@ -134,16 +136,32 @@
               :key="index"
 
               cols="12" sm="6" class="px-1 py-0">
-              <div
-
-                :id="`target-${item.id}`"
+              <v-card
                 :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
                 @click="changeUserTargetTo(item)"
 
-                class="target-list-items" style="width: 100%">
-                <p style="margin-bottom: 0;">{{ `هدف شماره ${index + 1}` }}</p>
-                <h3>{{ item.answerCount }}</h3>
-              </div>
+                elevation="0"
+                class="mb-2 target-list-item">
+                <v-row class="ma-0">
+                  <v-col cols="9" >
+                    <v-row class="ma-0">
+                      <v-col cols="12" class="pa-0">
+                        {{ `هدف شماره ${index + 1}` }}
+                      </v-col>
+                      <v-col cols="12" class="pa-0">
+                        <small style="font-size: 12px">
+                          حداکثر درآمد:
+                          {{ $utils.formatNumber(item.uMax) }}
+                          ریال
+                        </small>
+                      </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col cols="3" class="text-center d-flex align-center justify-center" >
+                    <h3>{{ item.answerCount }}</h3>
+                  </v-col>
+                </v-row>
+              </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -176,6 +194,7 @@ import Modal from "~/plugins/external/Modal";
 export default {
   name: "Dataset._id",
   layout: 'main',
+  middleware: "authRequired",
   components: {Answers, DatasetItems, Transactions, Targets, DatasetsNav},
   data() {
     return {
@@ -186,7 +205,8 @@ export default {
 
       datasetTargets: null,
       userTargetDefinition: null,
-      loadingRequestCashout: false
+      loadingRequestCashout: false,
+      //currentTargetReached: false
     }
   },
   computed: {
@@ -336,7 +356,7 @@ export default {
 
       try {
         const credit = await this.$apiService.get('/api/services/app/Credit/GetCredit', data);
-        if(credit.data && credit.data.result) {
+        if(credit.data && credit.data.result && credit.data.result.credit) {
           this.userCredit = credit.data.result.credit;//this.$utils.formatNumber(this.$utils.toFixed(credit.data.result.credit));
 
           /*if (credit.data.result.credit > 0) {
@@ -455,6 +475,28 @@ export default {
 
             document.getElementById('stats-credit').innerHTML = '0.00';
           }
+        } else {
+          if(credit.data && credit.data.error && credit.data.error.message ) {
+            if(credit.data.error.message.indexOf("You haven't reached the target yet.") !== -1) {
+              let alertModal = Modal({
+                title: "خطا در انتقال",
+                body: `پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید.`,
+                backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+                actions: [
+                  {
+                    title: 'بستن',
+                    class: ['noBorder'],
+                    fn: () => {
+                      alertModal.close();
+                    }
+                  }
+                ],
+                closeBtnAction: () => {
+                  alertModal.close();
+                }
+              });
+            }
+          }
         }
       } catch (error) {
         console.log(error)
@@ -536,14 +578,31 @@ export default {
       } catch (error) {
         console.log(error)
       }
-    }
+    },
+    /*async checkIsTargetReached() {
+      let data = {
+        DataSetId: this.$route.params.id
+      }
+
+      try {
+        const result = await this.$apiService.get('/api/services/app/Targets/GetCurrentTargetStatus', data);
+        if (result.data && result.data.result ) {
+          if(result.data.result.targetEnded) {
+            this.currentTargetReached = true;
+          }
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }*/
   },
-  mounted() {
+  async mounted() {
     this.getItem();
     this.getChartData();
     this.getUserCredit(this.$route.params.id);
     this.getUserAnswersCount(this.$route.params.id);
-    this.getUserTarget(this.$route.params.id);
+    await this.getUserTarget(this.$route.params.id);
+    //this.checkIsTargetReached();
     this.getDatasetTargets(this.$route.params.id);
   },
   watch: {
@@ -565,6 +624,34 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.target-list-item {
+  border-radius: 4px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.target-list-item:hover {
+  background-color: #333447;
+  border-color: #333447;
+  color: #ffe58a;
+}
+
+.target-list-item.active {
+  background-color: #ffe58a;
+  border-color: #ffe58a;
+  color: #333447;
+}
+
+.target-list-item p {
+  font-size: 12px !important;
+  text-align: center;
+}
+
+.target-list-item p small {
+  vertical-align: text-top;
+}
+
+
 @media #{map-get($display-breakpoints, 'xs-only')} {
   .dataset-list-name {
     h3 {

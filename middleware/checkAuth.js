@@ -15,7 +15,7 @@ export default async function (context) {
     //is not authorized, check if token is saved in browser
     if($jwtService.getToken() && $userService.getUser() && $userService.getUser().uid) {
       await store
-        .dispatch(`auth/${SET_AUTH}`, {token: $jwtService.getToken(), uid: $userService.getUser().uid})
+        .dispatch(`auth/${SET_AUTH}`, {id_token: $jwtService.getToken(), uid: $userService.getUser().uid})
         //.then(() => {})
         .catch(error => console.log(error));
     } else {

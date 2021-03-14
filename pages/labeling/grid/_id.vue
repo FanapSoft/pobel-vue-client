@@ -34,7 +34,7 @@
         class=" main mt-0">
         <v-col cols="12" class=" grid-images-wrapper pt-0">
           <p class="question-text static">
-            تصاویر
+            آیا تصاویر مربوط به
             <strong
 
               @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${randomLabel.name.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
@@ -44,7 +44,7 @@
 
                ({{ labelType }})
             </strong>
-            را مشخص کنید.
+            هستند؟
           </p>
           <ol
             v-if="!$vuetify.breakpoint.xs"
@@ -214,6 +214,7 @@ export default {
   name: "labeling_grid_id",
   layout: 'labeling',
   components: {DatasetsNav},
+  middleware: "authRequired",
   computed: {
     ...mapGetters({
       user: "auth/currentUser"
@@ -277,6 +278,7 @@ export default {
 
       try {
         const result = await this.$apiService.get('/api/services/app/Questions/GetQuestions', data);
+
         if (result.data && result.data.result) {
           this.labelQuestions = result.data.result;
           this.labelQuestions.forEach(item => {
@@ -285,9 +287,15 @@ export default {
             this.$set(item, "isReport", false);
             this.$set(item, "answer", -1);
           })
+        } else {
+          if(result.data && result.data.error && result.data.error.message ) {
+            if(result.data.error.message.indexOf("No target has been defined.") !== -1) {
+              this.$router.push("/dataset/" + this.$route.params.id)
+            }
+          }
         }
       } catch (error) {
-        console.log(error)
+        console.log(error.data, error )
       }
     },
     async getUserTarget(datasetId) {
