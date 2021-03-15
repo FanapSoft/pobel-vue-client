@@ -7,7 +7,7 @@
       id="pobel-scoreboard">
       <li v-for="user in scoreboardItems">
         <span class="scoreboard-name">{{ `${user.name} ${user.surname}` }}</span>
-        <span class="scoreboard-score">{{ user.count }}</span>
+        <span class="scoreboard-score">{{ user.count.toLocaleString() }}</span>
       </li>
     </ol>
   </div>
