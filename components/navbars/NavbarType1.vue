@@ -118,9 +118,6 @@ export default {
       user: "auth/currentUser",
       isAuthenticated: "auth/isAuthenticated"
     })
-  },
-  mounted() {
-    console.log(this.$vuetify)
   }
 }
 </script>

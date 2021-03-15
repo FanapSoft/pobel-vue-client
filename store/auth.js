@@ -51,7 +51,6 @@ const actions = {
               ...state.user,
               ...response.data.result
             });
-
             this.$userService.saveUser(state.user);
             resolve(true);
           })
