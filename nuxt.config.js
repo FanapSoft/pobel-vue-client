@@ -18,7 +18,7 @@ export default {
 
   router: {
     middleware: ['checkAuth'],
-    base: process.env.NODE_ENV == 'production' ? '/test/' : ''
+    base: ''//process.env.NODE_ENV == 'production' ? '/test/' : ''
   },
 
   // Global page headers: https://go.nuxtjs.dev/config-head
