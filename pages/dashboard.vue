@@ -248,12 +248,12 @@ export default {
       creditModalKey: false
     }
   },
-  beforeRouteEnter(to, from, next) {
+ /* beforeRouteEnter(to, from, next) {
     console.log("before route called");
     const previousRoute = from.path || from.fullPath
     console.log(`Previous Route ${previousRoute}`)
     next()
-  },
+  },*/
   methods: {
     async getWalletBalance() {
       let data = {

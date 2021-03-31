@@ -25,7 +25,8 @@
         </template>
       </ul>
       <v-navigation-drawer
-        app right
+        app
+        :right="$isRTL"
         v-model="navigationDrawer"
 
       style="z-index: 3">
@@ -51,6 +52,55 @@
     </template>
 
     <ul style="padding-left: 0">
+      <li >
+        <v-menu
+          style="z-index: 99999"
+          transition="slide-y-transition"
+          bottom
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-img
+              v-bind="attrs"
+              v-on="on"
+              :src="languageFlag || getLanguageFlag"
+
+              class="h-20px w-20px rounded-sm"
+              :alt="activeLanguage.lang"
+              max-height="23"
+              max-width="25"
+              style="cursor: pointer"
+            />
+<!--            <v-btn
+
+
+              elevation="0"
+              style="background-color: transparent;height: auto; color: inherit;"
+            >
+              lang
+            </v-btn>-->
+          </template>
+          <v-list >
+            <v-list-item
+              v-for="(item, i) in languages"
+
+              :key="i"
+              @click="selectedLanguage(item)">
+              <v-list-item-avatar rounded>
+                <v-img
+                  :src="item.flag"
+                  :alt="item.lang"
+
+                  max-height="23"
+                  max-width="25"/>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t(item.translationKey) }}</v-list-item-title>
+              </v-list-item-content>
+
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </li>
       <li v-if="isAuthenticated">
         <NuxtLink to="/dashboard">سلام
           {{user.name}}
@@ -110,14 +160,53 @@ export default {
           link: ""
         },
 
-      ]
+      ],
+      languages: this.$i18nService.languages,
+      languageFlag: "",
     }
   },
   computed: {
     ...mapGetters({
       user: "auth/currentUser",
       isAuthenticated: "auth/isAuthenticated"
-    })
+    }),
+    activeLanguage() {
+      return this.$i18nService.getActiveLanguage();
+    },
+    getLanguageFlag() {
+      return this.onLanguageChanged();
+    }
+  },
+  methods: {
+    selectedLanguage(item) {
+/*
+      const el = e.target.closest(".navi-link");
+      const lang = el.getAttribute("data-lang");
+*/
+
+      this.$i18nService.setActiveLanguage(item.lang);
+
+      this.languageFlag = this.languages.find(val => {
+        return val.lang === this.$i18nService.getActiveLanguage();
+      }).flag;
+
+      /*this.$emit(
+        "language-changed",
+        this.languages.find(val => {
+          return val.lang === lang;
+        })
+      );*/
+
+      window.location.reload();
+    },
+    onLanguageChanged() {
+      this.languageFlag = this.languages.find(val => {
+        return val.lang === this.$i18nService.getActiveLanguage();
+      }).flag;
+    },
+    isActiveLanguage(current) {
+      return this.activeLanguage === current;
+    }
   }
 }
 </script>

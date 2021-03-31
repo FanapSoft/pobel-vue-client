@@ -9,8 +9,11 @@
 </template>
 
 <script>
+import directionality from "~/mixins/directionality"
+
 export default {
-name: "labeling"
+  name: "labeling",
+  mixins: [directionality],
 }
 </script>
 

@@ -1,8 +1,9 @@
 <template>
   <div class="container-old datasets-wrapper">
     <div
-      style="display: flex; align-items: center; justify-content: center;"
-      v-if="!dataset" >
+      v-if="!dataset"
+
+      style="display: flex; align-items: center; justify-content: center;" >
       <v-progress-circular
         indeterminate
 
@@ -49,7 +50,7 @@
             </template>
           </div>
           &nbsp;
-          <button class="back-btn" onclick="window.location.href='/datasets'">🡠</button>
+          <nuxt-link class="back-btn" to="/datasets">{{ $isRTL ? '🡠' : '🡢'}}</nuxt-link>
         </v-col>
       </v-row>
       <v-row class=" dataset-history">
@@ -579,22 +580,6 @@ export default {
         console.log(error)
       }
     },
-    /*async checkIsTargetReached() {
-      let data = {
-        DataSetId: this.$route.params.id
-      }
-
-      try {
-        const result = await this.$apiService.get('/api/services/app/Targets/GetCurrentTargetStatus', data);
-        if (result.data && result.data.result ) {
-          if(result.data.result.targetEnded) {
-            this.currentTargetReached = true;
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }*/
   },
   async mounted() {
     this.getItem();
@@ -651,6 +636,15 @@ export default {
   vertical-align: text-top;
 }
 
+.dataset-history-wrapper button {
+  display: flex;
+}
+
+.back-btn {
+  display: flex;
+  justify-content: center;
+  color: #1c1c1c;
+}
 
 @media #{map-get($display-breakpoints, 'xs-only')} {
   .dataset-list-name {

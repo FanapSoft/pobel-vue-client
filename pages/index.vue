@@ -110,7 +110,7 @@ import "../plugins/fluid"
 export default {
   layout: "home",
   auth: false,
-  data(){
+  data() {
     return {
       logo: `<svg svg-inline svg-sprite src="~assets/images/logo.svg" class="logo" />`
     }

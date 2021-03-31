@@ -49,7 +49,6 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     "~/plugins/external/Modal/index.css",
-    "~/assets/scss/styles" //This project styles
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -59,6 +58,8 @@ export default {
     { src: '~/plugins/services/jwt.service', mode: 'client' },
     { src: '~/plugins/services/api.service', mode: 'client' },
     { src: '~/plugins/services/user.service', mode: 'client' },
+    { src: '~/plugins/vue-i18n', mode: 'client' },
+    { src: '~/plugins/services/i18n.service', mode: 'client' },
     { src: '~/plugins/axios', mode: 'client' },
     //'~/plugins/services/mock.service', //Temporary only for test
 

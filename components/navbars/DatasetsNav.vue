@@ -7,14 +7,12 @@
       </h4>
     </v-col>
     <v-col cols="6" class=" back-btn-wrapper">
-<!--            :small="$vuetify.breakpoint.smAndUp"
-        :x-small="$vuetify.breakpoint.xsOnly"
-          -->
       <v-btn
         dark fab depressed x-small
 
         @click="showHelpModal"
-        class="back-btn ml-3 ">
+
+        class="" :class="{'ml-3': $isRTL, 'mr-3 ml-0': !$isRTL}">
         <v-icon>mdi-help</v-icon>
       </v-btn>
       <div class="stats-wrapper">
@@ -33,7 +31,7 @@
       </div>
       <button
         @click="()=> $router.push(`/dataset/${dataset.id}`)"
-        class="back-btn">🡠</button>
+        class="back-btn">{{ $isRTL ? '🡠' : '🡢'}}</button>
     </v-col>
   </v-row>
 </template>

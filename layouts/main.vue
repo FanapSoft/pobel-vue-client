@@ -14,51 +14,17 @@
 import NavbarType1 from "../components/navbars/NavbarType1";
 import TopBar from "../components/TopBar";
 
+import directionality from "~/mixins/directionality"
+
 export default {
   components: {TopBar, NavbarType1},
+  mixins: [directionality],
   data () {
     return {
       title: 'پابل',
       sidebar: false,
-      items: [
-        {
-          title: "صفحه اصلی",
-          link: "/"
-        },
-        {
-          title: "مشارکت",
-          link: "/datasets",
-          onlyLoggedIns: true
-        },
-        {
-          title: "سوالات متداول",
-          link: "/faq"
-        },
-        {
-          title: "تماس با ما",
-          link: "/contact"
-        },
-        {
-          title: "",
-          link: ""
-        },
-
-      ],
-      leftItems: [
-        {
-          title: "",
-          link: ""
-        },
-        {
-          title: "",
-          link: ""
-        },
-
-      ]
     }
   },
-  mounted() {
-  }
 }
 </script>
 <style lang="scss">

@@ -10,7 +10,7 @@
         color="#ff257c"></v-progress-circular>
     </div>
     <template v-else>
-      <h2 class="mr-5">دیتاست ها</h2>
+      <h2 :class="{'mr-7': $isRTL, 'ml-7': !$isRTL }">دیتاست ها</h2>
       <v-row class="datasets-list px-8 mt-4">
 
           <v-col
