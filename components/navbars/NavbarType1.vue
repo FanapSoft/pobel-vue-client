@@ -70,14 +70,6 @@
               max-width="25"
               style="cursor: pointer"
             />
-<!--            <v-btn
-
-
-              elevation="0"
-              style="background-color: transparent;height: auto; color: inherit;"
-            >
-              lang
-            </v-btn>-->
           </template>
           <v-list >
             <v-list-item
@@ -102,17 +94,17 @@
         </v-menu>
       </li>
       <li v-if="isAuthenticated">
-        <NuxtLink to="/dashboard">سلام
+        <NuxtLink to="/dashboard">{{ $t('USER.HELLO') }}
           {{user.name}}
         </NuxtLink>
       </li>
       <li>
         <NuxtLink
-          v-if="!isAuthenticated" to="/auth/login">ورود</NuxtLink>
+          v-if="!isAuthenticated" to="/auth/login">{{$t('AUTH.LOGIN')}}</NuxtLink>
         <NuxtLink
           v-else
 
-          to="/auth/logout">خروج</NuxtLink>
+          to="/auth/logout">{{$t('AUTH.LOGOUT')}}</NuxtLink>
       </li>
     </ul>
   </nav>
@@ -128,27 +120,22 @@ export default {
       navigationDrawer: false,
       items: [
         {
-          title: "صفحه اصلی",
+          title: this.$t('MENU.HOME'),
           link: "/"
         },
         {
-          title: "مشارکت",
+          title: this.$t('MENU.PARTICIPATION'),
           link: "/datasets",
           onlyLoggedIns: true
         },
         {
-          title: "سوالات متداول",
+          title: this.$t('MENU.FAQ'),
           link: "/faq"
         },
         {
-          title: "تماس با ما",
+          title: this.$t('MENU.CONTACTUS'),
           link: "/contact"
         },
-        {
-          title: "",
-          link: ""
-        },
-
       ],
       leftItems: [
         {

@@ -3,11 +3,11 @@
       <div class="container-old">
         <div class="row-old contact-us">
           <div class="col-6-old info-old">
-            <h3>تماس با ما</h3>
+            <h3>{{$t('MENU.CONTACTUS')}}</h3>
             <ul>
               <li>تهران، پردیس، پارک فناوری پردیس، نوآوری 11، پلاک 114، شرکت فناوری اطلاعات و ارتباطات پاسارگاد آریان (فناپ)</li>
-              <li>کد پستی: 1654120840</li>
-              <li>شماره تماس: 7-02176250513</li>
+              <li>{{$t('GENERAL.POSTALCODE')}}: 1654120840</li>
+              <li>{{$t('GENERAL.PHONE')}}: 7-02176250513</li>
             </ul>
           </div>
         </div>

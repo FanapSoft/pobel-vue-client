@@ -22,16 +22,16 @@
                 class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
             </div>
 
-            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-            <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name">
-              <small :data-title="ds.description">{{ds.description}}</small>
+            <NuxtLink class="title pb-0" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
+            <NuxtLink class="title pt-1" :to="`/dataset/${ds.id}`" :data-title="ds.name">
+              <small style="margin-top: 0; " :data-title="ds.description">{{ds.description}}</small>
             </NuxtLink>
             <v-row>
               <v-col cols="6" style="flex: none">
                 <p>
                   کل آیتم‌ها
                   <br/>
-                  <strong>{{ds.itemsCount? ds.itemsCount : '0'}}</strong></p>
+                  <strong>{{ds.itemsCount ? ds.itemsCount.toLocaleString() : '0'}}</strong></p>
               </v-col>
               <v-col cols="6" style="flex: none">
                 <p class="left-in-mobile">
@@ -85,8 +85,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .left-in-mobile{
   text-align: left !important;
+}
+
+.ltr {
+  .left-in-mobile{
+    text-align: right !important;
+  }
 }
 </style>
