@@ -43,6 +43,11 @@
   float: left;
 }
 
+.short-menu  li {
+  margin-right: 0;
+  margin-left: 24px;
+}
+
 #pobel-logo {
   float: right;
 }
@@ -182,6 +187,29 @@
 }
 
 .question-history .completed:after {
+  right: auto !important;
+  left: 5px;
+}
+
+#pobel-scoreboard {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+#pobel-scoreboard:hover {
+  padding-left: 0;
+  padding-right: 5px;
+}
+
+#pobel-scoreboard li span.scoreboard-score {
+  float: right;
+}
+
+#pobel-scoreboard li::marker {
+  display: none !important;
+}
+
+.dataset-answers-history .dataset-answers-history-items > span.dataset-answers-history-items-result {
   right: auto;
   left: 5px;
 }

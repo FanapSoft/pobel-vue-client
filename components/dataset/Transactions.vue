@@ -2,7 +2,7 @@
   <v-row id="trasactions-history">
     <v-col cols="12">
       <h3>{{$t('TRANSACTIONS.TRANSACTIONSHISTORY')}}</h3>
-      <v-card elevation="0" class="pa-4 my-8">
+      <v-card elevation="0" class="pa-4 my-8 mt-5">
         <v-data-table
           v-if="transactions && transactions.length"
 
@@ -50,13 +50,14 @@
             </span>
           </template>
           <template v-slot:item.date="{ item }">
-            <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
+            <span v-if="$langIsFa" class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
+            <span v-else class="time">{{ new Date(item.creationTime).toLocaleDateString('en-US')}}</span>
           </template>
         </v-data-table>
         <p
           v-else
 
-          class="no-transaction" style="margin-bottom: 0">تراکنشی موجود نیست!</p>
+          class="no-transaction" style="margin-bottom: 0">{{ $t('GENERAL.NOTRANSACTIONS') }}</p>
       </v-card>
 
 <!--      <ul id="transactions-table">

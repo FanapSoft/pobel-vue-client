@@ -148,10 +148,10 @@
             <p id="wallet-credit">
               <template
                 v-if="!walletCredit">
-                0 <small>تومان</small>
+                0 <small>{{ $t('GENERAL.IRT') }}</small>
               </template>
               <template
-                v-else>{{ walletCredit }}<small>ریال</small>
+                v-else>{{ walletCredit }}<small>{{$t('GENERAL.IRR')}}</small>
               </template>
             </p>
 
@@ -189,7 +189,7 @@
                        ]"
                        dir="ltr"
 
-                      label="تلفن همراه"
+                      :label="$t('GENERAL.MOBILE')"
                       v-model="userPhoneNumber"></v-text-field>
                   </v-form>
                 </v-card-text>
@@ -203,7 +203,7 @@
                     @click="requestCashout"
 
                     color="primary">
-                    ثبت
+                    {{ $t('GENERAL.SUBMIT') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>

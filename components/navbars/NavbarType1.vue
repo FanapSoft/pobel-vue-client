@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav class="nav mx-auto" style="max-width: 1200px; ">
     <ul
       v-if="!$vuetify.breakpoint.smAndDown" class="links">
       <template
@@ -51,7 +51,7 @@
       </v-navigation-drawer>
     </template>
 
-    <ul style="padding-left: 0">
+    <ul class="short-menu" style="padding-left: 0">
       <li >
         <v-menu
           style="z-index: 99999"
@@ -261,7 +261,8 @@ header:after {
 .nav li {
   display: inline-block;
   position: relative;
-  margin-left: 24px;
+  margin-left: 0;
+  margin-right: 24px;
   list-style: none;
   float: right;
   z-index: 1;
@@ -285,8 +286,13 @@ header:after {
 
 .links li {
   float: none;
-  margin-left: 0;
+  margin-left: 24px;
+  margin-right: 0;
+}
+
+.short-menu  li{
   margin-right: 24px;
+  margin-left: 0;
 }
 
 @media screen and (max-width: 421px) {

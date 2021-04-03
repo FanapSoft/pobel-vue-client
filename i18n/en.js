@@ -25,22 +25,55 @@ export const locale = {
     DATE: 'Date',
     AMOUNT: 'Amount',
     DESCRIPTION: 'Description',
+    POSTALCODE: 'Postal Code',
+    PHONE: 'Phone',
+    MOBILE: 'Mobile',
+
     ENGLISH: 'English',
     PERSIAN: 'Farsi (Persian)',
 
+    STATUS: 'Status',
     ACTIVE: 'Active',
     INACTIVE: 'Inactive',
-    POSTALCODE: 'Postal Code',
-    PHONE: 'Phone',
 
+    ITEMS: 'Items',
     ANSWER: 'Answer',
     TARGET: 'Target',
+
     START: 'Start',
+    SUBMIT: 'Submit',
+    CLOSE: 'CLOSE',
+
+    STARTLABELING: 'Start Labeling',
+    YOURTARGET: 'Your Target',
+    YOURANSWERS: 'Your Answers',
+    LABELINGSTATUS: 'Labeling Status',
+    YOURSCORE: 'Your Score',
+    CHOOSEATARGET: 'Choose A Target',
+    SENDTOWALLET: 'Send To Wallet',
+    MAXIMUMREVENUE: 'Maximum Revenue',
+    NOTRANSACTIONS: 'No Transactions!',
+    TOTALLABELS: 'Total Labels',
+    GOTONEXTLIST: 'Next List',
+    SUBMITANSWERS: 'Submit Answers',
+
+    CREDIT: 'Credit',
 
     IRR: 'IRR',
+    IRT: 'IRT',
 
-    FREQUENTLYANSKEDQUESTIONS: 'Frequently Asked Questions'
+    FREQUENTLYANSKEDQUESTIONS: 'Frequently Asked Questions',
 
+    YES: 'Yes',
+    NO: 'No',
+    REPORT: 'Report Problem',
+
+    TRANSFERERROR: "Transfer Error",
+
+    DASHBOARD: 'Dashboard',
+    TRANSFERSUCCESSFUL:  "Transfer Successful",
+    CHARTNOTAVAILABLE: 'Chart Not Available',
+    TARGETNUMBER: 'Target #'
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'Transactions History'
@@ -48,6 +81,16 @@ export const locale = {
   DATASET: {
     DATASETPER: 'Dataset',
     DATASETEN: 'Dataset',
-    DATASETS: 'Datasets',
+    DATASETSPER: 'Datasets',
+    DATASETSEN: 'Datasets',
+  },
+  VALIDATION: {
+    FIELDISREQUIRED: 'This field is required',
+    EXAMPLEVALIDMOBILE: 'Example valid mobile: 09111111111'
+
+  },
+  HELP: {
+    HELP: 'Help',
+    OK: 'OK'
   }
 };

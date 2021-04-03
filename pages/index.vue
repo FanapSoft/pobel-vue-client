@@ -24,11 +24,8 @@
         </p>
       </v-col>
     </v-row>
-
     <!-- Section 2 Datasets Preview -->
-
     <datasets></datasets>
-
     <!-- Section 3 Labeling & Datasets -->
     <v-row
       class="mx-0"
@@ -51,17 +48,13 @@
         </p>
       </v-col>
     </v-row>
-
     <!-- Section 4 Pobel Scoreboard -->
-<!--    {{#isLoggedIn}}-->
     <v-row
       v-if="isAuthenticated"
 
       class="mx-0">
       <users></users>
     </v-row>
-<!--    {{/isLoggedIn}}-->
-
     <!-- Section 5 Pobel Business Model -->
     <v-row >
       <v-col cols="12">

@@ -10,7 +10,7 @@
         color="#ff257c"></v-progress-circular>
     </div>
     <template v-else>
-      <h2 :class="{'mr-7': $isRTL, 'ml-7': !$isRTL }">دیتاست ها</h2>
+      <h2 :class="{'mr-7': $isRTL, 'ml-7': !$isRTL }">{{ $t('DATASET.DATASETSEN') }}</h2>
       <v-row class="datasets-list px-8 mt-4">
 
         <v-col
@@ -55,7 +55,7 @@
                   </p>
                 </v-col>
                 <v-col cols="6">
-                  <p class="left-in-mobile">اعتبار
+                  <p class="left-in-mobile">{{$t('GENERAL.CREDIT')}}
                     <br/>
                     <span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span>
                     {{ $t('GENERAL.IRR') }}</p>
@@ -71,13 +71,13 @@
                 v-if="ds.labelingStatus"
 
                 class="col-12-old">
-                <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn">{{ $t('GENERAL.START') }}</NuxtLink>
+                <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn text-center">{{ $t('GENERAL.START') }}</NuxtLink>
               </div>
               <div
                 v-else
 
                 class="col-12-old">
-                <a href="" class="start-btn disabled">غیرفعال است</a>
+                <a href="" class="start-btn disabled">{{ $t('GENERAL.INACTIVE') }}</a>
               </div>
             </div>
           </div>

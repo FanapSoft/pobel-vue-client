@@ -144,7 +144,7 @@
                           @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'yes')}"
 
                           color="#444"
-                          class="mb-1">هست</v-btn>
+                          class="mb-1">{{$t('GENERAL.YES')}}</v-btn>
                         <v-btn
                           outlined
 
@@ -154,7 +154,7 @@
                           @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'no')}"
 
                           color="#444"
-                          class="mb-1">نیست</v-btn>
+                          class="mb-1">{{$t('GENERAL.NO')}}</v-btn>
                         <v-btn
                           outlined
 
@@ -163,7 +163,7 @@
                           }"
                           @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'report')}"
 
-                          color="#444">گزارش خطا</v-btn>
+                          color="#444">{{$t('GENERAL.REPORT')}}</v-btn>
                       </v-layout>
                     </div>
                   </v-row>
@@ -195,13 +195,13 @@
 
           @click="changeQuestion"
 
-          class="answer my-0">برو به لیست بعدی</button>
+          class="answer my-0">{{ $t('GENERAL.GOTONEXTLIST') }}</button>
 
         <button
           v-else
 
         @click="submitAnswers"
-          class="my-0 ">ارسال پاسخ ها</button>
+          class="my-0 ">{{ $t('GENERAL.SUBMITANSWERS') }}</button>
       </v-row>
     </div>
 </template>

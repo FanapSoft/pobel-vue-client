@@ -86,7 +86,7 @@ export default {
 
     showHelpModal(){
       let continueModal = Modal({
-        title: 'راهنما',
+        title: this.$t('HELP.HELP'),
         body: `در مجموعه داده فعلی برای برچسب زنی شما گزینه های زیر را دارید:
         <br />
         <span class="help-icon " >✓</span>
@@ -108,12 +108,11 @@ export default {
         fullscreen: true,
         actions: [
           {
-            title: 'متوجه شدم',
+            title: this.$t('HELP.OK'),
             class: ['active'],
             fn: async () => {
               continueModal.close();
             },
-
           },
         ],
         closeBtnAction: () => {

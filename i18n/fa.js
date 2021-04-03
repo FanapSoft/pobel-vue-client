@@ -23,22 +23,56 @@ export const locale = {
     DATE: 'تاریخ',
     AMOUNT: 'مبلغ',
     DESCRIPTION: 'توضیحات',
+    POSTALCODE: 'کد پستی',
+    PHONE: 'شماره تماس',
+    MOBILE: 'تلفن همراه',
 
     ENGLISH: 'انگلیسی',
     PERSIAN: 'فارسی',
 
+    STATUS: 'وضعیت',
     ACTIVE: 'فعال',
     INACTIVE: 'غیرفعال',
-    POSTALCODE: 'کد پستی',
-    PHONE: 'شماره تماس',
 
+
+    ITEMS: 'کل آیتم ها',
     ANSWER: 'پاسخ',
     TARGET: 'هدف',
+
     START: 'شروع',
+    SUBMIT: 'ثبت',
+    CLOSE: 'بستن',
+
+    STARTLABELING: 'شروع برچسب زنی',
+    YOURTARGET: 'هدف شما',
+    YOURANSWERS: 'پاسخ‌های شما',
+    LABELINGSTATUS: 'وضعیت تگ زنی',
+    YOURSCORE: 'امتیاز شما',
+    CHOOSEATARGET: 'انتخاب تارگت',
+    SENDTOWALLET: 'انتقال به کیف پول',
+    MAXIMUMREVENUE: 'حداکثر درآمد',
+    NOTRANSACTIONS: 'تراکنشی موجود نیست!',
+    TOTALLABELS: 'تعداد برچسب‌ها',
+    GOTONEXTLIST: 'برو به لیست بعدی',
+    SUBMITANSWERS: 'ارسال پاسخ ها',
+
+    CREDIT: 'اعتبار',
 
     IRR: 'ریال',
+    IRT: 'تومان',
 
-    FREQUENTLYANSKEDQUESTIONS: 'سوالات متداول'
+    FREQUENTLYANSKEDQUESTIONS: 'سوالات متداول',
+
+    YES: 'هست',
+    NO: 'نیست',
+    REPORT: 'گزارش خطا',
+
+    TRANSFERERROR: "خطا در انتقال",
+
+    DASHBOARD: 'داشبورد',
+    TRANSFERSUCCESSFUL:  "انتقال موفق",
+    CHARTNOTAVAILABLE: 'نمودار موجود نیست',
+    TARGETNUMBER: 'هدف شماره '
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'تاریخچه تراکنش ها'
@@ -46,7 +80,15 @@ export const locale = {
   DATASET: {
     DATASETPER: 'مجموعه داده',
     DATASETEN: 'دیتاست',
-    DATASETS: 'دیتاست ها',
-
+    DATASETSPER: 'مجموعه داده ها',
+    DATASETSEN: 'دیتاست ها',
   },
+  VALIDATION: {
+    FIELDISREQUIRED: 'این فیلد الزامیست',
+    EXAMPLEVALIDMOBILE: 'مثال شماره موبایل صحیح: 09111111111'
+  },
+  HELP: {
+    HELP: 'راهنما',
+    OK: 'متوجه شدم'
+  }
 };

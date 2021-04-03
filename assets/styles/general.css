@@ -443,7 +443,7 @@ b, strong {
 .datasets-list .start-btn {
     border: solid 1px #ddd;
     border-radius: 4px;
-    padding: 7px 15px 10px;
+    padding: 0 15px 0;
     background: transparent;
     outline: none;
     text-decoration: none !important;
@@ -453,6 +453,10 @@ b, strong {
     transition: all .15s;
     text-align: center;
     cursor: pointer;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-btn:hover,
@@ -582,6 +586,10 @@ b, strong {
 .set-target-btn {
     z-index: 10;
     display: block;
+}
+
+.set-target-btn:focus:before {
+  background-color: #fff;
 }
 
 .dataset-history-wrapper button:hover {
