@@ -42,6 +42,7 @@ export const locale = {
     START: 'شروع',
     SUBMIT: 'ثبت',
     CLOSE: 'بستن',
+    ERROR: 'خطا',
 
     STARTLABELING: 'شروع برچسب زنی',
     YOURTARGET: 'هدف شما',

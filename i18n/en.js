@@ -43,6 +43,8 @@ export const locale = {
     START: 'Start',
     SUBMIT: 'Submit',
     CLOSE: 'CLOSE',
+    ERROR: 'Error',
+
 
     STARTLABELING: 'Start Labeling',
     YOURTARGET: 'Your Target',

@@ -382,13 +382,13 @@ export default {
     async convertScoreToMoney() {
       if(!this.userCredit) {
         let continueModal = Modal({
-          title: "خطا",
+          title: this.$t('GENERAL.ERROR'),
           body: `هنوز امتیازی کسب نکرده اید`,
           backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
 
           actions: [
             {
-              title: 'بستن',
+              title: this.$t('GENERAL.CLOSE'),
               class: ['noBorder'],
               fn: () => {
                 continueModal.close();
