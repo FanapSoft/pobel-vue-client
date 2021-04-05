@@ -25,18 +25,20 @@ export default {
   auth: false,
   hero: false,
   mounted() {
-    let myMap = new L.Map('map', {
-      key: '9282916c8343617c6a072362f3f28c70a0866b84',
-      maptype: 'standard-day',
-      poi: true,
-      marker: 'red',
-      traffic: false,
-      center: [35.728195, 51.8300000],
-      zoom: 17
-    });
+    setTimeout(()=> {
+      let myMap = new L.Map('map', {
+        key: '9282916c8343617c6a072362f3f28c70a0866b84',
+        maptype: 'standard-day',
+        poi: true,
+        marker: 'red',
+        traffic: false,
+        center: [35.728150, 51.82659380],
+        zoom: 17
+      });
 
-    let marker = L.marker([35.728150, 51.82659380]).addTo(myMap);
-    marker.bindPopup('<b>فناپ سافت</b>');
+      let marker = L.marker([35.728150, 51.82659380]).addTo(myMap);
+      marker.bindPopup('<b>فناپ سافت</b>');
+    }, 1000)
   }
 }
 </script>
