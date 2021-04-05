@@ -33,7 +33,7 @@ export default {
         marker: 'red',
         traffic: false,
         center: [35.728150, 51.82659380],
-        zoom: 17
+        zoom: 16
       });
 
       let marker = L.marker([35.728150, 51.82659380]).addTo(myMap);
