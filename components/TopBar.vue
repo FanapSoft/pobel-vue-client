@@ -1,6 +1,6 @@
 <template>
   <header
-    :class="{'hero': showHero}">
+    :class="{'hero': showHero}" class="px-0 px-sm-6">
     <navbar-type1></navbar-type1>
     <div
       v-if="showHero"

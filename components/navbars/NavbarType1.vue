@@ -295,6 +295,11 @@ header:after {
   margin-right: 0;
 }
 
+.short-menu{
+  display: flex;
+  align-items: center;
+}
+
 .short-menu  li{
   margin-right: 24px;
   margin-left: 0;
@@ -308,6 +313,12 @@ header:after {
   .nav li {
     margin-left: 16px;
   }
+
+  .short-menu  li{
+    margin-right: 14px;
+    margin-left: 0;
+  }
+
   .links li {
     margin-left: 0;
     margin-right: 16px;

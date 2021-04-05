@@ -116,7 +116,7 @@
                         class=""
                         height="150px"
                         width="150px"
-                        style="margin-top: 20px;"
+                        style="margin: 20px auto 0;display: flex;"
                         :src="`${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId}`">
 <!--
         https://static2.khoondanionline.com/thumbnail/KGuPcGgDttnK/9-wZKh4hicXyJvwVQ1c9MgnJ79Dd3XqXIM1JsiCe47NYS6jramGkBPdo-QVEe9EuUKNBJTAl-ko,/%D8%B9%D9%84%DB%8C+%D8%A7%D9%86%D8%B5%D8%A7%D8%B1%DB%8C%D8%A7%D9%86.jpg
