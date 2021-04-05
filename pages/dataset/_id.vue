@@ -137,7 +137,20 @@
                 @click="changeUserTargetTo(item)"
 
                 elevation="0"
-                class="mb-2 target-list-item">
+                class="mb-2 target-list-item ">
+                <div class="fire">
+
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                </div>
                 <v-row class="ma-0">
                   <v-col cols="9" >
                     <v-row class="ma-0">
@@ -158,6 +171,7 @@
                   </v-col>
                 </v-row>
               </v-card>
+
             </v-col>
           </v-row>
         </v-col>
@@ -614,6 +628,83 @@ export default {
     min-width: 40px;
     height: 40px;
     line-height: 42px;
+  }
+}
+
+
+
+/**
+Fire animation
+*/
+$fireColor: #ffe58a;//rgb(255,80,0);
+$fireColorT: rgba(255,80,0,0);
+$dur: 2s;
+$blur: 0.02em;
+$fireRad: 3em;
+$parts: 10;
+$partSize: 5em;
+
+
+.fire {
+  display: none;
+  font-size: 24px;
+  filter: blur($blur);
+  -webkit-filter: blur($blur);
+  margin: 3em auto 0 auto;
+  position: relative;
+  width: 10em;
+  height: 12em;
+}
+.target-list-item {
+  overflow: hidden;
+  .row {
+    z-index: 2;
+    position: relative;
+  }
+
+  .fire {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: .4;
+  }
+
+  &:hover {
+    .fire {
+      display: block;
+    }
+  }
+}
+.particle {
+  animation: rise $dur ease-in infinite;
+  background-image: radial-gradient($fireColor 20%,$fireColorT 70%);
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0;
+  position: absolute;
+  bottom: 0;
+  width: $partSize;
+  height: $partSize;
+  // spread particles out in time and x-position to get desired effect
+  @for $p from 1 through $parts {
+    &:nth-of-type(#{$p}) {
+      animation-delay: $dur * random();
+      left: calc((100% - #{$partSize}) * #{($p - 1)/$parts});
+    }
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10em) scale(0);
   }
 }
 </style>
