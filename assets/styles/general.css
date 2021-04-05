@@ -267,7 +267,7 @@ a, a:hover, a:visited {
     padding: 15px;
     transition: all .1s;
     text-align: right;
-    min-height: 400px;
+    min-height: 310px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

@@ -38,7 +38,7 @@
             <v-container>
               <v-row>
                 <v-col cols="6">
-                  <p >
+                  <p class="mb-0">
                     <span style="display: flex;">
                     <span>{{ $t('GENERAL.TARGET') }}</span><span>/</span><strong>{{ $t('GENERAL.ANSWER') }}</strong>
                     </span>
@@ -55,7 +55,7 @@
                   </p>
                 </v-col>
                 <v-col cols="6">
-                  <p class="left-in-mobile">{{$t('GENERAL.CREDIT')}}
+                  <p class="left-in-mobile mb-0">{{$t('GENERAL.CREDIT')}}
                     <br/>
                     <span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span>
                     {{ $t('GENERAL.IRR') }}</p>
