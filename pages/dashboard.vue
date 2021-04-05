@@ -137,14 +137,14 @@
             class="dataset-history-wrapper "
             style="border-radius: 10px">
             <small>تعداد پاسخ های ثبت شده: </small>
-            <p id="stats-answers">{{ answersCount }}</p>
+            <p id="stats-answers">{{ answersCount.toLocaleString() }}</p>
           </v-card>
           <v-card
             elevation="0"
-            class="dataset-history-wrapper "
+            class="dataset-history-wrapper"
             style="border-radius: 10px"
             id="cash-out-wrapper">
-            <small>{{$t('USER.WALLETCREDIT')}}: </small>
+            <small class="pl-1">{{$t('USER.WALLETCREDIT')}}: </small>
             <p id="wallet-credit">
               <template
                 v-if="!walletCredit">

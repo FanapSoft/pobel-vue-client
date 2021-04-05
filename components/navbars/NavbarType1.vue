@@ -62,17 +62,22 @@
             <v-img
               v-bind="attrs"
               v-on="on"
+
               :src="languageFlag || getLanguageFlag"
 
-              class="h-20px w-20px rounded-sm"
-              :alt="activeLanguage.lang"
-              max-height="23"
+              min-width="25"
+              min-height="23"
               max-width="25"
+              max-height="23"
+              class="h-20px w-20px rounded-sm"
               style="cursor: pointer"
             />
+<!--            <img width="23" height="23" :src="languageFlag || getLanguageFlag">-->
           </template>
           <v-list >
             <v-list-item
+              dense
+
               v-for="(item, i) in languages"
 
               :key="i"

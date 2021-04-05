@@ -49,12 +49,16 @@ export const locale = {
     LABELINGSTATUS: 'وضعیت تگ زنی',
     YOURSCORE: 'امتیاز شما',
     CHOOSEATARGET: 'انتخاب تارگت',
+    TARGETING: 'هدف گذاری',
     SENDTOWALLET: 'انتقال به کیف پول',
     MAXIMUMREVENUE: 'حداکثر درآمد',
     NOTRANSACTIONS: 'تراکنشی موجود نیست!',
     TOTALLABELS: 'تعداد برچسب‌ها',
     GOTONEXTLIST: 'برو به لیست بعدی',
     SUBMITANSWERS: 'ارسال پاسخ ها',
+
+    YOURANSWERSCOUNT: 'تعداد پاسخ های شما تا این لحظه',
+    YOURCURRENTTARGET: 'هدف تعیین شده برای این مجموعه داده',
 
     CREDIT: 'اعتبار',
 
@@ -66,13 +70,22 @@ export const locale = {
     YES: 'هست',
     NO: 'نیست',
     REPORT: 'گزارش خطا',
+    ISCORRECT: 'درست است',
+    ISINCORRECT: 'درست نیست',
 
     TRANSFERERROR: "خطا در انتقال",
 
     DASHBOARD: 'داشبورد',
     TRANSFERSUCCESSFUL:  "انتقال موفق",
     CHARTNOTAVAILABLE: 'نمودار موجود نیست',
-    TARGETNUMBER: 'هدف شماره '
+    TARGETNUMBER: 'هدف شماره ',
+
+    SUBMITANSWERSANDCONTINUE: 'ارسال پاسخ (ها) و ادامه',
+    NORETURN: 'خیر، بازگشت',
+
+    ACTOR: 'بازیگر',
+    SINGER: 'خواننده',
+    POLITICIAN: 'سیاست مدار'
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'تاریخچه تراکنش ها'

@@ -50,12 +50,16 @@ export const locale = {
     LABELINGSTATUS: 'Labeling Status',
     YOURSCORE: 'Your Score',
     CHOOSEATARGET: 'Choose A Target',
+    TARGETING: 'Targeting',
     SENDTOWALLET: 'Send To Wallet',
     MAXIMUMREVENUE: 'Maximum Revenue',
     NOTRANSACTIONS: 'No Transactions!',
     TOTALLABELS: 'Total Labels',
     GOTONEXTLIST: 'Next List',
     SUBMITANSWERS: 'Submit Answers',
+
+    YOURANSWERSCOUNT: 'Your Answers Count',
+    YOURCURRENTTARGET: 'Your Current Target',
 
     CREDIT: 'Credit',
 
@@ -67,13 +71,22 @@ export const locale = {
     YES: 'Yes',
     NO: 'No',
     REPORT: 'Report Problem',
+    ISCORRECT: 'Correct',
+    ISINCORRECT: 'Incorrect',
 
     TRANSFERERROR: "Transfer Error",
 
     DASHBOARD: 'Dashboard',
     TRANSFERSUCCESSFUL:  "Transfer Successful",
     CHARTNOTAVAILABLE: 'Chart Not Available',
-    TARGETNUMBER: 'Target #'
+    TARGETNUMBER: 'Target #',
+
+    SUBMITANSWERSANDCONTINUE: 'Submit Answers And Continue',
+    NORETURN: 'No, Return',
+
+    ACTOR: 'Actor',
+    SINGER: 'Singer',
+    POLITICIAN: 'Politician'
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'Transactions History'

@@ -6,7 +6,6 @@ const Utils = {
         inject('utils', Utils);
         context.$utils = Utils;
 
-        console.log(context, context.app.i18n.t)
         Utils.context = context;
     },
 
@@ -191,7 +190,6 @@ const Utils = {
          * @returns {boolean | string}
          */
         iranmobile: value => {
-            console.log(this);
             const pattern = /^09\d{9}$/;
             return pattern.test(value) || Utils.context.app.i18n.t('VALIDATION.EXAMPLEVALIDMOBILE');
         },

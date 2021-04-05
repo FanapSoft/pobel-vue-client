@@ -22,10 +22,10 @@
         <p class="target-counter" style="margin-bottom: 0">
           <label
             id="targetCount"
-            data-title="هدف تعیین شده برای این مجموعه داده"
+            :data-title="$t('GENERAL.YOURCURRENTTARGET')"
             :data-value="target.answerCount">{{ target.answerCount }}</label><span>/</span><label
             id="answersCount"
-            data-title="تعداد پاسخ های شما تا این لحظه"
+            :data-title="$t('GENERAL.YOURANSWERSCOUNT')"
             data-value="284">{{ target.currentUserAnswersCount + localAnswersCount }}</label>
         </p>
       </div>

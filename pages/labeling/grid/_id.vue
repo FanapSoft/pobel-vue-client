@@ -1,17 +1,7 @@
 <template>
     <div class="container-old">
-      <div
-        v-if="!dataset || !userTargetDefinition"
-
-        style="display: flex; align-items: center; justify-content: center;">
-<!--        <v-progress-linear
-          indeterminate
-
-          size="20"
-          color="#ff257c"></v-progress-linear>-->
-      </div>
       <datasets-nav
-        v-else
+        v-if="dataset && userTargetDefinition"
 
         :dataset="dataset"
         :target="userTargetDefinition"
@@ -69,18 +59,18 @@
                 <div
                   @click="setItemAnswerTo(item, 'yes')"
 
-                  data-title="درست است"
+                  :data-title="$t('GENERAL.ISCORRECT')"
                   class="grid-images-overlay-icons grid-images-overlay-yes"></div>
                 <div
                   @click="setItemAnswerTo(item, 'no')"
 
-                  data-title="اشتباه است"
+                  :data-title="$t('GENERAL.ISINCORRECT')"
                   class="grid-images-overlay-icons grid-images-overlay-no"></div>
                 <div
                   @click="setItemAnswerTo(item, 'report')"
                   data-id="0"
 
-                  data-title="تصویر ایراد دارد"
+                  :data-title="$t('GENERAL.REPORT')"
                   class="grid-images-overlay-icons grid-images-overlay-report"></div>
               </div>
             </li>
@@ -359,15 +349,15 @@ export default {
           fieldName = fieldName.split('\\')[4];
           switch (fieldName) {
             case 'Actors':
-              this.labelType = 'بازیگر';
+              this.labelType = this.$t('GENERAL.ACTOR');
               break;
 
             case 'Singers':
-              this.labelType = 'خواننده';
+              this.labelType = this.$t('GENERAL.SINGER');
               break;
 
             case 'Politicians':
-              this.labelType = 'سیاست مدار';
+              this.labelType = this.$t('GENERAL.POLITICIAN');
               break;
           }
         }
@@ -400,29 +390,15 @@ export default {
           console.log(error)
         }
       }
-      /*let reports = null;
-      reports = this.labelQuestions.filter(item => item.isReport === true);
-      if(reports) {
-        let data = {
-          answers: finalAnswers
-        }
-
-        try{
-          //const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
-          isAnswersSubmited = true;
-        } catch (error) {
-          console.log(error)
-        }
-      }*/
     },
     async submitAnswers() {
       let continueModal = Modal({
-        title: 'ارسال پاسخ و ادامه',
+        title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),//'ارسال پاسخ (ها) و ادامه',
         body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
         fullscreen: true,
         actions: [
           {
-            title: 'ارسال پاسخ‌ها و ادامه',
+            title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
             class: ['active'],
             fn: async () => {
               await this.submitAnswersToServer();
@@ -432,7 +408,7 @@ export default {
             timeout: 5000
           },
           {
-            title: 'خیر، بازگشت',
+            title: this.$t('GENERAL.NORETURN'),
             class: ['noBorder'],
             fn: () => {
               continueModal.close();

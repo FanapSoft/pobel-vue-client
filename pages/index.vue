@@ -259,4 +259,11 @@ export default {
   }
 }
 
+@media (max-width: 800px) {
+  #pobel-logo {
+    max-width: 70% !important;
+    float: none  !important;;
+    margin: 50px auto  !important;;
+  }
+}
 </style>

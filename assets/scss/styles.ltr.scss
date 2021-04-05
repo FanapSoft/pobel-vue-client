@@ -52,13 +52,18 @@
   float: right;
 }
 
+[data-title]:after {
+  left: auto;
+  right: -100%;
+}
+
 .row-old [class^="col"] {
   float: left;
 }
 
 .stage-wrappers span {
   right: auto;
-  left: 0px;
+  left: -7px;
 }
 
 .dataset-name:before {
@@ -82,7 +87,7 @@
 
 .modalClose:after {
   left: auto;
-  right: 12px;
+  right: 19px;
 }
 
 .help-icon {
