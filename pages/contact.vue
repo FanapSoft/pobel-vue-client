@@ -7,7 +7,7 @@
             <ul>
               <li>تهران، پردیس، پارک فناوری پردیس، نوآوری 11، پلاک 114، شرکت فناوری اطلاعات و ارتباطات پاسارگاد آریان (فناپ)</li>
               <li>{{$t('GENERAL.POSTALCODE')}}: 1654120840</li>
-              <li>{{$t('GENERAL.PHONE')}}: 7-02176250513</li>
+              <li>{{$t('GENERAL.PHONE')}}: <span style="display: inline-block; direction: ltr !important;">02176250513-7</span></li>
             </ul>
           </div>
         </div>
