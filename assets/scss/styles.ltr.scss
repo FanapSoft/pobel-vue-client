@@ -219,6 +219,25 @@
   left: 5px;
 }
 
+.question-history li.completed:before {
+  left: auto !important;
+  right: 15px !important;
+}
+
+.yes-no-type button svg {
+  padding: 5px 0 5px 10px;
+}
+
+.question-list-items-sentence.completed {
+  padding-left: 15px !important;
+  padding-right: 40px !important;
+}
+
+.question-history-avatar {
+  margin-right: 10px;
+  margin-left: 0;
+}
+
 @media screen and (max-width: 769px) {
   .wrapper {
     /*width: 90%;*/

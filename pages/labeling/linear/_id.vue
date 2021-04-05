@@ -1,5 +1,5 @@
 <template>
-  <div class="container-old">
+  <v-container>
     <div
       v-if="!dataset || !userTargetDefinition"
 
@@ -132,19 +132,19 @@
 
         @click="changeQuestion"
 
-        class="answer">برو به لیست بعدی</button>
+        class="answer">{{ $t('GENERAL.GOTONEXTLIST') }}</button>
       <button
         v-else
 
-        @click="submitAnswers">ارسال پاسخ ها</button>
+        @click="submitAnswers">{{ $t('GENERAL.SUBMITANSWERS') }}</button>
 
       <button
         @click="setItemAnswerTo('report')">
-        گزارش
+        {{ $t('GENERAL.REPORT') }}
         <svg width="24" height="24" viewBox="0 0 24 24"><defs><path id="flag-a" d="M20.4 2.1c-.4-.2-.8-.1-1.1.2 0 0-.9.7-3.3.7-1.3 0-2.4-.5-3.6-.9C11.1 1.5 9.7 1 8 1 4.8 1 3.5 2.1 3.3 2.3c-.2.2-.3.4-.3.7v19c0 .6.4 1 1 1s1-.4 1-1v-6.5c.4-.2 1.4-.5 3-.5 1.3 0 2.4.5 3.6.9 1.3.5 2.7 1.1 4.4 1.1 3.2 0 4.5-1.1 4.7-1.3.2-.2.3-.4.3-.7V3c0-.4-.2-.7-.6-.9zM19 14.5c-.4.2-1.4.5-3 .5-1.3 0-2.4-.5-3.6-.9C11.1 13.5 9.7 13 8 13c-1.3 0-2.3.2-3 .4V3.5c.4-.2 1.4-.5 3-.5 1.3 0 2.4.5 3.6.9C12.9 4.5 14.3 5 16 5c1.3 0 2.3-.2 3-.4v9.9z"></path></defs><g fill="none" fill-rule="evenodd"><mask id="flag-b" fill="#fff"><use xlink:href="#flag-a"></use></mask><use fill="#000" fill-rule="nonzero" xlink:href="#flag-a"></use><g fill="#4A4A4A" mask="url(#flag-b)"><path d="M0 0h24v24H0z"></path></g></g></svg>
       </button>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -370,12 +370,12 @@ export default {
     },
     async submitAnswers() {
       let continueModal = Modal({
-        title: 'ارسال پاسخ و ادامه',
+        title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
         body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
         fullscreen: true,
         actions: [
           {
-            title: 'ارسال پاسخ‌ها و ادامه',
+            title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
             class: ['active'],
             fn: async () => {
               await this.submitAnswersToServer();
@@ -385,7 +385,7 @@ export default {
             timeout: 5000
           },
           {
-            title: 'خیر، بازگشت',
+            title: this.$t('GENERAL.NORETURN'),
             class: ['noBorder'],
             fn: () => {
               continueModal.close();
@@ -396,23 +396,6 @@ export default {
           continueModal.close();
         }
       });
-
-
-      //let reports = [];
-      /*      answers = this.labelQuestions.filter(item => item.answer === true);
-            //TODO: make sure user can not reach here without answers
-            if(answers.length) {
-              let data = {
-                answers: answers
-              }
-
-              try{
-                const submitionResult = await this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
-                window.location.reload();
-              } catch (error) {
-                console.log(error)
-              }
-            }*/
     },
     updateLocalAnswersCount() {
       this.localAnswersCount = 0;
@@ -520,6 +503,13 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 750px) {
+  .question-history {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 .question-wrapper img {
   margin: 15px 0 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
