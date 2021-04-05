@@ -7,14 +7,12 @@
       </h4>
     </v-col>
     <v-col cols="6" class=" back-btn-wrapper">
-<!--            :small="$vuetify.breakpoint.smAndUp"
-        :x-small="$vuetify.breakpoint.xsOnly"
-          -->
       <v-btn
         dark fab depressed x-small
 
         @click="showHelpModal"
-        class="back-btn ml-3 ">
+
+        class="" :class="{'ml-3': $isRTL, 'mr-3 ml-0': !$isRTL}">
         <v-icon>mdi-help</v-icon>
       </v-btn>
       <div class="stats-wrapper">
@@ -24,16 +22,16 @@
         <p class="target-counter" style="margin-bottom: 0">
           <label
             id="targetCount"
-            data-title="هدف تعیین شده برای این مجموعه داده"
+            :data-title="$t('GENERAL.YOURCURRENTTARGET')"
             :data-value="target.answerCount">{{ target.answerCount }}</label><span>/</span><label
             id="answersCount"
-            data-title="تعداد پاسخ های شما تا این لحظه"
+            :data-title="$t('GENERAL.YOURANSWERSCOUNT')"
             data-value="284">{{ target.currentUserAnswersCount + localAnswersCount }}</label>
         </p>
       </div>
       <button
         @click="()=> $router.push(`/dataset/${dataset.id}`)"
-        class="back-btn">🡠</button>
+        class="back-btn">{{ $isRTL ? '🡠' : '🡢'}}</button>
     </v-col>
   </v-row>
 </template>
@@ -88,7 +86,7 @@ export default {
 
     showHelpModal(){
       let continueModal = Modal({
-        title: 'راهنما',
+        title: this.$t('HELP.HELP'),
         body: `در مجموعه داده فعلی برای برچسب زنی شما گزینه های زیر را دارید:
         <br />
         <span class="help-icon " >✓</span>
@@ -110,12 +108,11 @@ export default {
         fullscreen: true,
         actions: [
           {
-            title: 'متوجه شدم',
+            title: this.$t('HELP.OK'),
             class: ['active'],
             fn: async () => {
               continueModal.close();
             },
-
           },
         ],
         closeBtnAction: () => {

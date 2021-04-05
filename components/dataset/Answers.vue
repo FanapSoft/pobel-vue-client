@@ -1,7 +1,7 @@
 <template>
   <v-row class="dataset-answers" v-if="userAnswers.length">
     <v-col cols="12" class="">
-      <h3>پاسخ های شما: </h3>
+      <h3>{{ $t('GENERAL.YOURANSWERS') }}: </h3>
       <ul
         class="dataset-answers-history"
         style="padding-left: 0"

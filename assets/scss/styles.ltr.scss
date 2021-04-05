@@ -1,0 +1,248 @@
+@import "~/assets/styles/cssgrid.css"; //From old project
+@import "~/assets/styles/general.css"; //From old project
+@import "~/assets/styles/nprogress.css"; //From old project
+@import "~/assets/styles/questions.css"; //From old project
+
+@import "general";
+
+#app{
+  font-family: "IranSans";
+}
+
+.v-application {
+  font-family: 'IranSans', Helvetica, sans-serif !important;
+
+  .title {
+    font-family: 'IranSans', Helvetica, sans-serif !important;
+  }
+}
+
+
+#app {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper {
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  flex: 1 0 auto;
+}
+
+.v-application ul, .v-application ol {
+  padding-left: 24px;
+}
+
+.nav li {
+  margin-left: 0;
+  margin-right: 24px;
+  float: left;
+}
+
+.short-menu  li {
+  margin-right: 0;
+  margin-left: 24px;
+}
+
+#pobel-logo {
+  float: right;
+}
+
+[data-title]:after {
+  left: auto;
+  right: -100%;
+}
+
+.row-old [class^="col"] {
+  float: left;
+}
+
+.stage-wrappers span {
+  right: auto;
+  left: -7px;
+}
+
+.dataset-name:before {
+  right: auto;
+  left: -5px;
+}
+
+.dataset-history-wrapper button {
+  left: auto;
+  right: 16px;
+}
+
+.back-btn {
+  margin-right: 0;
+  margin-left: 5px;
+}
+
+.target-counter, .timer {
+  padding: 0 15px 0 0 ;
+}
+
+.modalClose:after {
+  left: auto;
+  right: 19px;
+}
+
+.help-icon {
+  margin: 8px 8px 8px 0 ;
+}
+
+.modalBtn {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+.faq .accordion li {
+  padding-right: 0;
+  padding-left: 15px;
+}
+
+.accordion li:nth-child(1) .mark {
+  right: auto;
+  left: -10px;
+}
+
+.accordion li:nth-child(2) .mark {
+  right: auto;
+  left: -10px;
+}
+
+.accordion li:nth-child(3) .mark {
+  right: auto;
+  left: -20px;
+}
+
+.accordion li:nth-child(4) .mark {
+  right: auto;
+  left: -20px;
+}
+
+.accordion li:nth-child(5) .mark {
+  right: auto;
+  left: -5px;
+}
+
+.accordion li:nth-child(6) .mark {
+  right: auto;
+  left: 0;
+}
+
+.accordion li:nth-child(7) .mark {
+  right: auto;
+  left: -5px;
+}
+
+.accordion li:nth-child(8) .mark {
+  right: auto;
+  left: -15px;
+}
+
+.accordion li:nth-child(9) .mark {
+  right: auto;
+  left: -10px;
+}
+
+.accordion li:nth-child(10) .mark {
+  right: auto;
+  left: -5px;
+}
+
+.accordion li:nth-child(11) .mark {
+  right: auto;
+  left: 0px;
+}
+
+.accordion li:nth-child(12) .mark {
+  right: auto;
+  left: -25px;
+}
+
+.accordion li:nth-child(13) .mark {
+  right: auto;
+  left: -5px;
+}
+
+.datasets-list .datasets-list-items {
+  text-align: left;
+}
+
+.datasets-list.mini .datasets-list-items {
+  text-align: left;
+}
+
+.left-in-mobile {
+  text-align: right;
+}
+
+.items-status div.default:after {
+  right: auto ;
+  left: 5px ;
+}
+
+.items-status div.default.active:after {
+  right: auto ;
+  left: 6px ;
+}
+
+.question-history .completed:after {
+  right: auto !important;
+  left: 5px;
+}
+
+#pobel-scoreboard {
+  padding-left: 0;
+  padding-right: 10px;
+}
+
+#pobel-scoreboard:hover {
+  padding-left: 0;
+  padding-right: 5px;
+}
+
+#pobel-scoreboard li span.scoreboard-score {
+  float: right;
+}
+
+#pobel-scoreboard li::marker {
+  display: none !important;
+}
+
+.dataset-answers-history .dataset-answers-history-items > span.dataset-answers-history-items-result {
+  right: auto;
+  left: 5px;
+}
+
+@media screen and (max-width: 769px) {
+  .wrapper {
+    /*width: 90%;*/
+  }
+}
+
+@media screen and (max-width: 421px) {
+  .short-menu  li{
+    margin-left: 14px;
+    margin-right: 0 !important;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .nav .links {
+    padding-left: 0;
+  }
+
+  .nav li {
+    margin-right: 10px;
+  }
+
+  .nav li:last-child {
+    margin-right: 0;
+  }
+
+}

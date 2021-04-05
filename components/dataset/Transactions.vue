@@ -1,8 +1,8 @@
 <template>
   <v-row id="trasactions-history">
     <v-col cols="12">
-      <h3>تاریخچه‌ی تراکنش‌ها</h3>
-      <v-card elevation="0" class="pa-4 my-8">
+      <h3>{{$t('TRANSACTIONS.TRANSACTIONSHISTORY')}}</h3>
+      <v-card elevation="0" class="pa-4 my-8 mt-5">
         <v-data-table
           v-if="transactions && transactions.length"
 
@@ -14,14 +14,14 @@
 
           :headers="[
           {
-            text: 'مجموعه داده',
+            text: $t('DATASET.DATASETPER'),
             align: 'start',
             sortable: false,
             value: 'dataset',
           },
-          { text: 'توضیحات', value: 'description' },
-          { text: 'مبلغ', value: 'amount'},
-          { text: 'تاریخ', value: 'date' },
+          { text: $t('GENERAL.DESCRIPTION'), value: 'description' },
+          { text: $t('GENERAL.AMOUNT'), value: 'amount'},
+          { text: $t('GENERAL.DATE'), value: 'date' },
         ]"
           :items="transactions"
           :items-per-page="5"
@@ -42,7 +42,7 @@
                 v-else class="reason">...</span>
           </template>
           <template v-slot:item.description="{ item }">
-            <span class="description">{{ item.reasonDescription || 'توضیحات' }}</span>
+            <span class="description">{{ item.reasonDescription || $t('GENERAL.DESCRIPTION') }}</span>
           </template>
           <template v-slot:item.amount="{ item }">
             <span class="credit-amount">
@@ -50,13 +50,14 @@
             </span>
           </template>
           <template v-slot:item.date="{ item }">
-            <span class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
+            <span v-if="$langIsFa" class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
+            <span v-else class="time">{{ new Date(item.creationTime).toLocaleDateString('en-US')}}</span>
           </template>
         </v-data-table>
         <p
           v-else
 
-          class="no-transaction" style="margin-bottom: 0">تراکنشی موجود نیست!</p>
+          class="no-transaction" style="margin-bottom: 0">{{ $t('GENERAL.NOTRANSACTIONS') }}</p>
       </v-card>
 
 <!--      <ul id="transactions-table">
@@ -152,10 +153,16 @@ export default {
 .transactions-list .v-data-table__wrapper > table > tbody > tr {
 
    td,  th {
-    text-align: center ;
+    text-align: center !important;
   }
-  th {
+}
 
+[dir="rtl"] .v-application .transactions-list .v-data-table__wrapper > table > tbody > tr,
+[dir="ltr"] .v-application .transactions-list .v-data-table__wrapper > table > tbody > tr,
+[dir="ltr"] .v-application .transactions-list .v-data-table__wrapper > table > thead > tr {
+
+  td.text-start, th.text-start {
+    text-align: center !important;
   }
 }
 

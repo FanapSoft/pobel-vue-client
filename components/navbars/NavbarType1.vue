@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav class="nav mx-auto" style="max-width: 1200px; ">
     <ul
       v-if="!$vuetify.breakpoint.smAndDown" class="links">
       <template
@@ -25,7 +25,8 @@
         </template>
       </ul>
       <v-navigation-drawer
-        app right
+        app
+        :right="$isRTL"
         v-model="navigationDrawer"
 
       style="z-index: 3">
@@ -50,19 +51,65 @@
       </v-navigation-drawer>
     </template>
 
-    <ul style="padding-left: 0">
+    <ul class="short-menu" style="padding-left: 0">
+      <li >
+        <v-menu
+          style="z-index: 99999"
+          transition="slide-y-transition"
+          bottom
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-img
+              v-bind="attrs"
+              v-on="on"
+
+              :src="languageFlag || getLanguageFlag"
+
+              min-width="25"
+              min-height="23"
+              max-width="25"
+              max-height="23"
+              class="h-20px w-20px rounded-sm"
+              style="cursor: pointer"
+            />
+<!--            <img width="23" height="23" :src="languageFlag || getLanguageFlag">-->
+          </template>
+          <v-list >
+            <v-list-item
+              dense
+
+              v-for="(item, i) in languages"
+
+              :key="i"
+              @click="selectedLanguage(item)">
+              <v-list-item-avatar rounded>
+                <v-img
+                  :src="item.flag"
+                  :alt="item.lang"
+
+                  max-height="23"
+                  max-width="25"/>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>{{ $t(item.translationKey) }}</v-list-item-title>
+              </v-list-item-content>
+
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </li>
       <li v-if="isAuthenticated">
-        <NuxtLink to="/dashboard">سلام
+        <NuxtLink to="/dashboard">{{ $t('USER.HELLO') }}
           {{user.name}}
         </NuxtLink>
       </li>
       <li>
         <NuxtLink
-          v-if="!isAuthenticated" to="/auth/login">ورود</NuxtLink>
+          v-if="!isAuthenticated" to="/auth/login">{{$t('AUTH.LOGIN')}}</NuxtLink>
         <NuxtLink
           v-else
 
-          to="/auth/logout">خروج</NuxtLink>
+          to="/auth/logout">{{$t('AUTH.LOGOUT')}}</NuxtLink>
       </li>
     </ul>
   </nav>
@@ -78,27 +125,22 @@ export default {
       navigationDrawer: false,
       items: [
         {
-          title: "صفحه اصلی",
+          title: this.$t('MENU.HOME'),
           link: "/"
         },
         {
-          title: "مشارکت",
+          title: this.$t('MENU.PARTICIPATION'),
           link: "/datasets",
           onlyLoggedIns: true
         },
         {
-          title: "سوالات متداول",
+          title: this.$t('MENU.FAQ'),
           link: "/faq"
         },
         {
-          title: "تماس با ما",
+          title: this.$t('MENU.CONTACTUS'),
           link: "/contact"
         },
-        {
-          title: "",
-          link: ""
-        },
-
       ],
       leftItems: [
         {
@@ -110,14 +152,53 @@ export default {
           link: ""
         },
 
-      ]
+      ],
+      languages: this.$i18nService.languages,
+      languageFlag: "",
     }
   },
   computed: {
     ...mapGetters({
       user: "auth/currentUser",
       isAuthenticated: "auth/isAuthenticated"
-    })
+    }),
+    activeLanguage() {
+      return this.$i18nService.getActiveLanguage();
+    },
+    getLanguageFlag() {
+      return this.onLanguageChanged();
+    }
+  },
+  methods: {
+    selectedLanguage(item) {
+/*
+      const el = e.target.closest(".navi-link");
+      const lang = el.getAttribute("data-lang");
+*/
+
+      this.$i18nService.setActiveLanguage(item.lang);
+
+      this.languageFlag = this.languages.find(val => {
+        return val.lang === this.$i18nService.getActiveLanguage();
+      }).flag;
+
+      /*this.$emit(
+        "language-changed",
+        this.languages.find(val => {
+          return val.lang === lang;
+        })
+      );*/
+
+      window.location.reload();
+    },
+    onLanguageChanged() {
+      this.languageFlag = this.languages.find(val => {
+        return val.lang === this.$i18nService.getActiveLanguage();
+      }).flag;
+    },
+    isActiveLanguage(current) {
+      return this.activeLanguage === current;
+    }
   }
 }
 </script>
@@ -185,7 +266,8 @@ header:after {
 .nav li {
   display: inline-block;
   position: relative;
-  margin-left: 24px;
+  margin-left: 0;
+  margin-right: 24px;
   list-style: none;
   float: right;
   z-index: 1;
@@ -209,8 +291,18 @@ header:after {
 
 .links li {
   float: none;
-  margin-left: 0;
+  margin-left: 24px;
+  margin-right: 0;
+}
+
+.short-menu{
+  display: flex;
+  align-items: center;
+}
+
+.short-menu  li{
   margin-right: 24px;
+  margin-left: 0;
 }
 
 @media screen and (max-width: 421px) {
@@ -221,6 +313,12 @@ header:after {
   .nav li {
     margin-left: 16px;
   }
+
+  .short-menu  li{
+    margin-right: 14px;
+    margin-left: 0;
+  }
+
   .links li {
     margin-left: 0;
     margin-right: 16px;

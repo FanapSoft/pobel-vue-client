@@ -25,8 +25,11 @@
 import TopBarHome from "../components/TopBarHome";
 import Footer from "../components/Footer";
 
+import directionality from "~/mixins/directionality"
+
 export default {
   components: {Footer, TopBarHome},
+  mixins: [directionality],
   data () {
     return {
       // clipped: false,
@@ -47,7 +50,5 @@ export default {
       title: 'پابل'
     }
   },
-  mounted() {
-  }
 }
 </script>

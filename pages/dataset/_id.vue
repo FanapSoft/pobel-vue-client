@@ -1,8 +1,9 @@
 <template>
   <div class="container-old datasets-wrapper">
     <div
-      style="display: flex; align-items: center; justify-content: center;"
-      v-if="!dataset" >
+      v-if="!dataset"
+
+      style="display: flex; align-items: center; justify-content: center;" >
       <v-progress-circular
         indeterminate
 
@@ -38,18 +39,18 @@
 
                 :to="`/labeling/grid/${dataset.id}`"
 
-                class="start-btn">شروع برچسب زنی</NuxtLink>
+                class="start-btn">{{$t('GENERAL.STARTLABELING')}}</NuxtLink>
             </template>
             <template v-else>
               <NuxtLink
 
                 to="#set-target"
 
-                class="start-btn">انتخاب تارگت</NuxtLink>
+                class="start-btn">{{ $t('GENERAL.CHOOSEATARGET') }}</NuxtLink>
             </template>
           </div>
           &nbsp;
-          <button class="back-btn" onclick="window.location.href='/datasets'">🡠</button>
+          <nuxt-link class="back-btn" to="/datasets">{{ $isRTL ? '🡠' : '🡢'}}</nuxt-link>
         </v-col>
       </v-row>
       <v-row class=" dataset-history">
@@ -57,30 +58,25 @@
           cols="12" sm="6"
           :class="{ 'pb-0': $vuetify.breakpoint.xs }">
           <div class="dataset-history-wrapper" id="set-show-target">
-            <small>هدف شما</small>
+            <small>{{ $t('GENERAL.YOURTARGET') }}</small>
             <p id="weekly-target">
-              <small id="weekly-target-count" data-title="هدف شما">{{ userTargetDefinition ? $utils.formatNumber(userTargetDefinition.answerCount) : '0' }}</small>/<span id="dashboard-all-answers" data-title="پاسخ‌های شما">{{ $utils.formatNumber(userAnswersCount) }}</span>
+              <small id="weekly-target-count" :data-title=" $t('GENERAL.YOURTARGET') ">{{ userTargetDefinition ? $utils.formatNumber(userTargetDefinition.answerCount) : '0' }}</small>/<span id="dashboard-all-answers" :data-title="$t('GENERAL.YOURANSWERS')">{{ $utils.formatNumber(userAnswersCount) }}</span>
             </p>
           </div>
-          <div class="dataset-history-wrapper"><small>وضعیت تگ زنی</small>
+          <div class="dataset-history-wrapper"><small>{{ $t('GENERAL.LABELINGSTATUS')}}</small>
             <p id="stats-status">
               <template v-if="dataset.labelingStatus">
-                فعال
+                {{ $t('GENERAL.ACTIVE') }}
               </template>
               <template v-else>
-                غیرفعال
+                {{ $t('GENERAL.INACTIVE') }}
               </template>
             </p>
           </div>
-          <div class="dataset-history-wrapper " style="margin-bottom: 0" id="collect-credit"><small>امتیاز شما</small>
+          <div class="dataset-history-wrapper " style="margin-bottom: 0" id="collect-credit"><small>{{ $t('GENERAL.YOURSCORE') }}</small>
             <p id="stats-credit">
               {{ userCredit ? $utils.formatNumber($utils.toFixed(userCredit)) : '0.00'}}
             </p>
-<!--            <button
-              @click="convertScoreToMoney"
-              id="collectCreditFromDataset"
-              class="set-target-btn">دریافت مبلغ اعتبار</button>-->
-
             <v-btn
               outlined x-small
 
@@ -90,7 +86,7 @@
               @click="convertScoreToMoney"
               id="cashout-btn"
               style="letter-spacing: 0;padding: 13px 10px"
-              class="set-target-btn">انتقال به کیف پول</v-btn>
+              class="set-target-btn">{{$t('GENERAL.SENDTOWALLET')}}</v-btn>
 
           </div>
         </v-col>
@@ -108,7 +104,7 @@
 
             <div class="" id="dataset-history-answers-chart">
               <h2
-                v-if="!userHasChart"><img src="~assets/images/nochart.svg" alt=""><br>نمودار موجود نیست!</h2>
+                v-if="!userHasChart"><img src="~assets/images/nochart.svg" alt=""><br>{{$t('GENERAL.CHARTNOTAVAILABLE')}}!</h2>
               <canvas
                 v-else
 
@@ -124,7 +120,7 @@
         class=" user-targets-wrapper"
         id="set-target">
         <v-col class="">
-          <h3>هدف گذاری</h3>
+          <h3>{{$t('GENERAL.TARGETING')}}</h3>
           <small>هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد
             برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.</small>
           <br>
@@ -141,27 +137,41 @@
                 @click="changeUserTargetTo(item)"
 
                 elevation="0"
-                class="mb-2 target-list-item">
+                class="mb-2 target-list-item ">
+                <div class="fire">
+
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                  <div class="particle"></div>
+                </div>
                 <v-row class="ma-0">
                   <v-col cols="9" >
                     <v-row class="ma-0">
                       <v-col cols="12" class="pa-0">
-                        {{ `هدف شماره ${index + 1}` }}
+                        {{ `${$t('GENERAL.TARGETNUMBER')}${index + 1}` }}
                       </v-col>
                       <v-col cols="12" class="pa-0">
                         <small style="font-size: 12px">
-                          حداکثر درآمد:
+                          {{ $t('GENERAL.MAXIMUMREVENUE') }}:
                           {{ $utils.formatNumber(item.uMax) }}
-                          ریال
+                          {{ $t('GENERAL.IRR') }}
                         </small>
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="3" class="text-center d-flex align-center justify-center" >
-                    <h3>{{ item.answerCount }}</h3>
+                    <h3>{{ $utils.formatNumber(item.answerCount) }}</h3>
                   </v-col>
                 </v-row>
               </v-card>
+
             </v-col>
           </v-row>
         </v-col>
@@ -232,6 +242,8 @@ export default {
     },
     async getChartData() {
       this.loading = true;
+      let lang = this.$langIsFa ? 'fa' : 'en';
+
       const data = {
         UserId: this.user.id,
         DataSetId: this.$route.params.id,
@@ -246,25 +258,27 @@ export default {
           let finalDataCounts = [];
 
           datasets.data.result.forEach(v => {
-            finalDataDates.push(this.$moment(v.date).locale('fa').format('DD MMMM YY'));
+            finalDataDates.push(this.$moment(v.date).locale(lang).format('DD MMMM YY'));
             finalDataCounts.push(v.count);
           });
 
           let fillUpDates = [];
+
+
 
           if (finalDataDates.length >= 1) {
             let currDate = this.$moment(new Date(datasets.data.result[0]['date'])).startOf("day");
             let lastDate = this.$moment(new Date(datasets.data.result[datasets.data.result.length - 1]['date'])).startOf("day");
 
             do {
-              fillUpDates.push(this.$moment(currDate.clone().toDate()).locale('fa').format('DD MMMM YY'));
+              fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
             } while (currDate.add(1, "days").diff(lastDate) < 0);
 
             if(finalDataDates.length > 1) {
-              fillUpDates.push(this.$moment(currDate.clone().toDate()).locale('fa').format('DD MMMM YY'));
+              fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
             }
           } else {
-            fillUpDates.push(this.$moment(new Date(datasets.data.result[0]['date'])).locale('fa').format('DD MMMM YY'));
+            fillUpDates.push(this.$moment(new Date(datasets.data.result[0]['date'])).locale(lang).format('DD MMMM YY'));
           }
           let chartDates = [],
             chartCount = [];
@@ -287,7 +301,7 @@ export default {
               data: {
                 labels: chartDates,
                 datasets: [{
-                  label: 'تعداد برچسب‌ها',
+                  label:  this.$t('GENERAL.TOTALLABELS') ,
                   data: chartCount,
                   backgroundColor: 'transparent',
                   borderColor: '#a02344',
@@ -357,50 +371,7 @@ export default {
       try {
         const credit = await this.$apiService.get('/api/services/app/Credit/GetCredit', data);
         if(credit.data && credit.data.result && credit.data.result.credit) {
-          this.userCredit = credit.data.result.credit;//this.$utils.formatNumber(this.$utils.toFixed(credit.data.result.credit));
-
-          /*if (credit.data.result.credit > 0) {
-            let collectCredit = document.createElement('button');
-            collectCredit.classList.add('set-target-btn');
-            collectCredit.setAttribute('id', 'collectCreditFromDataset');
-            collectCredit.innerText = 'دریافت مبلغ اعتبار';
-
-            collectCredit.onclick = () => {
-              this.$axios.post('/api/services/app/Credit/CollectCredit', {
-                userId: this.user.id,
-                dataSetId: this.$route.params.id
-              }).then(cre => {
-                if(!cre.error && cre.data.result.creditAmount > 0) {
-                  // Toastify({
-                  //   text: `امتیاز ${cre.data.result.creditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")} به حساب پابل شما منتقل گردید.<br>برای مشاهده به <a href="/dashboard">پروفایل</a> خود مراجعه نمائید.`,
-                  //   duration: 5000,
-                  //   gravity: 'top',
-                  //   position: 'left',
-                  //   backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
-                  //   onClick: () => {
-                  //   }
-                  // }).showToast();
-
-                  //document.getElementById('stats-credit').innerHTML = '0.00';
-                }
-              }).catch(error => {
-                if(error.data.error) {
-                  // Toastify({
-                  //   text: error.data.error.message,
-                  //   duration: 5000,
-                  //   gravity: 'top',
-                  //   position: 'left',
-                  //   backgroundColor: 'linear-gradient(to right, #EB3349 0%, #F45C43  100%)',
-                  //   onClick: () => {
-                  //   }
-                  // }).showToast();
-                }
-              })
-            };
-
-            // TODO: hide transactions Button
-            // document.getElementById('collect-credit').appendChild(collectCredit);
-          }*/
+          this.userCredit = credit.data.result.credit;
         }
       } catch (error) {
         console.log(error);
@@ -411,13 +382,13 @@ export default {
     async convertScoreToMoney() {
       if(!this.userCredit) {
         let continueModal = Modal({
-          title: "خطا",
+          title: this.$t('GENERAL.ERROR'),
           body: `هنوز امتیازی کسب نکرده اید`,
           backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
 
           actions: [
             {
-              title: 'بستن',
+              title: this.$t('GENERAL.CLOSE'),
               class: ['noBorder'],
               fn: () => {
                 continueModal.close();
@@ -441,7 +412,7 @@ export default {
         if(credit.data && credit.data.result) {
           if(credit.data.result.creditAmount > 0) {
             let continueModal = Modal({
-              title: "انتقال موفق",
+              title: this.$t('GENERAL.TRANSFERSUCCESSFUL'),
               body: `امتیاز
               ${credit.data.result.creditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")}
                به حساب پابل شما منتقل گردید.
@@ -453,7 +424,7 @@ export default {
               fullscreen: true,
               actions: [
                 {
-                  title: 'داشبورد',
+                  title: this.$t('GENERAL.DASHBOARD'),
                   class: ['active'],
                   fn: async () => {
                     continueModal.close()
@@ -461,7 +432,7 @@ export default {
                   },
                 },
                 {
-                  title: 'بستن',
+                  title: this.$t('GENERAL.CLOSE'),
                   class: ['noBorder'],
                   fn: () => {
                     continueModal.close();
@@ -479,12 +450,12 @@ export default {
           if(credit.data && credit.data.error && credit.data.error.message ) {
             if(credit.data.error.message.indexOf("You haven't reached the target yet.") !== -1) {
               let alertModal = Modal({
-                title: "خطا در انتقال",
+                title: this.$t('GENERAL.TRANSFERERROR'),
                 body: `پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید.`,
                 backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
                 actions: [
                   {
-                    title: 'بستن',
+                    title: this.$t('GENERAL.CLOSE'),
                     class: ['noBorder'],
                     fn: () => {
                       alertModal.close();
@@ -552,10 +523,7 @@ export default {
             id: targets.data.result.items[0].targetDefinitionId
           };
           let targetDefinition = await this.$apiService.get('/api/services/app/TargetDefinitions/Get', data);
-          //if(targetDefinition.data && targetDefinition.data.result) {
-          this.userTargetDefinition = targetDefinition.data.result
-          //this.targetAnswersCount = (targetDefinition.data.result ? targetDefinition.data.result.answerCount : '0');
-          //}
+          this.userTargetDefinition = targetDefinition.data.result;
         }
       } catch (error) {
         console.log(error);
@@ -579,22 +547,6 @@ export default {
         console.log(error)
       }
     },
-    /*async checkIsTargetReached() {
-      let data = {
-        DataSetId: this.$route.params.id
-      }
-
-      try {
-        const result = await this.$apiService.get('/api/services/app/Targets/GetCurrentTargetStatus', data);
-        if (result.data && result.data.result ) {
-          if(result.data.result.targetEnded) {
-            this.currentTargetReached = true;
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    }*/
   },
   async mounted() {
     this.getItem();
@@ -651,6 +603,15 @@ export default {
   vertical-align: text-top;
 }
 
+.dataset-history-wrapper button {
+  display: flex;
+}
+
+.back-btn {
+  display: flex;
+  justify-content: center;
+  color: #1c1c1c;
+}
 
 @media #{map-get($display-breakpoints, 'xs-only')} {
   .dataset-list-name {
@@ -667,6 +628,83 @@ export default {
     min-width: 40px;
     height: 40px;
     line-height: 42px;
+  }
+}
+
+
+
+/**
+Fire animation
+*/
+$fireColor: #ffe58a;//rgb(255,80,0);
+$fireColorT: rgba(255,80,0,0);
+$dur: 2s;
+$blur: 0.02em;
+$fireRad: 3em;
+$parts: 10;
+$partSize: 5em;
+
+
+.fire {
+  display: none;
+  font-size: 24px;
+  filter: blur($blur);
+  -webkit-filter: blur($blur);
+  margin: 3em auto 0 auto;
+  position: relative;
+  width: 10em;
+  height: 12em;
+}
+.target-list-item {
+  overflow: hidden;
+  .row {
+    z-index: 2;
+    position: relative;
+  }
+
+  .fire {
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: .4;
+  }
+
+  &:hover {
+    .fire {
+      display: block;
+    }
+  }
+}
+.particle {
+  animation: rise $dur ease-in infinite;
+  background-image: radial-gradient($fireColor 20%,$fireColorT 70%);
+  border-radius: 50%;
+  mix-blend-mode: screen;
+  opacity: 0;
+  position: absolute;
+  bottom: 0;
+  width: $partSize;
+  height: $partSize;
+  // spread particles out in time and x-position to get desired effect
+  @for $p from 1 through $parts {
+    &:nth-of-type(#{$p}) {
+      animation-delay: $dur * random();
+      left: calc((100% - #{$partSize}) * #{($p - 1)/$parts});
+    }
+  }
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0) scale(1);
+  }
+  25% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10em) scale(0);
   }
 }
 </style>

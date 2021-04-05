@@ -2,7 +2,7 @@
   <v-container class="datasets-wrapper" style="max-width: 60rem;">
     <div
       style="display: flex; align-items: center; justify-content: center;"
-      v-if="!datasets" >
+      v-if="!datasets">
       <v-progress-circular
         indeterminate
 
@@ -10,77 +10,87 @@
         color="#ff257c"></v-progress-circular>
     </div>
     <template v-else>
-      <h2 class="mr-5">دیتاست ها</h2>
+      <h2 :class="{'mr-7': $isRTL, 'ml-7': !$isRTL }">{{ $t('DATASET.DATASETSEN') }}</h2>
       <v-row class="datasets-list px-8 mt-4">
 
-          <v-col
-            :key="index"
+        <v-col
+          :key="index"
 
-            v-for="(ds, index) of datasets"
+          v-for="(ds, index) of datasets"
 
-            cols="12"
-            sm="4"
-            class="  ">
-            <div class="datasets-list-items">
-              <div
+          cols="12"
+          sm="4"
+          class="  ">
+          <div class="datasets-list-items">
+            <div
 
-                class="dataset-cover"
-                :style="{'background-image': (ds.coverItem ? `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.coverItem.id})` : 'none')}"
-                :id="`ds-cover-${ds.id}`">
+              class="dataset-cover"
+              :style="{'background-image': (ds.coverItem ? `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.coverItem.id})` : 'none')}"
+              :id="`ds-cover-${ds.id}`">
             <span
               v-if="ds.labelingStatus"
               class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
-              </div>
-
-              <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-              <v-container>
-                <v-row >
-                  <v-col cols="6">
-                    <p>هدف/<strong>پاسخ</strong><br/>
-                      <span :id="`ds-ur-answers-${ds.id}`">
-                  <template v-if="ds.targetSize && ds.userAnswersCount">
-                    <strong>{{$utils.formatNumber(ds.userAnswersCount) }}</strong>/{{ $utils.formatNumber(ds.targetSize) }}
-                  </template>
-                  <template v-else>
-                    0/0
-                  </template>
-                </span>
-                    </p>
-                  </v-col>
-                  <v-col cols="6">
-                    <p class="left-in-mobile">اعتبار<br/><span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span> تومان</p>
-                  </v-col>
-                </v-row>
-              </v-container>
-
-              <!-- Actions -->
-              <div
-                v-if="ds.targetSize && ds.userAnswersCount && ds.userAnswersCount <= ds.targetSize"
-                class="row-old dataset-actions-list" :id="`ds-{{id}}`">
-                <div
-                  v-if="ds.labelingStatus"
-
-                  class="col-12-old">
-                  <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn">شروع</NuxtLink>
-                </div>
-                <div
-                  v-else
-
-                  class="col-12-old">
-                  <a href="" class="start-btn disabled">غیرفعال است</a>
-                </div>
-              </div>
             </div>
 
-          </v-col>
-        </v-row>
+            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">
+              {{ ds.name }}
+            </NuxtLink>
+            <v-container>
+              <v-row>
+                <v-col cols="6">
+                  <p class="mb-0">
+                    <span style="display: flex;">
+                    <span>{{ $t('GENERAL.TARGET') }}</span><span>/</span><strong>{{ $t('GENERAL.ANSWER') }}</strong>
+                    </span>
+                    <span :id="`ds-ur-answers-${ds.id}`" style="display: flex; ">
+                      <template
+                        v-if="ds.targetSize && ds.userAnswersCount">
+                        <span>{{$utils.formatNumber(ds.targetSize) }}</span><span>/</span><strong>{{ $utils.formatNumber(ds.userAnswersCount) }}</strong>
+                      </template>
+                      <template
+                        v-else>
+                        0/0
+                      </template>
+                    </span>
+                  </p>
+                </v-col>
+                <v-col cols="6">
+                  <p class="left-in-mobile mb-0">{{$t('GENERAL.CREDIT')}}
+                    <br/>
+                    <span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span>
+                    {{ $t('GENERAL.IRR') }}</p>
+                </v-col>
+              </v-row>
+            </v-container>
+
+            <!-- Actions -->
+            <div
+              v-if="ds.targetSize && ds.userAnswersCount && ds.userAnswersCount <= ds.targetSize"
+              class="row-old dataset-actions-list" :id="`ds-{{id}}`">
+              <div
+                v-if="ds.labelingStatus"
+
+                class="col-12-old">
+                <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn text-center">{{ $t('GENERAL.START') }}</NuxtLink>
+              </div>
+              <div
+                v-else
+
+                class="col-12-old">
+                <a href="" class="start-btn disabled">{{ $t('GENERAL.INACTIVE') }}</a>
+              </div>
+            </div>
+          </div>
+
+        </v-col>
+      </v-row>
     </template>
   </v-container>
 </template>
 
 <script>
 import NavbarType1 from "../components/navbars/NavbarType1";
-import { mapGetters } from "vuex"
+import {mapGetters} from "vuex"
 
 export default {
   components: {NavbarType1},
@@ -107,15 +117,15 @@ export default {
       }
       try {
         const datasets = await this.$apiService.get('/api/services/app/DataSets/GetAll', data);
-        if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
-          for(let item of datasets.data.result.items)  {
+        if (datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
+          for (let item of datasets.data.result.items) {
             item.answerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.answerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             item.coverItem = await this.getDatasetCoverItem(item.id);
             item.targetSize = await this.getUserTarget(item.id);
-            if(item.targetSize) {
+            if (item.targetSize) {
               item.userAnswersCount = await this.getUserAnswersCount(item.id);
 
-              if(item.userAnswersCount) {
+              if (item.userAnswersCount) {
                 item.userCredit = await this.getUserCredit(item.id);
               }
             }
@@ -139,7 +149,7 @@ export default {
       //TODO: needs improvement
       try {
         let datasetItems = await this.$apiService.get('/api/services/app/DataSetItems/GetAll', data);
-        if(datasetItems.data && datasetItems.data.result && datasetItems.data.result.items) {
+        if (datasetItems.data && datasetItems.data.result && datasetItems.data.result.items) {
           data.SkipCount = Math.floor(Math.random() * datasetItems.data.result.totalCount);
           datasetItems = await this.$apiService.get('/api/services/app/DataSetItems/GetAll', data);
           return (datasetItems.data.result ? datasetItems.data.result.items[0] : null)
@@ -160,7 +170,7 @@ export default {
 
       try {
         const targets = await this.$apiService.get('/api/services/app/Targets/GetAll', data);
-        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
+        if (targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
           data = {
             id: targets.data.result.items[0].targetDefinitionId
           };
@@ -183,7 +193,7 @@ export default {
 
       try {
         const answers = await this.$apiService.post('/api/services/app/Answers/Stats', data);
-        if(answers.data && answers.data.result) {
+        if (answers.data && answers.data.result) {
           return answers.data.result.totalCount;
         }
       } catch (error) {
@@ -200,7 +210,7 @@ export default {
 
       try {
         const credit = await this.$apiService.get('/api/services/app/Credit/GetCredit', data);
-        if(credit.data && credit.data.result) {
+        if (credit.data && credit.data.result) {
           return credit.data.result.credit;
         }
       } catch (error) {

@@ -24,11 +24,8 @@
         </p>
       </v-col>
     </v-row>
-
     <!-- Section 2 Datasets Preview -->
-
     <datasets></datasets>
-
     <!-- Section 3 Labeling & Datasets -->
     <v-row
       class="mx-0"
@@ -51,17 +48,13 @@
         </p>
       </v-col>
     </v-row>
-
     <!-- Section 4 Pobel Scoreboard -->
-<!--    {{#isLoggedIn}}-->
     <v-row
       v-if="isAuthenticated"
 
       class="mx-0">
       <users></users>
     </v-row>
-<!--    {{/isLoggedIn}}-->
-
     <!-- Section 5 Pobel Business Model -->
     <v-row >
       <v-col cols="12">
@@ -110,7 +103,7 @@ import "../plugins/fluid"
 export default {
   layout: "home",
   auth: false,
-  data(){
+  data() {
     return {
       logo: `<svg svg-inline svg-sprite src="~assets/images/logo.svg" class="logo" />`
     }
@@ -266,4 +259,11 @@ export default {
   }
 }
 
+@media (max-width: 800px) {
+  #pobel-logo {
+    max-width: 70% !important;
+    float: none  !important;;
+    margin: 50px auto  !important;;
+  }
+}
 </style>

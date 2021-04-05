@@ -107,7 +107,7 @@
 
       <v-row class=" header">
         <v-col sm="12" class=" dataset-list-name">
-          <h3>خوش آمدید<small>{{ user.fullName }}</small></h3>
+          <h3>{{ $t('USER.WELCOME')}}<small>{{ user.fullName }}</small></h3>
         </v-col>
       </v-row>
 
@@ -116,17 +116,17 @@
           <v-card
             elevation="0"
             class="dataset-history-wrapper "
-            style="border-radius: 10px"><small>نام کاربری: </small>
+            style="border-radius: 10px"><small>{{$t('USER.USERNAME')}}: </small>
             <p id="stats-all">{{ user.userName }}</p>
           </v-card>
           <v-card
             elevation="0"
             class="dataset-history-wrapper "
             style="border-radius: 10px">
-            <small>وضعیت اکانت: </small>
+            <small>{{$t("USER.ACCOUNTSTATUS")}}: </small>
             <p id="stats-status">
-              <template v-if="user.isActive">فعال</template>
-              <template v-else>غیرفعال</template>
+              <template v-if="user.isActive">{{$t('GENERAL.ACTIVE')}}</template>
+              <template v-else>{{$t('GENERAL.INACTIVE')}}</template>
             </p>
           </v-card>
         </v-col>
@@ -137,21 +137,21 @@
             class="dataset-history-wrapper "
             style="border-radius: 10px">
             <small>تعداد پاسخ های ثبت شده: </small>
-            <p id="stats-answers">{{ answersCount }}</p>
+            <p id="stats-answers">{{ answersCount.toLocaleString() }}</p>
           </v-card>
           <v-card
             elevation="0"
-            class="dataset-history-wrapper "
+            class="dataset-history-wrapper"
             style="border-radius: 10px"
             id="cash-out-wrapper">
-            <small>اعتبار کیف پول: </small>
+            <small class="pl-1">{{$t('USER.WALLETCREDIT')}}: </small>
             <p id="wallet-credit">
               <template
                 v-if="!walletCredit">
-                0 <small>تومان</small>
+                0 <small>{{ $t('GENERAL.IRT') }}</small>
               </template>
               <template
-                v-else>{{ walletCredit }}<small>ریال</small>
+                v-else>{{ walletCredit }}<small>{{$t('GENERAL.IRR')}}</small>
               </template>
             </p>
 
@@ -167,7 +167,7 @@
 
                   id="cashout-btn"
                   style="letter-spacing: 0;padding: 13px 10px"
-                  class="set-target-btn">انتقال به کیف پول پاد</v-btn>
+                  class="set-target-btn">{{$t('USER.TRANSFERTOPODWALLET')}}</v-btn>
               </template>
 
               <v-card>
@@ -189,7 +189,7 @@
                        ]"
                        dir="ltr"
 
-                      label="تلفن همراه"
+                      :label="$t('GENERAL.MOBILE')"
                       v-model="userPhoneNumber"></v-text-field>
                   </v-form>
                 </v-card-text>
@@ -203,7 +203,7 @@
                     @click="requestCashout"
 
                     color="primary">
-                    ثبت
+                    {{ $t('GENERAL.SUBMIT') }}
                   </v-btn>
                 </v-card-actions>
               </v-card>
@@ -248,12 +248,12 @@ export default {
       creditModalKey: false
     }
   },
-  beforeRouteEnter(to, from, next) {
+ /* beforeRouteEnter(to, from, next) {
     console.log("before route called");
     const previousRoute = from.path || from.fullPath
     console.log(`Previous Route ${previousRoute}`)
     next()
-  },
+  },*/
   methods: {
     async getWalletBalance() {
       let data = {
@@ -454,8 +454,10 @@ export default {
 }
 #cashout-btn {
   color: #000;
+  display: flex;
 }
 #cashout-btn:hover {
   color: #ffe58a;
 }
+
 </style>

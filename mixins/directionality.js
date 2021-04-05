@@ -1,16 +1,4 @@
-<template>
-  <v-app class="app">
-    <main class="wrapper">
-      <nuxt />
-    </main>
-  </v-app>
-</template>
-
-<script>
 export default {
-  data () {
-    return {}
-  },
   mounted() {
     let body = document.querySelector('body');
     if (this.$isRTL) {
@@ -29,9 +17,9 @@ export default {
       body.style.direction = "ltr";
       body.classList.add("ltr");
 
+
       import("~/assets/scss/styles.ltr.scss")
       this.$vuetify.rtl = false;
     }
   }
 }
-</script>

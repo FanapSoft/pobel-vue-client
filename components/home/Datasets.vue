@@ -1,7 +1,7 @@
 <template>
   <v-row id="pobel-preview-datasets">
     <v-col class="px-0">
-      <h3>مجموعه داده‌ها</h3>
+      <h3>{{ $t('DATASET.DATASETSPER')}}</h3>
       <v-row class="datasets-list mini">
         <v-col
           :key="index"
@@ -22,25 +22,25 @@
                 class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
             </div>
 
-            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-            <NuxtLink class="title" :to="`/dataset/${ds.id}`" :data-title="ds.name">
-              <small :data-title="ds.description">{{ds.description}}</small>
+            <NuxtLink class="title pb-0" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
+            <NuxtLink class="title pt-1" :to="`/dataset/${ds.id}`" :data-title="ds.name">
+              <small style="margin-top: 0; " :data-title="ds.description">{{ds.description}}</small>
             </NuxtLink>
             <v-row>
               <v-col cols="6" style="flex: none">
                 <p>
-                  کل آیتم‌ها
+                  {{$t('GENERAL.ITEMS')}}
                   <br/>
-                  <strong>{{ds.itemsCount? ds.itemsCount : '0'}}</strong></p>
+                  <strong>{{ds.itemsCount ? ds.itemsCount.toLocaleString() : '0'}}</strong></p>
               </v-col>
               <v-col cols="6" style="flex: none">
                 <p class="left-in-mobile">
-                  وضعیت
+                  {{$t('GENERAL.STATUS')}}
                   <br/>
                   <strong
-                    v-if="ds.labelingStatus">فعال</strong>
+                    v-if="ds.labelingStatus">{{$t('GENERAL.ACTIVE')}}</strong>
                   <strong
-                    v-else>غیرفعال</strong>
+                    v-else>{{$t('GENERAL.INACTIVE')}}</strong>
                 </p>
               </v-col>
             </v-row>
@@ -85,8 +85,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .left-in-mobile{
   text-align: left !important;
+}
+
+.ltr {
+  .left-in-mobile{
+    text-align: right !important;
+  }
 }
 </style>

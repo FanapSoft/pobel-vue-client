@@ -88,7 +88,7 @@
 .modalBtn {
     border: solid 1px #ddd;
     border-radius: 4px;
-    padding: 7px 15px 10px;
+    padding: 0 15px 0;
     background: transparent;
     outline: none;
     text-decoration: none !important;
@@ -98,6 +98,7 @@
     text-align: center;
     margin-left: 10px;
     cursor: pointer;
+  height: 35px;
 }
 
 .modalFullscreen .modalBtn {

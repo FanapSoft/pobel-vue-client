@@ -2,7 +2,7 @@
   <div class="container-old" >
     <div class="row-old  faq">
       <div class="col-12-old ">
-        <h2>سوالات متداول</h2>
+        <h2>{{$t('GENERAL.FREQUENTLYANSKEDQUESTIONS')}}</h2>
 
         <ul class="accordion" id="faq-accordion">
           <li>

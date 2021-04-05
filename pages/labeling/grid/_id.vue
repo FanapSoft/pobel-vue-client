@@ -1,17 +1,7 @@
 <template>
     <div class="container-old">
-      <div
-        v-if="!dataset || !userTargetDefinition"
-
-        style="display: flex; align-items: center; justify-content: center;">
-<!--        <v-progress-linear
-          indeterminate
-
-          size="20"
-          color="#ff257c"></v-progress-linear>-->
-      </div>
       <datasets-nav
-        v-else
+        v-if="dataset && userTargetDefinition"
 
         :dataset="dataset"
         :target="userTargetDefinition"
@@ -59,6 +49,8 @@
                 'completed yes': item.answer !== -1 && item.isYes,
                 'completed no': item.answer !== -1 && item.isNo,
                 'completed report': item.isReport,
+                'g': item.g,
+
               }"
               :style="{backgroundImage: `url(${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId})`}">
               <div
@@ -67,18 +59,18 @@
                 <div
                   @click="setItemAnswerTo(item, 'yes')"
 
-                  data-title="درست است"
+                  :data-title="$t('GENERAL.ISCORRECT')"
                   class="grid-images-overlay-icons grid-images-overlay-yes"></div>
                 <div
                   @click="setItemAnswerTo(item, 'no')"
 
-                  data-title="اشتباه است"
+                  :data-title="$t('GENERAL.ISINCORRECT')"
                   class="grid-images-overlay-icons grid-images-overlay-no"></div>
                 <div
                   @click="setItemAnswerTo(item, 'report')"
                   data-id="0"
 
-                  data-title="تصویر ایراد دارد"
+                  :data-title="$t('GENERAL.REPORT')"
                   class="grid-images-overlay-icons grid-images-overlay-report"></div>
               </div>
             </li>
@@ -124,7 +116,7 @@
                         class=""
                         height="150px"
                         width="150px"
-                        style="margin-top: 20px;"
+                        style="margin: 20px auto 0;display: flex;"
                         :src="`${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId}`">
 <!--
         https://static2.khoondanionline.com/thumbnail/KGuPcGgDttnK/9-wZKh4hicXyJvwVQ1c9MgnJ79Dd3XqXIM1JsiCe47NYS6jramGkBPdo-QVEe9EuUKNBJTAl-ko,/%D8%B9%D9%84%DB%8C+%D8%A7%D9%86%D8%B5%D8%A7%D8%B1%DB%8C%D8%A7%D9%86.jpg
@@ -142,7 +134,7 @@
                           @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'yes')}"
 
                           color="#444"
-                          class="mb-1">هست</v-btn>
+                          class="mb-1">{{$t('GENERAL.YES')}}</v-btn>
                         <v-btn
                           outlined
 
@@ -152,7 +144,7 @@
                           @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'no')}"
 
                           color="#444"
-                          class="mb-1">نیست</v-btn>
+                          class="mb-1">{{$t('GENERAL.NO')}}</v-btn>
                         <v-btn
                           outlined
 
@@ -161,7 +153,7 @@
                           }"
                           @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'report')}"
 
-                          color="#444">گزارش خطا</v-btn>
+                          color="#444">{{$t('GENERAL.REPORT')}}</v-btn>
                       </v-layout>
                     </div>
                   </v-row>
@@ -193,13 +185,13 @@
 
           @click="changeQuestion"
 
-          class="answer my-0">برو به لیست بعدی</button>
+          class="answer my-0">{{ $t('GENERAL.GOTONEXTLIST') }}</button>
 
         <button
           v-else
 
         @click="submitAnswers"
-          class="my-0 ">ارسال پاسخ ها</button>
+          class="my-0 ">{{ $t('GENERAL.SUBMITANSWERS') }}</button>
       </v-row>
     </div>
 </template>
@@ -357,15 +349,15 @@ export default {
           fieldName = fieldName.split('\\')[4];
           switch (fieldName) {
             case 'Actors':
-              this.labelType = 'بازیگر';
+              this.labelType = this.$t('GENERAL.ACTOR');
               break;
 
             case 'Singers':
-              this.labelType = 'خواننده';
+              this.labelType = this.$t('GENERAL.SINGER');
               break;
 
             case 'Politicians':
-              this.labelType = 'سیاست مدار';
+              this.labelType = this.$t('GENERAL.POLITICIAN');
               break;
           }
         }
@@ -398,29 +390,15 @@ export default {
           console.log(error)
         }
       }
-      /*let reports = null;
-      reports = this.labelQuestions.filter(item => item.isReport === true);
-      if(reports) {
-        let data = {
-          answers: finalAnswers
-        }
-
-        try{
-          //const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
-          isAnswersSubmited = true;
-        } catch (error) {
-          console.log(error)
-        }
-      }*/
     },
     async submitAnswers() {
       let continueModal = Modal({
-        title: 'ارسال پاسخ و ادامه',
+        title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),//'ارسال پاسخ (ها) و ادامه',
         body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
         fullscreen: true,
         actions: [
           {
-            title: 'ارسال پاسخ‌ها و ادامه',
+            title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
             class: ['active'],
             fn: async () => {
               await this.submitAnswersToServer();
@@ -430,7 +408,7 @@ export default {
             timeout: 5000
           },
           {
-            title: 'خیر، بازگشت',
+            title: this.$t('GENERAL.NORETURN'),
             class: ['noBorder'],
             fn: () => {
               continueModal.close();
