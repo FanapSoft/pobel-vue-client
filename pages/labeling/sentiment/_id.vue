@@ -1,5 +1,5 @@
 <template>
-  <div class="container-old">
+  <v-container >
     <div
       v-if="!dataset || !userTargetDefinition"
 
@@ -105,17 +105,17 @@
 
         @click="changeQuestion"
 
-        class="answer">برو به لیست بعدی
+        class="answer">{{ $t('GENERAL.GOTONEXTLIST') }}
       </button>
       <button
         v-else
 
-        @click="submitAnswers">ارسال پاسخ ها
+        @click="submitAnswers">{{ $t('GENERAL.SUBMITANSWERS') }}
       </button>
 
       <button
         @click="setItemAnswerTo('report')">
-        گزارش
+        {{ $t('GENERAL.REPORT') }}
         <svg width="24" height="24" viewBox="0 0 24 24">
           <defs>
             <path id="flag-a"
@@ -133,7 +133,7 @@
         </svg>
       </button>
     </div>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -241,22 +241,7 @@ export default {
         console.log(error)
       }
     },
-    /*async getCurrentQuestionLabel() {
-      const data = {
-        datasetId: this.$route.params.id,
-        count: 1
-      }
 
-      //TODO: create new target ?
-      try {
-        const result = await this.$apiService.get('/api/services/app/Questions/GetQuestion', data);
-        if (result.data && result.data.result) {
-          this.currentQuestionLabel = result.data.result[0]
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },*/
     async getLabelQuestions() {
       let data = {
         DataSetId: this.$route.params.id,
@@ -385,12 +370,12 @@ export default {
     },
     async submitAnswers() {
       let continueModal = Modal({
-        title: 'ارسال پاسخ و ادامه',
+        title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
         body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
         fullscreen: true,
         actions: [
           {
-            title: 'ارسال پاسخ‌ها و ادامه',
+            title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
             class: ['active'],
             fn: async () => {
               await this.submitAnswersToServer();
@@ -400,7 +385,7 @@ export default {
             timeout: 5000
           },
           {
-            title: 'خیر، بازگشت',
+            title: this.$t('GENERAL.NORETURN'),
             class: ['noBorder'],
             fn: () => {
               continueModal.close();
@@ -411,23 +396,6 @@ export default {
           continueModal.close();
         }
       });
-
-
-      //let reports = [];
-      /*      answers = this.labelQuestions.filter(item => item.answer === true);
-            //TODO: make sure user can not reach here without answers
-            if(answers.length) {
-              let data = {
-                answers: answers
-              }
-
-              try{
-                const submitionResult = await this.$apiService.post("/api/services/app/Answers/SubmitBatchAnswer", data)
-                window.location.reload();
-              } catch (error) {
-                console.log(error)
-              }
-            }*/
     },
     updateLocalAnswersCount() {
       this.localAnswersCount = 0;
@@ -505,23 +473,12 @@ export default {
       this.timer = null;
       this.localAnswersCount = 0;
 
-      this.$nextTick(async () => {
-        //await this.getUserTarget(this.$route.params.id);
-        //await this.getLabelQuestions();
-        //await this.getDatasetItem();
-      })
 
     }
   },
   async mounted() {
     //Call orders matters
-    //await this.getDataset();
-    //await this.getUserTarget(this.$route.params.id);
-    //await this.getcurrentQuestionLabel();
-    //await this.getLabelQuestions();
-    //await this.getDatasetItem();
-    console.log(this.currentActiveItemIndex)
-    console.log(this.currentActiveItem)
+
     //Fake data for now
     this.labelQuestions.forEach((item, index) => {
       if (!index)
@@ -548,6 +505,12 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 500px) {
+  .question-history {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 .question-wrapper img {
   margin: 15px 0 0;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);

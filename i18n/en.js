@@ -2,7 +2,7 @@
 export const locale = {
   MENU: {
     HOME: 'Home',
-    PARTICIPATION: 'Participation',
+    PARTICIPATION: 'Contribute',
     FAQ: 'FAQ',
     CONTACTUS: 'Contact Us'
 
