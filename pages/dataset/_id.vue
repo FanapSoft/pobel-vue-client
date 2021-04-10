@@ -99,7 +99,7 @@
             style="height: 480px; width: 100%"
             ref="wobblingBg"
             id="wobbling-bg">
-            <small>تعداد پاسخ‌های ثبت شده شما</small>
+            <small>{{$t('TEXTS.SINGLEDATASETYOURANSWERSCOUNT')}}</small>
             <p id="stats-answers">{{ userAnswersCount }}</p>
 
             <div class="" id="dataset-history-answers-chart">
@@ -383,7 +383,7 @@ export default {
       if(!this.userCredit) {
         let continueModal = Modal({
           title: this.$t('GENERAL.ERROR'),
-          body: `هنوز امتیازی کسب نکرده اید`,
+          body: this.$t('TEXTS.SINGLEDATASETNOTSCOREDYET'),
           backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
 
           actions: [

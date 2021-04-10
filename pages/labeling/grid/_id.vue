@@ -24,7 +24,7 @@
         class=" main mt-0">
         <v-col cols="12" class=" grid-images-wrapper pt-0">
           <p class="question-text static">
-            آیا تصاویر مربوط به
+            {{$t('TEXTS.LABELINGQUESTIONPART1')}}
             <strong
 
               @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${randomLabel.name.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
@@ -34,7 +34,7 @@
 
                ({{ labelType }})
             </strong>
-            هستند؟
+            {{$t('TEXTS.LABELINGQUESTIONPART2')}}
           </p>
           <ol
             v-if="!$vuetify.breakpoint.xs"
@@ -394,7 +394,7 @@ export default {
     async submitAnswers() {
       let continueModal = Modal({
         title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),//'ارسال پاسخ (ها) و ادامه',
-        body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
+        body: this.$t('TEXTS.LABELINGSUBMITANSWERSANDCOUNTINUE'),
         fullscreen: true,
         actions: [
           {

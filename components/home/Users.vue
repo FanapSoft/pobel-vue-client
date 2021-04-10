@@ -1,6 +1,6 @@
 <template>
   <div class="col-12-old">
-    <h3>فعال‌ترین کاربران</h3>
+    <h3>{{$t('TEXTS.INDEXTOPACTIVEUSERS')}}</h3>
     <ol
       v-if="scoreboardItems"
 

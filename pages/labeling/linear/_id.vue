@@ -312,15 +312,15 @@ export default {
           fieldName = fieldName.split('\\')[4];
           switch (fieldName) {
             case 'Actors':
-              this.labelType = 'بازیگر';
+              this.labelType = this.$t('GENERAL.ACTOR');
               break;
 
             case 'Singers':
-              this.labelType = 'خواننده';
+              this.labelType = this.$t('GENERAL.SINGER');
               break;
 
             case 'Politicians':
-              this.labelType = 'سیاست مدار';
+              this.labelType = this.$t('GENERAL.POLITICIAN');
               break;
           }
         }
@@ -371,7 +371,7 @@ export default {
     async submitAnswers() {
       let continueModal = Modal({
         title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
-        body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
+        body: this.$t('TEXTS.LABELINGSUBMITANSWERSANDCOUNTINUE'),
         fullscreen: true,
         actions: [
           {

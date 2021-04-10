@@ -61,7 +61,7 @@ export default {
     { src: '~/plugins/services/user.service', mode: 'client' },
     { src: '~/plugins/services/i18n.service', mode: 'client' },
     { src: '~/plugins/axios', mode: 'client' },
-    //'~/plugins/services/mock.service', //Temporary only for test
+    '~/plugins/services/mock.service', //Temporary only for test
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
