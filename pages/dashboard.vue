@@ -136,7 +136,7 @@
             elevation="0"
             class="dataset-history-wrapper "
             style="border-radius: 10px">
-            <small>تعداد پاسخ های ثبت شده: </small>
+            <small>{{ $t('TEXTS.SINGLEDATASETYOURANSWERSCOUNT') }}: </small>
             <p id="stats-answers">{{ answersCount.toLocaleString() }}</p>
           </v-card>
           <v-card
@@ -175,7 +175,7 @@
 
                   class="headline "
                   style="font-family: 'IranSans' !important;font-size: 16px !important;">
-                  درخواست انتقال به کیف پول پاد
+                  {{$t('TEXTS.DASHBOARDTRANSFERTOPODWALLETREQUEST')}}
                 </v-card-title>
                 <v-card-text class="pt-6">
                   <v-form v-model="userPhoneNumberValid">
@@ -331,11 +331,11 @@ export default {
       this.creditModalKey = false;
       if(!this.walletCredit) {
         let continueModal = Modal({
-          title: "خطا، انتقال انتجام نشد",
-          body: `چیزی برای برداشت ندارید!`,
+          title: this.$t('TEXTS.DASHBOARDMODALTRANSFERFAILEDTITLE'),
+          body: this.$t('TEXTS.DASHBOARDMODALTRANSFERFAILEDCONTENT'),
           actions: [
             {
-              title: 'بستن',
+              title: this.$t('GENERAL.CLOSE'),
               class: ['noBorder'],
               fn: () => {
                 continueModal.close();
@@ -360,16 +360,15 @@ export default {
           //console.log(requestCashOut)
           let balance = this.walletCredit;
           let continueModal = Modal({
-            title: "انتقال موفق",
-            body: `مبلغ
+            title: this.$t('TEXTS.DASHBOARDMODALTRANSFERSUCCEEDTITLE'),
+            body: `
               ${balance}
-               ریال
-               به کیف پول پاد شما منتقل شد.`,
+               ${this.$t('TEXTS.DASHBOARDMODALTRANSFERSUCCEEDCONTENT')}`,
             backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
             fullscreen: true,
             actions: [
               {
-                title: 'بستن',
+                title: this.$t('GENERAL.CLOSE'),
                 class: ['noBorder'],
                 fn: () => {
                   continueModal.close();

@@ -5,7 +5,7 @@
           <div class="col-6-old info-old">
             <h3>{{$t('MENU.CONTACTUS')}}</h3>
             <ul>
-              <li>تهران، پردیس، پارک فناوری پردیس، نوآوری 11، پلاک 114، شرکت فناوری اطلاعات و ارتباطات پاسارگاد آریان (فناپ)</li>
+              <li>{{$t('TEXTS.CONTACTUSADDRESS')}}</li>
               <li>{{$t('GENERAL.POSTALCODE')}}: 1654120840</li>
               <li>{{$t('GENERAL.PHONE')}}: <span style="display: inline-block; direction: ltr !important;">02176250513-7</span></li>
             </ul>

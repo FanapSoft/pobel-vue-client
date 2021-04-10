@@ -87,23 +87,23 @@ export default {
     showHelpModal(){
       let continueModal = Modal({
         title: this.$t('HELP.HELP'),
-        body: `در مجموعه داده فعلی برای برچسب زنی شما گزینه های زیر را دارید:
+        body: `${this.$t('TEXTS.LABELINGHELPMODALCONTENT1')}:
         <br />
         <span class="help-icon " >✓</span>
-         درست است (تصویر مطابقت دارد)
+         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT2')}
         <br />
         <span class="help-icon" >⤫</span>
-        درست نیست (تصویر مطابقت ندارد)
+         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT3')}
         <br />
         <span class="help-icon " >⚐</span>
-        تصویر ایراد دارد
-         (گزارش ایراد در تصویر؛ ناخوانا، تار بودن، لود نشدن و غیره...)
+         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT4')}
         <br />
-        نکته1: در حال حاضر گزارش تصاویر دارای ایراد، فاقد امتیاز می باشد.
+        ${this.$t('TEXTS.LABELINGHELPMODALCONTENT5')}
+
         <br />
-        نکته2: برخی آیتم ها طلایی هستند، بدین معنی که ما پاسخ آنها را میدانیم. در صورت پاسخ صحیح به سوالات طلایی امتیاز میگیرید، در صورت پاسخ غلط به آنها از امتیاز شما کسر می گردد و در صورت عدم پاسخ به آنها امتیازی نمیگیرید.
+        ${this.$t('TEXTS.LABELINGHELPMODALCONTENT6')}
         <br>
-        در صورتیکه مردد هستید و جهت جلوگیری از کاهش امتیاز خود هیچ پاسخی را بر روی تصویر مربوطه درج نکنید و از پاسخ دادن صرفنظر نمایید.
+        ${this.$t('TEXTS.LABELINGHELPMODALCONTENT7')}
 `,
         fullscreen: true,
         actions: [

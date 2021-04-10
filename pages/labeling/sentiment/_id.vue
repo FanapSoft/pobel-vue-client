@@ -353,25 +353,11 @@ export default {
           console.log(error)
         }
       }
-      /*let reports = null;
-      reports = this.labelQuestions.filter(item => item.isReport === true);
-      if(reports) {
-        let data = {
-          answers: finalAnswers
-        }
-
-        try{
-          //const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
-          isAnswersSubmitted = true;
-        } catch (error) {
-          console.log(error)
-        }
-      }*/
     },
     async submitAnswers() {
       let continueModal = Modal({
         title: this.$t('GENERAL.SUBMITANSWERSANDCONTINUE'),
-        body: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
+        body: this.$t('TEXTS.LABELINGSUBMITANSWERSANDCOUNTINUE'),
         fullscreen: true,
         actions: [
           {
