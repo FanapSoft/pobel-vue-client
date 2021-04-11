@@ -40,7 +40,7 @@
 
           class="question-wrapper">
           <p class="question-text static">
-            حس‌اتان نسبت به این جمله چیست؟
+            {{$t('TEXTS.LABELINGSENTIMENTQUESTIONPART1')}}
 
             <span style="font-size: 12px; color: rgb(187, 187, 187);"> (
               {{labelQuestions[currentActiveItemIndex].field}}
@@ -59,19 +59,19 @@
 
               id="yesBtn"
               data-id="4">😄<br>
-              <p>خوب</p></button>
+              <p>{{ $t('GENERAL.GOOD')}}</p></button>
             <button
               @click="setItemAnswerTo('skip')"
 
               id="skipBtn"
               data-id="0">🙄<br>
-              <p>هیچی</p></button>
+              <p>{{ $t('GENERAL.NOTHING')}}</p></button>
             <button
               @click="setItemAnswerTo('no')"
 
               id="noBtn"
               data-id="4">😡<br>
-              <p>بد</p></button>
+              <p>{{ $t('GENERAL.BAD')}}</p></button>
           </div>
         </div>
       </div>
