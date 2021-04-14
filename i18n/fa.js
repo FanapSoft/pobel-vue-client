@@ -74,6 +74,10 @@ export const locale = {
     ISCORRECT: 'درست است',
     ISINCORRECT: 'درست نیست',
 
+    GOOD: 'خوب',
+    NOTHING: 'هیچی',
+    BAD: 'بد',
+
     TRANSFERERROR: "خطا در انتقال",
 
     DASHBOARD: 'داشبورد',
@@ -129,6 +133,9 @@ export const locale = {
 
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
     LABELINGQUESTIONPART2: 'هستند؟',
+    LABELINGLINEARQUESTIONPART1: 'آیا تصویر زیر متعلق به',
+    LABELINGLINEARQUESTIONPART2: 'است؟',
+    LABELINGSENTIMENTQUESTIONPART1: 'حس‌اتان نسبت به این جمله چیست؟',
 
     LABELINGSUBMITANSWERSANDCOUNTINUE: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
 

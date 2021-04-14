@@ -76,6 +76,10 @@ export const locale = {
     ISCORRECT: 'Correct',
     ISINCORRECT: 'Incorrect',
 
+    GOOD: 'خوب',
+    NOTHING: 'هیچی',
+    BAD: 'بد',
+
     TRANSFERERROR: "Transfer Error",
 
     DASHBOARD: 'Dashboard',
@@ -133,6 +137,9 @@ export const locale = {
 
     LABELINGQUESTIONPART1: 'Are the images related to ',
     LABELINGQUESTIONPART2: ' ?',
+    LABELINGLINEARQUESTIONPART1: 'Is the image related to ',
+    LABELINGLINEARQUESTIONPART2: ' ?',
+    LABELINGSENTIMENTQUESTIONPART1: 'How do you feel about this sentence ?',
 
     LABELINGSUBMITANSWERSANDCOUNTINUE: 'Submit answers and continue labeling ?',
 

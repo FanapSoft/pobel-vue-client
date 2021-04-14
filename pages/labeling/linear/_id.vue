@@ -37,7 +37,7 @@
 
           class="question-wrapper">
           <p class="question-text static">
-            آیا تصویر زیر متعلق به
+            {{$t('TEXTS.LABELINGLINEARQUESTIONPART1')}}
             <strong
 
               @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${labelQuestions[currentActiveItemIndex].title.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
@@ -47,7 +47,7 @@
 
               ({{ labelType }})
             </strong>
-            است؟
+            {{$t('TEXTS.LABELINGLINEARQUESTIONPART2')}}
           </p>
           <img
             :src="`${$axios.defaults.baseURL}/file/dataset/item/${labelQuestions[currentActiveItemIndex].datasetItemId}`"
