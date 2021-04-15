@@ -76,9 +76,9 @@ export const locale = {
     ISCORRECT: 'Correct',
     ISINCORRECT: 'Incorrect',
 
-    GOOD: 'خوب',
-    NOTHING: 'هیچی',
-    BAD: 'بد',
+    GOOD: 'Good',
+    NOTHING: 'Nothing',
+    BAD: 'Bad',
 
     TRANSFERERROR: "Transfer Error",
 
@@ -136,6 +136,9 @@ export const locale = {
     SINGLEDATASETNOTSCOREDYET: 'You have not earned any points yet',
     SINGLEDATASETCHOOSETARGET: 'You have to select a target prior to starting labeling',
     SINGLEDATASETCHOOSETARGET2: 'Please set your target which indicates the number of items that you are going to label. ',
+    SINGLEDATASETPOINTSTRANSFEREDMODAL: ' points were transferred to your POBEL account. Check your profile.',
+    SINGLEDATASETNOTREACHEDTARGET: ' You could not collect your money unless hitting the selected target. ',
+
 
 
     LABELINGQUESTIONPART1: 'Are the images related to ',

@@ -414,13 +414,9 @@ export default {
           if(credit.data.result.creditAmount > 0) {
             let continueModal = Modal({
               title: this.$t('GENERAL.TRANSFERSUCCESSFUL'),
-              body: `امتیاز
+              body: `
               ${credit.data.result.creditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")}
-               به حساب پابل شما منتقل گردید.
-               <br>
-               برای مشاهده به
-               <nuxt-link to="/dashboard">پروفایل</nuxt-link>
-                خود مراجعه نمائید.`,
+                ${this.$t('TEXTS.SINGLEDATASETPOINTSTRANSFEREDMODAL')} `,
               backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
               fullscreen: true,
               actions: [
@@ -452,7 +448,7 @@ export default {
             if(credit.data.error.message.indexOf("You haven't reached the target yet.") !== -1) {
               let alertModal = Modal({
                 title: this.$t('GENERAL.TRANSFERERROR'),
-                body: `پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید.`,
+                body: this.$t('TEXTS.SINGLEDATASETNOTREACHEDTARGET'),
                 backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
                 actions: [
                   {
