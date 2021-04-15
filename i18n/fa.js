@@ -130,6 +130,10 @@ export const locale = {
 
     SINGLEDATASETYOURANSWERSCOUNT: 'تعداد پاسخ‌های ثبت شده شما',
     SINGLEDATASETNOTSCOREDYET: 'هنوز امتیازی کسب نکرده اید ',
+    SINGLEDATASETCHOOSETARGET: '    هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد' +
+      '   برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.' ,
+    SINGLEDATASETCHOOSETARGET2: 'با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید.',
+
 
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
     LABELINGQUESTIONPART2: 'هستند؟',

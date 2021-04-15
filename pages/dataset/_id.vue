@@ -121,10 +121,11 @@
         id="set-target">
         <v-col class="">
           <h3>{{$t('GENERAL.TARGETING')}}</h3>
-          <small>هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد
-            برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.</small>
+          <small>
+            {{$t('TEXTS.SINGLEDATASETCHOOSETARGET')}}
+          </small>
           <br>
-          <small>با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید.</small>
+          <small>{{$t('TEXTS.SINGLEDATASETCHOOSETARGET2')}}</small>
           <v-row id="define-target" >
             <v-col
               v-for="(item, index) of datasetTargets"

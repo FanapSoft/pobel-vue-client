@@ -134,6 +134,9 @@ export const locale = {
 
     SINGLEDATASETYOURANSWERSCOUNT: 'Answers\' count',
     SINGLEDATASETNOTSCOREDYET: 'You have not earned any points yet',
+    SINGLEDATASETCHOOSETARGET: 'You have to select a target prior to starting labeling',
+    SINGLEDATASETCHOOSETARGET2: 'Please set your target which indicates the number of items that you are going to label. ',
+
 
     LABELINGQUESTIONPART1: 'Are the images related to ',
     LABELINGQUESTIONPART2: ' ?',
