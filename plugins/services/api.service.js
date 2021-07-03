@@ -2,14 +2,15 @@
  * Service to call HTTP request via Axios
  */
 const ApiService = {
-  loginUrl: `http://10.56.16.50:8888/pod/authentication?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://10.56.16.50') : encodeURI('http://localhost:8080'))}`,
+  //http://10.56.16.50:8888
+  loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://10.56.16.50') : encodeURI('http://localhost:8080'))}`,
   axios: null,
   jwtService: null,
   /**
    * Set the default HTTP request headers
    */
   setHeader() {
-    this.axios.defaults.headers.common["Authorization"] = `Bearer ${this.jwtService.getToken()}`;
+    this.axios.defaults.headers.common["Token"] = `${this.jwtService.getToken()}`;
   },
 
   async get(url, params){
