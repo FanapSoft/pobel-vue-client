@@ -261,7 +261,7 @@ export default {
       }
 
       try {
-        const walletCredit = await this.$apiService.get('/api/services/app/Transactions/GetBalance',data);
+        const walletCredit = await this.$apiService.get('/api/Transactions/GetBalance',data);
         if (walletCredit.data && walletCredit.data.result) {
           this.walletCredit = this.$utils.formatNumber(this.$utils.toFixed(walletCredit.data.result.total))
         }
@@ -276,7 +276,7 @@ export default {
       }
 
       try {
-        const transactions = await this.$apiService.get('/api/services/app/Transactions/GetAll',data);
+        const transactions = await this.$apiService.get('/api/Transactions/GetAll',data);
         if (transactions.data && transactions.data.result) {
           this.transactions = transactions.data.result.items;
           this.transactions.forEach(async item => {
@@ -294,13 +294,8 @@ export default {
       if(!id)
         return null
 
-      let data = {
-        id: id
-      }
-
-
       try {
-        const ds = await this.$apiService.get('/api/services/app/Datasets/Get', data);
+        const ds = await this.$apiService.get('/api/Datasets/Get/' + id);
         console.log(ds)
         if (ds.data && ds.data.result) {
 
@@ -317,7 +312,7 @@ export default {
       }
 
       try {
-        const answersCount = await this.$apiService.get('/api/services/app/Answers/GetAll', data);
+        const answersCount = await this.$apiService.get('/api/Answers/GetAll', data);
         if (answersCount.data && answersCount.data.result) {
           this.answersCount = answersCount.data.result.totalCount
         }
@@ -355,7 +350,7 @@ export default {
       }
 
       try {
-        const requestCashOut = await this.$axios.post('/api/services/app/Wallet/TransferCreditToWallet', data);
+        const requestCashOut = await this.$axios.post('/api/Wallet/TransferCreditToWallet', data);
         if (requestCashOut.data && requestCashOut.data.result) {
           //console.log(requestCashOut)
           let balance = this.walletCredit;

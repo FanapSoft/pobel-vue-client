@@ -9,8 +9,6 @@ export default function (context) {
     redirect
   } = context;
 
-
-
   if (route.query.token) {
     const token = route.query.token
     $jwtService.saveToken(token);

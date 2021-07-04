@@ -100,7 +100,7 @@
       </li>
       <li v-if="isAuthenticated">
         <NuxtLink to="/dashboard">{{ $t('USER.HELLO') }}
-          {{user.name}}
+          {{user.Name}}
         </NuxtLink>
       </li>
       <li>

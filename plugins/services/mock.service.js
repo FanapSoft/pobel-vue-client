@@ -140,7 +140,7 @@ export default function MockService(context, inject) {
       }
       return [401, { errors: ["Invalid authentication"] }];
     });
-    mock.onGet(/\/api\/services\/app\/DataSets\/GetAll\/?/).reply(data => {
+    mock.onGet(/\/api\/services\/app\/Datasets\/GetAll\/?/).reply(data => {
       const token = data.headers.Authorization.replace("Bearer ", "");
       if (token !== "undefined") {
         let items = [];

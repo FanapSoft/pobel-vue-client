@@ -13,7 +13,7 @@ export default function (context) {
   };
 
   $axios.onRequest(req => {
-    req.headers.Authorization = `Bearer ${$jwtService.getToken()}`;
+    req.headers.token = `${$jwtService.getToken()}`;
     return req;
   });
 

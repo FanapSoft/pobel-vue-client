@@ -44,12 +44,12 @@ const actions = {
     this.$apiService.setHeader();
     return new Promise((resolve, reject) => {
       this.$apiService
-          .get(`/api/services/app/User/Get?id=${user.uid}`)
+          .get(`/api/User/Get/${user.uid}`)
           .then(response => {
             commit(SET_AUTH, {
               ...user,
               ...state.user,
-              ...response.data.result
+              ...response.data
             });
             this.$userService.saveUser(state.user);
             resolve(true);

@@ -109,7 +109,7 @@ export default {
       }
 
       try {
-        const transactions = await this.$apiService.get('/api/services/app/Transactions/GetAll',data);
+        const transactions = await this.$apiService.get('/api/Transactions/GetAll',data);
         if (transactions.data && transactions.data.result) {
           this.transactions = transactions.data.result.items;
           this.transactions.forEach(async item => {
@@ -127,12 +127,8 @@ export default {
       if(!id)
         return null
 
-      let data = {
-        id: id
-      }
-
       try {
-        const ds = await this.$apiService.get('/api/services/app/Datasets/Get', data);
+        const ds = await this.$apiService.get('/api/Datasets/Get/' + id);
 
         if (ds.data && ds.data.result) {
 

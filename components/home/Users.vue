@@ -28,11 +28,11 @@ export default {
         DatasetId: this.datasetId,
         From: this.$store.state['scoreboard/dateFrom'],
         //DatasetItemId: this.datasetId,
-        MaxResultCount: 10,
+        Limit: 10,
       };
 
       try {
-        const scoreboardItems = await this.$apiService.get(`/api/services/app/Reports/Scoreboard`, data);
+        const scoreboardItems = await this.$apiService.get(`/api/Reports/Scoreboard`, data);
         if (scoreboardItems.data && scoreboardItems.data.result) {
           this.scoreboardItems = this.scoreboardItems ? [
             ...this.scoreboardItems,

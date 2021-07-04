@@ -12,33 +12,34 @@
           >
           <div class="datasets-list-items">
             <div
-              :style="{'background-image': `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.randomItemId})`}"
-              :id="`ds-cover-${ds.id}`"
+              :style="{'background-image': `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${ds.RandomItemId})`}"
+              :id="`ds-cover-${ds.Id}`"
 
               class="dataset-cover">
               <span
-                v-if="ds.labelingStatus"
+                v-if="ds.LabelingStatus"
 
                 class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
             </div>
 
-            <NuxtLink class="title pb-0" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">{{ds.name}}</NuxtLink>
-            <NuxtLink class="title pt-1" :to="`/dataset/${ds.id}`" :data-title="ds.name">
-              <small style="margin-top: 0; " :data-title="ds.description">{{ds.description}}</small>
+            <NuxtLink class="title pb-0" style="font-family: 'IranSans';" :to="`/dataset/${ds.Id}`" :data-title="ds.Name">{{ds.Name}}</NuxtLink>
+            <NuxtLink class="title pt-1" :to="`/dataset/${ds.Id}`" :data-title="ds.Name">
+              <small style="margin-top: 0; " :data-title="ds.Description">{{ds.Description}}</small>
             </NuxtLink>
             <v-row>
               <v-col cols="6" style="flex: none">
                 <p>
                   {{$t('GENERAL.ITEMS')}}
                   <br/>
-                  <strong>{{ds.itemsCount ? ds.itemsCount.toLocaleString() : '0'}}</strong></p>
+                  <strong>{{ds._count ? ds._count.DatasetItems.toLocaleString() : '0'}}</strong>
+                </p>
               </v-col>
               <v-col cols="6" style="flex: none">
                 <p class="left-in-mobile">
                   {{$t('GENERAL.STATUS')}}
                   <br/>
                   <strong
-                    v-if="ds.labelingStatus">{{$t('GENERAL.ACTIVE')}}</strong>
+                    v-if="ds.LabelingStatus">{{$t('GENERAL.ACTIVE')}}</strong>
                   <strong
                     v-else>{{$t('GENERAL.INACTIVE')}}</strong>
                 </p>
@@ -65,13 +66,16 @@ export default {
     async getItems() {
       this.loading = true;
       const data = {
-        MaxResultCount: 3
+        Limit: 3,
+        IncludeRandomItem: true,
+        IsActive: true,
+        IncludeItemsCount: true
       }
       try {
-        const datasets = await this.$apiService.get('/api/services/app/Reports/DataSets', data);
-        if(datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
-          this.datasets = datasets.data.result.items;
-          this.dsCount = datasets.data.result.totalCount;
+        const datasets = await this.$apiService.get('/api/Datasets/GetAll', data);
+        if(datasets.data && datasets.data.items && datasets.data.items.length) {
+          this.datasets = datasets.data.items;
+          this.dsCount = datasets.data.totalCount;
         }
       } catch (error) {
         console.log(error)

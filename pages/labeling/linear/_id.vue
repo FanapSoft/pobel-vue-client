@@ -190,11 +190,11 @@ export default {
   },
   methods: {
     async getDataset() {
-      const data = {
-        id: this.$route.params.id,
-      }
+      // const data = {
+      //   id: this.$route.params.id,
+      // }
       try {
-        const result = await this.$apiService.get('/api/services/app/Datasets/Get', data);
+        const result = await this.$apiService.get('/api/Datasets/Get/' + this.$route.params.id);
 
         if (result.data && result.data.result) {
           this.dataset = result.data.result
@@ -211,7 +211,7 @@ export default {
 
       //TODO: create new target ?
       try {
-        const result = await this.$apiService.get('/api/services/app/Questions/GetQuestion', data);
+        const result = await this.$apiService.get('/api/Questions/GetQuestion', data);
         if (result.data && result.data.result) {
           this.currentQuestionLabel = result.data.result[0]
         }
@@ -227,7 +227,7 @@ export default {
       }
 
       try {
-        const result = await this.$apiService.get('/api/services/app/Questions/GetQuestions', data);
+        const result = await this.$apiService.get('/api/Questions/GetQuestions', data);
         if (result.data && result.data.result) {
           this.labelQuestions = result.data.result;
           this.labelQuestions.forEach((item, index) => {
@@ -258,16 +258,16 @@ export default {
         datasetId: datasetId,
         ownerId: this.user.id,
         order: 'DESC',
-        maxResultCount: 1
+        Limit: 1
       }
 
       try {
-        const targets = await this.$apiService.get('/api/services/app/Targets/GetAll', data);
+        const targets = await this.$apiService.get('/api/Targets/GetAll', data);
         if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
-          data = {
-            id: targets.data.result.items[0].targetDefinitionId
-          };
-          let targetDefinition = await this.$apiService.get('/api/services/app/TargetDefinitions/Get', data);
+          // data = {
+          //   id: targets.data.result.items[0].targetDefinitionId
+          // };
+          let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           this.userTargetDefinition = targetDefinition.data.result;
           this.$set(this.userTargetDefinition, 'currentUserAnswersCount', 0);
 
@@ -278,7 +278,7 @@ export default {
       }
     },
     async getUserAnswersCount() {
-      ///api/services/app/Answers/Stats
+      ///api/Answers/Stats
 
       let data = {
         dataSetId: this.$route.params.id,
@@ -286,7 +286,7 @@ export default {
       }
 
       try {
-        const answerStat = await this.$apiService.post('/api/services/app/Answers/Stats', data);
+        const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
         if(answerStat.data && answerStat.data.result ) {
           console.log()
           this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
@@ -298,12 +298,12 @@ export default {
     async getDatasetItem() {
       if(!this.labelQuestions)
         return
-      let data = {
-        id: this.labelQuestions[0].datasetItemId,
-      }
+      // let data = {
+      //   id: this.labelQuestions[0].datasetItemId,
+      // }
 
       try {
-        const result = await this.$apiService.get('/api/services/app/DatasetItems/Get', data);
+        const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].datasetItemId);
         if (result.data && result.data.result) {
           this.datasetItem = result.data.result;
 
@@ -347,7 +347,7 @@ export default {
         }
 
         try{
-          const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
+          const submitionResult = await this.$apiService.post("api/Answers/SubmitBatchAnswer", data)
           isAnswersSubmitted = true;
         } catch (error) {
           console.log(error)
@@ -361,7 +361,7 @@ export default {
         }
 
         try{
-          //const submitionResult = await this.$apiService.post("api/services/app/Answers/SubmitBatchAnswer", data)
+          //const submitionResult = await this.$apiService.post("api/Answers/SubmitBatchAnswer", data)
           isAnswersSubmitted = true;
         } catch (error) {
           console.log(error)

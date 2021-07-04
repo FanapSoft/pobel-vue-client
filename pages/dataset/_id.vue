@@ -228,11 +228,9 @@ export default {
   methods: {
     async getItem() {
       this.loading = true;
-      const data = {
-        id: this.$route.params.id
-      }
+
       try {
-        const dataset = await this.$apiService.get('/api/services/app/Datasets/Get', data);
+        const dataset = await this.$apiService.get('/api/Datasets/Get/' + this.$route.params.id);
         if(dataset.data && dataset.data.result) {
           this.dataset = dataset.data.result;
         }
@@ -250,7 +248,7 @@ export default {
         DataSetId: this.$route.params.id,
       }
       try {
-        const datasets = await this.$apiService.get('/api/services/app/Reports/AnswersCountsTrend', data);
+        const datasets = await this.$apiService.get('/api/Reports/AnswersCountsTrend', data);
         if(datasets.data && datasets.data.result && datasets.data.result.length) {
           this.userHasChart = true;
           //this.dataset = dataset.data.result;
@@ -370,7 +368,7 @@ export default {
       }
 
       try {
-        const credit = await this.$apiService.get('/api/services/app/Credit/GetCredit', data);
+        const credit = await this.$apiService.get('/api/Credit/GetCredit', data);
         if(credit.data && credit.data.result && credit.data.result.credit) {
           this.userCredit = credit.data.result.credit;
         }
@@ -409,7 +407,7 @@ export default {
         dataSetId: this.$route.params.id
       }
       try {
-        const credit = await this.$apiService.post('/api/services/app/Credit/CollectCredit', data);
+        const credit = await this.$apiService.post('/api/Credit/CollectCredit', data);
         if(credit.data && credit.data.result) {
           if(credit.data.result.creditAmount > 0) {
             let continueModal = Modal({
@@ -479,7 +477,7 @@ export default {
       }
 
       try {
-        const answers = await this.$apiService.post('/api/services/app/Answers/Stats', data);
+        const answers = await this.$apiService.post('/api/Answers/Stats', data);
         if(answers.data && answers.data.result) {
           this.userAnswersCount = answers.data.result.totalCount;
         }
@@ -495,7 +493,7 @@ export default {
       }
 
       try {
-        const targets = await this.$apiService.get('/api/services/app/TargetDefinitions/GetAll', data);
+        const targets = await this.$apiService.get('/api/TargetDefinitions/GetAll', data);
         if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
           this.datasetTargets = targets.data.result.items;
         }
@@ -507,19 +505,17 @@ export default {
     },
     async getUserTarget(datasetId) {
       let data = {
-        datasetId: datasetId,
-        ownerId: this.user.id,
-        order: 'DESC',
-        maxResultCount: 1
+        DatasetId: datasetId,
+        OwnerId: this.user.id,
+        Order: 'DESC',
+        Limit: 1
       }
 
       try {
-        const targets = await this.$apiService.get('/api/services/app/Targets/GetAll', data);
+        const targets = await this.$apiService.get('/api/Targets/GetAll', data);
         if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
-          data = {
-            id: targets.data.result.items[0].targetDefinitionId
-          };
-          let targetDefinition = await this.$apiService.get('/api/services/app/TargetDefinitions/Get', data);
+
+          let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           this.userTargetDefinition = targetDefinition.data.result;
         }
       } catch (error) {
@@ -535,7 +531,7 @@ export default {
 
       //TODO: create new target ?
       try {
-        const result = await this.$apiService.post('/api/services/app/Targets/Create', data);
+        const result = await this.$apiService.post('/api/Targets/Create', data);
         if (result.data && result.data.result) {
           //this.userTargetDefinition = result.data.result;
           this.getUserTarget(this.$route.params.id)

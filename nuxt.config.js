@@ -80,7 +80,7 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://10.56.16.50:8888', // Used as fallback if no runtime config is provided
+    baseURL: 'http://localhost:8080', // Used as fallback if no runtime config is provided
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
