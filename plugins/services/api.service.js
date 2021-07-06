@@ -1,6 +1,8 @@
 /**
  * Service to call HTTP request via Axios
  */
+import error from "@/layouts/error";
+
 const ApiService = {
   //http://10.56.16.50:8888
   loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://localhost:8080') : encodeURI('http://localhost:8080'))}`,
@@ -14,7 +16,7 @@ const ApiService = {
   },
 
   async get(url, params){
-    return  await this.axios.get(url,{
+    return  await this.axios.get(url, {
       params: params
     });
   },

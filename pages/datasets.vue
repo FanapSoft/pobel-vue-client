@@ -25,15 +25,15 @@
             <div
 
               class="dataset-cover"
-              :style="{'background-image': (ds.coverItem ? `url(${$axios.defaults.baseURL}/file/dataset/item/${ds.coverItem.id})` : 'none')}"
+              :style="{'background-image': (ds.RandomItemId ? `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${ds.RandomItemId})` : 'none')}"
               :id="`ds-cover-${ds.id}`">
             <span
-              v-if="ds.labelingStatus"
+              v-if="ds.LabelingStatus"
               class="dataset-labeling-status" data-title="وضعیت برچسب زنی فعال است"></span>
             </div>
 
-            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.id}`" :data-title="ds.name">
-              {{ ds.name }}
+            <NuxtLink class="title" style="font-family: 'IranSans';" :to="`/dataset/${ds.Id}`" :data-title="ds.Name">
+              {{ ds.Name }}
             </NuxtLink>
             <v-container>
               <v-row>
@@ -42,7 +42,7 @@
                     <span style="display: flex;">
                     <span>{{ $t('GENERAL.TARGET') }}</span><span>/</span><strong>{{ $t('GENERAL.ANSWER') }}</strong>
                     </span>
-                    <span :id="`ds-ur-answers-${ds.id}`" style="display: flex; ">
+                    <span :id="`ds-ur-answers-${ds.Id}`" style="display: flex; ">
                       <template
                         v-if="ds.targetSize && ds.userAnswersCount">
                         <span>{{$utils.formatNumber(ds.targetSize) }}</span><span>/</span><strong>{{ $utils.formatNumber(ds.userAnswersCount) }}</strong>
@@ -57,8 +57,8 @@
                 <v-col cols="6">
                   <p class="left-in-mobile mb-0">{{$t('GENERAL.CREDIT')}}
                     <br/>
-                    <span :id="`ds-credit-${ds.id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span>
-                    {{ $t('GENERAL.IRR') }}</p>
+                    <span :id="`ds-credit-${ds.Id}`">{{ $utils.formatNumber($utils.toFixed(ds.userCredit)) }}</span>
+                    {{ $t('GENERAL.IRT') }}</p>
                 </v-col>
               </v-row>
             </v-container>
@@ -68,10 +68,10 @@
               v-if="ds.targetSize && ds.userAnswersCount && ds.userAnswersCount <= ds.targetSize"
               class="row-old dataset-actions-list" :id="`ds-{{id}}`">
               <div
-                v-if="ds.labelingStatus"
+                v-if="ds.LabelingStatus"
 
                 class="col-12-old">
-                <NuxtLink :to="`/labeling/grid/${ds.id}`" class="start-btn text-center">{{ $t('GENERAL.START') }}</NuxtLink>
+                <NuxtLink :to="`/labeling/grid/${ds.Id}`" class="start-btn text-center">{{ $t('GENERAL.START') }}</NuxtLink>
               </div>
               <div
                 v-else
@@ -114,25 +114,28 @@ export default {
       this.loading = true;
       const data = {
         //Limit: 3
+        IsActive: true,
+        IncludeRandomItem: true
       }
       try {
         const datasets = await this.$apiService.get('/api/Datasets/GetAll', data);
-        if (datasets.data && datasets.data.result && datasets.data.result.items && datasets.data.result.items.length) {
-          for (let item of datasets.data.result.items) {
-            item.answerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.answerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            item.coverItem = await this.getDatasetCoverItem(item.id);
-            item.targetSize = await this.getUserTarget(item.id);
+        if (datasets.data && datasets.data.items && datasets.data.items.length) {
+          for (let item of datasets.data.items) {
+            item.AnswerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.AnswerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            //item.coverItem = await this.getDatasetCoverItem(item.Id);
+            item.targetSize = await this.getUserTarget(item.Id);
+            console.log(item.targetSize)
             if (item.targetSize) {
-              item.userAnswersCount = await this.getUserAnswersCount(item.id);
+              item.userAnswersCount = await this.getUserAnswersCount(item.Id);
 
               if (item.userAnswersCount) {
-                item.userCredit = await this.getUserCredit(item.id);
+                item.userCredit = await this.getUserCredit(item.Id);
               }
             }
           }
 
-          this.datasets = datasets.data.result.items;
-          this.dsCount = datasets.data.result.totalCount;
+          this.datasets = datasets.data.items;
+          this.dsCount = datasets.data.totalCount;
         }
       } catch (error) {
         console.log(error)
@@ -141,18 +144,18 @@ export default {
     },
     async getDatasetCoverItem(id) {
       const data = {
-        DataSetId: id,
-        SkipCount: 0,//Math.floor(Math.random() * ds.data.result.totalCount),
+        DatasetId: id,
+        Skip: 0,//Math.floor(Math.random() * ds.data.result.totalCount),
         Limit: 1
       }
 
       //TODO: needs improvement
       try {
-        let datasetItems = await this.$apiService.get('/api/DataSetItems/GetAll', data);
-        if (datasetItems.data && datasetItems.data.result && datasetItems.data.result.items) {
-          data.SkipCount = Math.floor(Math.random() * datasetItems.data.result.totalCount);
-          datasetItems = await this.$apiService.get('/api/DataSetItems/GetAll', data);
-          return (datasetItems.data.result ? datasetItems.data.result.items[0] : null)
+        let datasetItems = await this.$apiService.get('/api/DatasetItems/GetAll', data);
+        if (datasetItems.data && datasetItems.data.items) {
+          data.Skip = Math.floor(Math.random() * datasetItems.data.totalCount);
+          datasetItems = await this.$apiService.get('/api/DatasetItems/GetAll', data);
+          return (datasetItems.data ? datasetItems.data.items[0] : null)
         }
       } catch (error) {
         console.log(error);
@@ -162,21 +165,20 @@ export default {
     },
     async getUserTarget(datasetId) {
       let data = {
-        datasetId: datasetId,
-        ownerId: this.user.id,
-        order: 'DESC',
-        Limit: 1
+        DatasetId: datasetId,
+        UserId: this.user.Id
       }
 
       try {
-        const targets = await this.$apiService.get('/api/Targets/GetAll', data);
-        if (targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
+        const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
+        if (target.data) {
           // data = {
           //   id: targets.data.result.items[0].targetDefinitionId
           // };
-          let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
+
+          //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           //if(targetDefinition.data && targetDefinition.data.result) {
-          return (targetDefinition.data.result ? targetDefinition.data.result.answerCount : '0');
+          return (target.data ? target.data.TargetDefinition.AnswerCount : '0');
           //}
         }
       } catch (error) {
@@ -187,14 +189,14 @@ export default {
     },
     async getUserAnswersCount(ds) {
       let data = {
-        datasetId: ds,
+        DatasetId: ds,
         UserId: this.user.id,
       }
 
       try {
-        const answers = await this.$apiService.post('/api/Answers/Stats', data);
-        if (answers.data && answers.data.result) {
-          return answers.data.result.totalCount;
+        const answers = await this.$apiService.get('/api/Answers/Stats', data);
+        if (answers.data) {
+          return answers.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -204,14 +206,14 @@ export default {
     },
     async getUserCredit(ds) {
       let data = {
-        userId: this.user.id,
-        dataSetId: ds
+        UserId: this.user.Id,
+        DatasetId: ds
       }
 
       try {
         const credit = await this.$apiService.get('/api/Credit/GetCredit', data);
-        if (credit.data && credit.data.result) {
-          return credit.data.result.credit;
+        if (credit.data) {
+          return credit.data.credit;
         }
       } catch (error) {
         console.log(error);

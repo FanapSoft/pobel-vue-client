@@ -9,7 +9,7 @@
         @totalSeconds="tm => timer = tm"></datasets-nav>
 
       <div
-        v-if="!randomLabel || !labelQuestions"
+        v-if="!labelQuestions"
 
         style="display: flex; align-items: center; justify-content: center;margin-top: 20px">
         <v-progress-circular
@@ -27,12 +27,12 @@
             {{$t('TEXTS.LABELINGQUESTIONPART1')}}
             <strong
 
-              @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${randomLabel.name.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
+              @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelQuestions[0].ItemJob}" ${labelQuestions[0].ItemName}`); }'
 
               style="cursor: pointer;">
-              {{ randomLabel.name.replace(/[0-9]/g, '').replace(/_/g, ' ') }}
-
-               ({{ labelType }})
+<!--              {{randomLabel.name.replace(/[0-9]/g, '').replace(/_/g, ' ') }}-->
+              {{labelQuestions[0].ItemName}}
+               ({{ labelQuestions[0].ItemJob }})
             </strong>
             {{$t('TEXTS.LABELINGQUESTIONPART2')}}
           </p>
@@ -52,7 +52,7 @@
                 'g': item.g,
 
               }"
-              :style="{backgroundImage: `url(${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId})`}">
+              :style="{backgroundImage: `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${item.DatasetItemId})`}">
               <div
 
                 class="grid-images-overlay-bg">
@@ -117,7 +117,7 @@
                         height="150px"
                         width="150px"
                         style="margin: 20px auto 0;display: flex;"
-                        :src="`${$axios.defaults.baseURL}/file/dataset/item/${item.datasetItemId}`">
+                        :src="`${$axios.defaults.baseURL}/api/File/Dataset/Item/${item.datasetItemId}`">
 <!--
         https://static2.khoondanionline.com/thumbnail/KGuPcGgDttnK/9-wZKh4hicXyJvwVQ1c9MgnJ79Dd3XqXIM1JsiCe47NYS6jramGkBPdo-QVEe9EuUKNBJTAl-ko,/%D8%B9%D9%84%DB%8C+%D8%A7%D9%86%D8%B5%D8%A7%D8%B1%DB%8C%D8%A7%D9%86.jpg
         -->
@@ -224,7 +224,8 @@ export default {
       timer: null,
       localAnswersCount: 0,
       localReportsCount: 0,
-      carouselModel: 0
+      carouselModel: 0,
+      currentQuestionId: null
     }
   },
   methods: {
@@ -242,37 +243,38 @@ export default {
         console.log(error)
       }
     },
-    async getRandomLabel() {
-      const data = {
-        datasetId: this.$route.params.id,
-        count: 1
-      }
-
-      //TODO: create new target ?
-      try {
-        const result = await this.$apiService.get('/api/Questions/GetRandomLabel', data);
-        if (result.data && result.data.result) {
-          this.randomLabel = result.data.result[0]
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    // async getRandomLabel() {
+    //   const data = {
+    //     datasetId: this.$route.params.id,
+    //     count: 1
+    //   }
+    //
+    //   //TODO: create new target ?
+    //   try {
+    //     const result = await this.$apiService.get('/api/Questions/GetRandomLabel', data);
+    //     if (result.data && result.data) {
+    //       this.randomLabel = result.data[0]
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
     async getLabelQuestions() {
-      if (!this.randomLabel)
-        return;
+      // if (!this.randomLabel)
+      //   return;
 
       let data = {
-        DataSetId: this.$route.params.id,
+        DatasetId: this.$route.params.id,
         Count: 9,
-        LabelId: this.randomLabel.id,
+        OnlyOneLabel: true
+        //LabelId: this.randomLabel.id,
       }
 
       try {
         const result = await this.$apiService.get('/api/Questions/GetQuestions', data);
 
-        if (result.data && result.data.result) {
-          this.labelQuestions = result.data.result;
+        if (result.data) {
+          this.labelQuestions = result.data;
           this.labelQuestions.forEach(item => {
             this.$set(item, "isYes", false);
             this.$set(item, "isNo", false);
@@ -292,18 +294,16 @@ export default {
     },
     async getUserTarget(datasetId) {
       let data = {
-        datasetId: datasetId,
-        ownerId: this.user.id,
-        order: 'DESC',
-        Limit: 1
+        DatasetId: datasetId,
+        UserId: this.user.Id
       }
 
       try {
-        const targets = await this.$apiService.get('/api/Targets/GetAll', data);
-        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
+        const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
+        if(target.data) {
 
-          let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
-          this.userTargetDefinition = targetDefinition.data.result;
+          //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
+          this.userTargetDefinition = target.data.TargetDefinition;//targetDefinition.data.result;
           this.$set(this.userTargetDefinition, 'currentUserAnswersCount', 0);
 
           await this.getUserAnswersCount();
@@ -313,15 +313,13 @@ export default {
       }
     },
     async getUserAnswersCount() {
-      ///api/Answers/Stats
-
       let data = {
-        dataSetId: this.$route.params.id,
+        DatasetId: this.$route.params.id,
         UserId: this.user.id
       }
 
       try {
-        const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
+        const answerStat = await this.$apiService.get('/api/Answers/Stats', data);
         if(answerStat.data && answerStat.data.result ) {
           console.log()
           this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
@@ -330,55 +328,58 @@ export default {
         console.log(error);
       }
     },
-    async getDatasetItem() {
-      if(!this.labelQuestions)
-        return
-      // let data = {
-      //   id: this.labelQuestions[0].datasetItemId,
-      // }
-
-      try {
-        const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].DatasetItemId);
-        if (result.data && result.data.result) {
-          this.datasetItem = result.data.result;
-
-          //TODO: WTF ?
-          let fieldName = this.datasetItem.filePath;
-          fieldName = fieldName.split('\\')[4];
-          switch (fieldName) {
-            case 'Actors':
-              this.labelType = this.$t('GENERAL.ACTOR');
-              break;
-
-            case 'Singers':
-              this.labelType = this.$t('GENERAL.SINGER');
-              break;
-
-            case 'Politicians':
-              this.labelType = this.$t('GENERAL.POLITICIAN');
-              break;
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    // async getDatasetItem() {
+    //   if(!this.labelQuestions)
+    //     return
+    //   // let data = {
+    //   //   id: this.labelQuestions[0].datasetItemId,
+    //   // }
+    //
+    //   try {
+    //     const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].DatasetItemId);
+    //     if (result.data) {
+    //       this.datasetItem = result.data;
+    //
+    //       //TODO: WTF ?
+    //       let fieldName = this.datasetItem.FilePath;
+    //       fieldName = fieldName.split('\\')[4];
+    //       switch (fieldName) {
+    //         case 'Actors':
+    //           this.labelType = this.$t('GENERAL.ACTOR');
+    //           break;
+    //
+    //         case 'Singers':
+    //           this.labelType = this.$t('GENERAL.SINGER');
+    //           break;
+    //
+    //         case 'Politicians':
+    //           this.labelType = this.$t('GENERAL.POLITICIAN');
+    //           break;
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
     async submitAnswersToServer() {
       let isAnswersSubmited = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
       //TODO: make sure user can not reach here without answers
       if(answers.length) {
         finalAnswers = answers.map(item => {
+
           //TODO: improve it for questions with more than yes and no answer options
           return {
-            dataSetId: (item.answer === 0 ? item.options[0].dataSetId : item.options[1].dataSetId),
-            dataSetItemId: item.datasetItemId,
-            answerIndex: (item.answer === 0 ?  item.options[0].index : item.options[1].index),
-            durationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length)
+            DatasetId: item.Options[0].DatasetId,
+            DatasetItemId: item.DatasetItemId,
+            AnswerIndex: item.answer,
+            DurationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length),
+            Ignored: false,
           }
         });
         let data = {
-          answers: finalAnswers
+          Answers: finalAnswers,
+          QuestionId: answers[0].QuestionId
         }
 
         try{
@@ -455,7 +456,7 @@ export default {
               item.isNo = false;
               item.isReport = false;
               item.isYes = true;
-              item.answer = 0;
+              item.answer = 1;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -468,7 +469,7 @@ export default {
               item.isYes = false;
               item.isNo = true;
               item.isReport = false;
-              item.answer = 1;
+              item.answer = 0;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -503,9 +504,9 @@ export default {
 
       this.$nextTick(async ()=> {
         await this.getUserTarget(this.$route.params.id);
-        await this.getRandomLabel();
+        //await this.getRandomLabel();
         await this.getLabelQuestions();
-        await this.getDatasetItem();
+       // await this.getDatasetItem();
       })
 
     }
@@ -514,9 +515,9 @@ export default {
     //Call orders matters
     await this.getDataset();
     await this.getUserTarget(this.$route.params.id);
-    await this.getRandomLabel();
+    //await this.getRandomLabel();
     await this.getLabelQuestions();
-    await this.getDatasetItem();
+    //await this.getDatasetItem();
   },
   watch: {
     labelQuestions: {

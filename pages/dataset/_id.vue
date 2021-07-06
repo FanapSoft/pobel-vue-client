@@ -13,23 +13,23 @@
     <div v-else>
       <v-row class="header">
         <v-col cols="6" sm="6" class=" dataset-list-name">
-          <h3>{{ dataset.name }} <small>{{ dataset.description }}</small></h3>
+          <h3>{{ dataset.Name }} <small>{{ dataset.Description }}</small></h3>
         </v-col>
 
         <v-col cols="6" sm="6" class=" back-btn-wrapper">
           <div
-            v-if="dataset.labelingStatus"
+            v-if="dataset.LabelingStatus"
 
             id="dataset-action-wrapper">
 <!-- && !currentTargetReached-->
 
-            <template v-if="userTargetDefinition && userTargetDefinition.answerCount > userAnswersCount">
+            <template v-if="userTargetDefinition && userTargetDefinition.AnswerCount > userAnswersCount">
               <v-btn
                 v-if="$vuetify.breakpoint.xs"
 
                 text  outlined
 
-                :to="`/labeling/grid/${dataset.id}`"
+                :to="`/labeling/grid/${dataset.Id}`"
 
                 class="start-btn">
                 <v-icon>mdi-movie-open-play</v-icon>
@@ -37,7 +37,7 @@
               <NuxtLink
                 v-else
 
-                :to="`/labeling/grid/${dataset.id}`"
+                :to="`/labeling/grid/${dataset.Id}`"
 
                 class="start-btn">{{$t('GENERAL.STARTLABELING')}}</NuxtLink>
             </template>
@@ -60,12 +60,12 @@
           <div class="dataset-history-wrapper" id="set-show-target">
             <small>{{ $t('GENERAL.YOURTARGET') }}</small>
             <p id="weekly-target">
-              <small id="weekly-target-count" :data-title=" $t('GENERAL.YOURTARGET') ">{{ userTargetDefinition ? $utils.formatNumber(userTargetDefinition.answerCount) : '0' }}</small>/<span id="dashboard-all-answers" :data-title="$t('GENERAL.YOURANSWERS')">{{ $utils.formatNumber(userAnswersCount) }}</span>
+              <small id="weekly-target-count" :data-title=" $t('GENERAL.YOURTARGET') ">{{ userTargetDefinition ? $utils.formatNumber(userTargetDefinition.AnswerCount) : '0' }}</small>/<span id="dashboard-all-answers" :data-title="$t('GENERAL.YOURANSWERS')">{{ $utils.formatNumber(userAnswersCount) }}</span>
             </p>
           </div>
           <div class="dataset-history-wrapper"><small>{{ $t('GENERAL.LABELINGSTATUS')}}</small>
             <p id="stats-status">
-              <template v-if="dataset.labelingStatus">
+              <template v-if="dataset.LabelingStatus">
                 {{ $t('GENERAL.ACTIVE') }}
               </template>
               <template v-else>
@@ -115,7 +115,7 @@
       </v-row>
 
       <v-row
-        v-if="dataset.isActive"
+        v-if="dataset.IsActive"
 
         class=" user-targets-wrapper"
         id="set-target">
@@ -134,7 +134,7 @@
 
               cols="12" sm="6" class="px-1 py-0">
               <v-card
-                :class="{'active': (userTargetDefinition && userTargetDefinition.id === item.id)}"
+                :class="{'active': (userTargetDefinition && userTargetDefinition.Id === item.Id)}"
                 @click="changeUserTargetTo(item)"
 
                 elevation="0"
@@ -161,14 +161,14 @@
                       <v-col cols="12" class="pa-0">
                         <small style="font-size: 12px">
                           {{ $t('GENERAL.MAXIMUMREVENUE') }}:
-                          {{ $utils.formatNumber(item.uMax) }}
-                          {{ $t('GENERAL.IRR') }}
+                          {{ $utils.formatNumber(item.UMax) }}
+                          {{ $t('GENERAL.IRT') }}
                         </small>
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="3" class="text-center d-flex align-center justify-center" >
-                    <h3>{{ $utils.formatNumber(item.answerCount) }}</h3>
+                    <h3>{{ $utils.formatNumber(item.AnswerCount) }}</h3>
                   </v-col>
                 </v-row>
               </v-card>
@@ -231,8 +231,8 @@ export default {
 
       try {
         const dataset = await this.$apiService.get('/api/Datasets/Get/' + this.$route.params.id);
-        if(dataset.data && dataset.data.result) {
-          this.dataset = dataset.data.result;
+        if(dataset.data) {
+          this.dataset = dataset.data;
         }
       } catch (error) {
         console.log(error)
@@ -244,19 +244,19 @@ export default {
       let lang = this.$langIsFa ? 'fa' : 'en';
 
       const data = {
-        UserId: this.user.id,
+        UserId: this.user.Id,
         DataSetId: this.$route.params.id,
       }
       try {
         const datasets = await this.$apiService.get('/api/Reports/AnswersCountsTrend', data);
-        if(datasets.data && datasets.data.result && datasets.data.result.length) {
+        if(datasets.data && datasets.data && datasets.data.length) {
           this.userHasChart = true;
           //this.dataset = dataset.data.result;
 
           let finalDataDates = [];
           let finalDataCounts = [];
 
-          datasets.data.result.forEach(v => {
+          datasets.data.forEach(v => {
             finalDataDates.push(this.$moment(v.date).locale(lang).format('DD MMMM YY'));
             finalDataCounts.push(v.count);
           });
@@ -266,8 +266,8 @@ export default {
 
 
           if (finalDataDates.length >= 1) {
-            let currDate = this.$moment(new Date(datasets.data.result[0]['date'])).startOf("day");
-            let lastDate = this.$moment(new Date(datasets.data.result[datasets.data.result.length - 1]['date'])).startOf("day");
+            let currDate = this.$moment(new Date(datasets.data[0]['date'])).startOf("day");
+            let lastDate = this.$moment(new Date(datasets.data[datasets.data.length - 1]['date'])).startOf("day");
 
             do {
               fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
@@ -277,7 +277,7 @@ export default {
               fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
             }
           } else {
-            fillUpDates.push(this.$moment(new Date(datasets.data.result[0]['date'])).locale(lang).format('DD MMMM YY'));
+            fillUpDates.push(this.$moment(new Date(datasets.data[0]['date'])).locale(lang).format('DD MMMM YY'));
           }
           let chartDates = [],
             chartCount = [];
@@ -363,14 +363,14 @@ export default {
     },
     async getUserCredit(ds) {
       let data = {
-        userId: this.user.id,
-        dataSetId: ds
+        UserId: this.user.id,
+        DatasetId: ds
       }
 
       try {
         const credit = await this.$apiService.get('/api/Credit/GetCredit', data);
-        if(credit.data && credit.data.result && credit.data.result.credit) {
-          this.userCredit = credit.data.result.credit;
+        if(credit.data && credit.data && credit.data.credit) {
+          this.userCredit = credit.data.credit;
         }
       } catch (error) {
         console.log(error);
@@ -403,17 +403,18 @@ export default {
       }
       this.loadingRequestCashout = true
       const data = {
-        userId: this.user.id,
-        dataSetId: this.$route.params.id
+        UserId: this.user.id,
+        DatasetId: this.$route.params.id
       }
       try {
         const credit = await this.$apiService.post('/api/Credit/CollectCredit', data);
-        if(credit.data && credit.data.result) {
-          if(credit.data.result.creditAmount > 0) {
+        console.log(credit)
+        if(credit.data && credit.status < 400) {
+          if(credit.data.CreditAmount > 0) {
             let continueModal = Modal({
               title: this.$t('GENERAL.TRANSFERSUCCESSFUL'),
               body: `
-              ${credit.data.result.creditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")}
+              ${credit.data.CreditAmount.toFixed(2).replace(/\\B(?=(\\d{3})+(?!\\d))/g, ",")}
                 ${this.$t('TEXTS.SINGLEDATASETPOINTSTRANSFEREDMODAL')} `,
               backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
               fullscreen: true,
@@ -442,8 +443,7 @@ export default {
             document.getElementById('stats-credit').innerHTML = '0.00';
           }
         } else {
-          if(credit.data && credit.data.error && credit.data.error.message ) {
-            if(credit.data.error.message.indexOf("You haven't reached the target yet.") !== -1) {
+          if(credit.data && credit.data[0].code === 3400 ) {
               let alertModal = Modal({
                 title: this.$t('GENERAL.TRANSFERERROR'),
                 body: this.$t('TEXTS.SINGLEDATASETNOTREACHEDTARGET'),
@@ -462,7 +462,6 @@ export default {
                 }
               });
             }
-          }
         }
       } catch (error) {
         console.log(error)
@@ -472,14 +471,14 @@ export default {
     },
     async getUserAnswersCount(ds) {
       let data = {
-        datasetId: ds,
-        userId: this.user.id,
+        DatasetId: ds,
+        UserId: this.user.id,
       }
 
       try {
-        const answers = await this.$apiService.post('/api/Answers/Stats', data);
-        if(answers.data && answers.data.result) {
-          this.userAnswersCount = answers.data.result.totalCount;
+        const answers = await this.$apiService.get('/api/Answers/Stats', data);
+        if(answers.data) {
+          this.userAnswersCount = answers.data.totalCount;
         }
       } catch (error) {
         console.log(error);
@@ -489,13 +488,13 @@ export default {
     },
     async getDatasetTargets(datasetId) {
       let data = {
-        datasetId: datasetId
+        DatasetId: datasetId
       }
 
       try {
         const targets = await this.$apiService.get('/api/TargetDefinitions/GetAll', data);
-        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
-          this.datasetTargets = targets.data.result.items;
+        if(targets.data && targets.data.items && targets.data.items.length) {
+          this.datasetTargets = targets.data.items;
         }
       } catch (error) {
         console.log(error);
@@ -506,17 +505,14 @@ export default {
     async getUserTarget(datasetId) {
       let data = {
         DatasetId: datasetId,
-        OwnerId: this.user.id,
-        Order: 'DESC',
-        Limit: 1
+        UserId: this.user.Id
       }
 
       try {
-        const targets = await this.$apiService.get('/api/Targets/GetAll', data);
-        if(targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
-
-          let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
-          this.userTargetDefinition = targetDefinition.data.result;
+        const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
+        if(target.data) {
+          //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.items[0].targetDefinitionId, data);
+          this.userTargetDefinition = target.data.TargetDefinition;
         }
       } catch (error) {
         console.log(error);
@@ -526,14 +522,14 @@ export default {
     },
     async changeUserTargetTo(target) {
       let data = {
-        targetDefinitionId: target.id
+        TargetDefinitionId: target.Id
       }
 
       //TODO: create new target ?
       try {
-        const result = await this.$apiService.post('/api/Targets/Create', data);
-        if (result.data && result.data.result) {
-          //this.userTargetDefinition = result.data.result;
+        const result = await this.$apiService.post('/api/Targets/ActivateTarget', data);
+        if (result.data) {
+          //this.userTargetDefinition = result.data;
           this.getUserTarget(this.$route.params.id)
         }
       } catch (error) {

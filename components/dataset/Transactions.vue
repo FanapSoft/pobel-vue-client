@@ -37,20 +37,20 @@
           </template>
           <template v-slot:item.dataset="{ item }">
             <span
-              v-if="item.dataset" class="reason">{{item.dataset.name}}</span>
+              v-if="item.dataset" class="reason">{{item.dataset.Name}}</span>
               <span
                 v-else class="reason">...</span>
           </template>
           <template v-slot:item.description="{ item }">
-            <span class="description">{{ item.reasonDescription || $t('GENERAL.DESCRIPTION') }}</span>
+            <span class="description">{{ item.ReasonDescription || $t('GENERAL.DESCRIPTION') }}</span>
           </template>
           <template v-slot:item.amount="{ item }">
             <span class="credit-amount">
-                    {{ $utils.formatNumber($utils.toFixed(item.creditAmount)) }}
+                    {{ $utils.formatNumber($utils.toFixed(item.CreditAmount)) }}
             </span>
           </template>
           <template v-slot:item.date="{ item }">
-            <span v-if="$langIsFa" class="time">{{ new Date(item.creationTime).toLocaleDateString('fa-IR')}}</span>
+            <span v-if="$langIsFa" class="time">{{ new Date(item.CreatedAt).toLocaleDateString('fa-IR')}}</span>
             <span v-else class="time">{{ new Date(item.creationTime).toLocaleDateString('en-US')}}</span>
           </template>
         </v-data-table>
@@ -104,16 +104,18 @@ export default {
       this.loadingTransactions = true;
       //TODO: We should limit this to current dataset
       let data = {
-        DataSetId: (this.dataset ? this.dataset.id : null),//Added temporarily
-        OwnerId: this.user.id
+        ReferenceDatasetId: (this.dataset ? this.dataset.Id : null),//Added temporarily
+        OwnerId: this.user.Id,
+        IncludeDataset: true
       }
 
       try {
-        const transactions = await this.$apiService.get('/api/Transactions/GetAll',data);
-        if (transactions.data && transactions.data.result) {
-          this.transactions = transactions.data.result.items;
-          this.transactions.forEach(async item => {
-            this.$set(item, 'dataset', await this.fetchDataset(item.referenceDataSetId))
+        const transactions = await this.$apiService.get('/api/Transactions/GetAll', data);
+        if (transactions.data) {
+          this.transactions = transactions.data.items;
+          this.transactions.forEach(item => {
+            this.$set(item, 'dataset', item.ReferenceDataset//await this.fetchDataset(item.ReferenceDataSetId)
+            )
             //item.dataset = await this.fetchDataset(item.referenceDataSetId)
           })
         }
@@ -122,22 +124,7 @@ export default {
       } finally {
         this.loadingTransactions = false
       }
-    },
-    async fetchDataset(id) {
-      if(!id)
-        return null
-
-      try {
-        const ds = await this.$apiService.get('/api/Datasets/Get/' + id);
-
-        if (ds.data && ds.data.result) {
-
-          return ds.data.result
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    }
   },
   mounted() {
     this.getTransactions();

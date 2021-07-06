@@ -29,8 +29,9 @@ export default function (context) {
           window.location.href = $apiService.loginUrl;
         }
 
-        throw response;
+
       }
+      return response;
     } else {
       return response;
     }
@@ -38,12 +39,12 @@ export default function (context) {
 
   $axios.onResponseError(error => {
 
-    console.log(error)
+    //console.log(error)
     if (error.response && error.response.status === 401) {
       //console.log("User has been logged out! Redirecting back to login page ...");
       //window.location.href = $apiService.loginUrl;
     }
 
-    return error;
+    return  error;
   })
 }

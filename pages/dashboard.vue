@@ -1,113 +1,9 @@
 <template>
-<!--  <div class="container-old datasets-wrapper">
-    <div class="row-old">
-      <div class="row-old header">
-        <div class="col-12-sm-old dataset-list-name">
-          <h3>خوش آمدید<small>{{ user.fullName }}</small></h3>
-        </div>
-      </div>
-
-      <div class="row-old dataset-history">
-        <div class="col-6-sm-old">
-          <div class="dataset-history-wrapper"><small>نام کاربری: </small>
-            <p id="stats-all">{{ user.userName }}</p></div>
-          <div class="dataset-history-wrapper">
-            <small>وضعیت اکانت: </small>
-            <p id="stats-status">
-              <template v-if="user.isActive">فعال</template>
-              <template v-else>غیرفعال</template>
-            </p>
-          </div>
-        </div>
-
-        <div class="col-6-sm-old">
-          <div class="dataset-history-wrapper"><small>تعداد پاسخ های ثبت شده: </small>
-            <p id="stats-answers">{{ answersCount }}</p></div>
-          <div class="dataset-history-wrapper" id="cash-out-wrapper"><small>اعتبار کیف پول: </small>
-            <p id="wallet-credit">
-              <template
-                v-if="!walletCredit">
-                0 <small>تومان</small>
-              </template>
-              <template
-                v-else>{{ walletCredit }}<small>ریال</small>
-              </template>
-            </p>
-&lt;!&ndash;            <button
-              outlined x-small
-
-              style="letter-spacing: 0"
-              @click="requestCashout"
-
-              id="cashout-btn"
-              class="set-target-btn">انتقال به کیف پول</button>&ndash;&gt;
-
-
-            <v-dialog width="400">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  outlined x-small
-
-                  :loading="loadingRequestCashout"
-
-                  v-bind="attrs"
-                  v-on="on"
-
-                  id="cashout-btn"
-                  style="letter-spacing: 0;padding: 13px 10px"
-                  class="set-target-btn">انتقال به کیف پول</v-btn>
-              </template>
-
-              <v-card>
-                <v-card-title
-
-                  class="headline "
-                  style="font-family: 'IranSans' !important;font-size: 16px !important;">
-                  درخواست انتقال به کیف پول
-                </v-card-title>
-                <v-card-text class="pt-6">
-                  <v-form v-model="userPhoneNumberValid">
-                    <v-text-field
-                       filled dense rounded
-                       color="#333"
-                       type="number"
-                       :rules="[
-                         $utils.validators.iranmobile,
-                         $utils.validators.betweenLength(userPhoneNumber, 3, 11)
-                       ]"
-                       dir="ltr"
-
-                      label="تلفن همراه"
-                      v-model="userPhoneNumber"></v-text-field>
-                  </v-form>
-                </v-card-text>
-                <v-divider></v-divider>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    text
-
-                    :disabled="!userPhoneNumberValid"
-                    @click="requestCashout"
-
-                    color="primary">
-                    ثبت
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </div>
-        </div>
-      </div>
-
-      <transactions :user="user"></transactions>
-    </div>
-  </div>-->
   <v-container class=" datasets-wrapper px-md-12 px-sm-8">
 
       <v-row class=" header">
         <v-col sm="12" class=" dataset-list-name">
-          <h3>{{ $t('USER.WELCOME')}}<small>{{ user.fullName }}</small></h3>
+          <h3>{{ $t('USER.WELCOME')}}<small>{{ user.Name + ' ' + user.Surname }}</small></h3>
         </v-col>
       </v-row>
 
@@ -117,7 +13,7 @@
             elevation="0"
             class="dataset-history-wrapper "
             style="border-radius: 10px"><small>{{$t('USER.USERNAME')}}: </small>
-            <p id="stats-all">{{ user.userName }}</p>
+            <p id="stats-all">{{ user.UserName }}</p>
           </v-card>
           <v-card
             elevation="0"
@@ -125,7 +21,7 @@
             style="border-radius: 10px">
             <small>{{$t("USER.ACCOUNTSTATUS")}}: </small>
             <p id="stats-status">
-              <template v-if="user.isActive">{{$t('GENERAL.ACTIVE')}}</template>
+              <template v-if="user.IsActive">{{$t('GENERAL.ACTIVE')}}</template>
               <template v-else>{{$t('GENERAL.INACTIVE')}}</template>
             </p>
           </v-card>
@@ -151,7 +47,7 @@
                 0 <small>{{ $t('GENERAL.IRT') }}</small>
               </template>
               <template
-                v-else>{{ walletCredit }}<small>{{$t('GENERAL.IRR')}}</small>
+                v-else>{{ walletCredit }}<small>{{$t('GENERAL.IRT')}}</small>
               </template>
             </p>
 
@@ -262,8 +158,8 @@ export default {
 
       try {
         const walletCredit = await this.$apiService.get('/api/Transactions/GetBalance',data);
-        if (walletCredit.data && walletCredit.data.result) {
-          this.walletCredit = this.$utils.formatNumber(this.$utils.toFixed(walletCredit.data.result.total))
+        if (walletCredit.data) {
+          this.walletCredit = this.$utils.formatNumber(this.$utils.toFixed(walletCredit.data.creditAmount))
         }
       } catch (error) {
         console.log(error)
@@ -313,8 +209,8 @@ export default {
 
       try {
         const answersCount = await this.$apiService.get('/api/Answers/GetAll', data);
-        if (answersCount.data && answersCount.data.result) {
-          this.answersCount = answersCount.data.result.totalCount
+        if (answersCount.data && answersCount.data) {
+          this.answersCount = answersCount.data.totalCount
         }
       } catch (error) {
         console.log(error)

@@ -6,7 +6,7 @@
 
       id="pobel-scoreboard">
       <li v-for="user in scoreboardItems">
-        <span class="scoreboard-name">{{ `${user.name} ${user.surname}` }}</span>
+        <span class="scoreboard-name">{{ `${user.Name} ${(user.Surname? user.Surname : '')}` }}</span>
         <span class="scoreboard-score">{{ user.count.toLocaleString() }}</span>
       </li>
     </ol>
@@ -33,11 +33,11 @@ export default {
 
       try {
         const scoreboardItems = await this.$apiService.get(`/api/Reports/Scoreboard`, data);
-        if (scoreboardItems.data && scoreboardItems.data.result) {
+        if (scoreboardItems.data) {
           this.scoreboardItems = this.scoreboardItems ? [
             ...this.scoreboardItems,
-            scoreboardItems.data.result
-          ] : scoreboardItems.data.result;
+            scoreboardItems.data
+          ] : scoreboardItems.data;
         }
       } catch (error) {
         console.log(error);

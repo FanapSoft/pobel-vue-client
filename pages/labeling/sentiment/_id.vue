@@ -272,20 +272,16 @@ export default {
     },
     async getUserTarget(datasetId) {
       let data = {
-        datasetId: datasetId,
-        ownerId: this.user.id,
-        order: 'DESC',
-        Limit: 1
+        DatasetId: datasetId,
+        UserId: this.user.id
       }
 
       try {
-        const targets = await this.$apiService.get('/api/Targets/GetAll', data);
-        if (targets.data && targets.data.result && targets.data.result.items && targets.data.result.items.length) {
-          // data = {
-          //   id: targets.data.result.items[0].targetDefinitionId
-          // };
-          let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
-          this.userTargetDefinition = targetDefinition.data.result;
+        const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
+        if(target.data) {
+
+          //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
+          this.userTargetDefinition = target.data.TargetDefinition;//targetDefinition.data.result;
           this.$set(this.userTargetDefinition, 'currentUserAnswersCount', 0);
 
           await this.getUserAnswersCount();
@@ -298,13 +294,13 @@ export default {
       ///api/Answers/Stats
 
       let data = {
-        dataSetId: this.$route.params.id,
+        DatasetId: this.$route.params.id,
         UserId: this.user.id
       }
 
       try {
         const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
-        if (answerStat.data && answerStat.data.result) {
+        if (answerStat.data) {
           console.log()
           this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
         }
@@ -336,10 +332,10 @@ export default {
         finalAnswers = answers.map(item => {
           //TODO: improve it for questions with more than yes and no answer options
           return {
-            dataSetId: (item.answer === 0 ? item.options[0].dataSetId : item.options[1].dataSetId),
-            dataSetItemId: item.datasetItemId,
-            answerIndex: (item.answer === 0 ? item.options[0].index : item.options[1].index),
-            durationToAnswerInSeconds: Math.round(this.timer / this.labelQuestions.length)
+            DatasetId: (item.answer === 0 ? item.options[0].DatasetId : item.options[1].DatasetId),
+            DatasetItemId: item.datasetItemId,
+            AnswerIndex: (item.answer === 0 ? item.options[0].index : item.options[1].index),
+            DurationToAnswerInSeconds: Math.round(this.timer / this.labelQuestions.length)
           }
         });
         let data = {

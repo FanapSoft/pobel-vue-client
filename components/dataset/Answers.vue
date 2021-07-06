@@ -10,7 +10,7 @@
 
           v-for="(item, index) of userAnswers"
           :id="`${item.id}-image`"
-          :style="{'background-image': `url(${$axios.defaults.baseURL}/file/dataset/item/${item.dataSetItemId})`}"
+          :style="{'background-image': `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${item.dataSetItemId})`}"
 
           class="dataset-answers-history-items">
           <span class="dataset-answers-history-items-result">{{ `${(item.answer) ? '⤫' : '✓'}` }}</span>
