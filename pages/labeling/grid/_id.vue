@@ -236,8 +236,8 @@ export default {
       try {
         const result = await this.$apiService.get('/api/Datasets/Get/' + this.$route.params.id);
 
-        if (result.data && result.data.result) {
-          this.dataset = result.data.result
+        if (result.status < 400 ) {
+          this.dataset = result.data
         }
       } catch (error) {
         console.log(error)
@@ -272,20 +272,17 @@ export default {
 
       try {
         const result = await this.$apiService.get('/api/Questions/GetQuestions', data);
-
-        if (result.data) {
+        if (result.status < 400) {
           this.labelQuestions = result.data;
           this.labelQuestions.forEach(item => {
             this.$set(item, "isYes", false);
             this.$set(item, "isNo", false);
             this.$set(item, "isReport", false);
             this.$set(item, "answer", -1);
-          })
+          });
         } else {
-          if(result.data && result.data.error && result.data.error.message ) {
-            if(result.data.error.message.indexOf("No target has been defined.") !== -1) {
+          if(result.data[0] && result.data[0].code === 3203) {
               this.$router.push("/dataset/" + this.$route.params.id)
-            }
           }
         }
       } catch (error) {
@@ -300,7 +297,7 @@ export default {
 
       try {
         const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
-        if(target.data) {
+        if(target.status < 400) {
 
           //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           this.userTargetDefinition = target.data.TargetDefinition;//targetDefinition.data.result;
@@ -320,9 +317,8 @@ export default {
 
       try {
         const answerStat = await this.$apiService.get('/api/Answers/Stats', data);
-        if(answerStat.data && answerStat.data.result ) {
-          console.log()
-          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
+        if(answerStat.status < 400 ) {
+          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.totalCount;
         }
       } catch (error) {
         console.log(error);

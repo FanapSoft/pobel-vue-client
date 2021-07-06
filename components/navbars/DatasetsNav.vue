@@ -2,8 +2,8 @@
   <v-row class="header mb-auto">
     <v-col cols="6"  class=" dataset-name d-flex align-center" style="position: relative">
       <h4>
-        {{ dataset.name }}
-        <small>{{ dataset.description }}</small>
+        {{ dataset.Name }}
+        <small>{{ dataset.Description }}</small>
       </h4>
     </v-col>
     <v-col cols="6" class=" back-btn-wrapper">
@@ -23,14 +23,14 @@
           <label
             id="targetCount"
             :data-title="$t('GENERAL.YOURCURRENTTARGET')"
-            :data-value="target.answerCount">{{ target.answerCount }}</label><span>/</span><label
+            :data-value="target.AnswerCount">{{ target.AnswerCount }}</label><span>/</span><label
             id="answersCount"
             :data-title="$t('GENERAL.YOURANSWERSCOUNT')"
             data-value="284">{{ target.currentUserAnswersCount + localAnswersCount }}</label>
         </p>
       </div>
       <button
-        @click="()=> $router.push(`/dataset/${dataset.id}`)"
+        @click="()=> $router.push(`/dataset/${dataset.Id}`)"
         class="back-btn">{{ $isRTL ? '🡠' : '🡢'}}</button>
     </v-col>
   </v-row>
