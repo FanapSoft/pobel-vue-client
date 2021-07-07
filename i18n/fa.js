@@ -136,7 +136,6 @@ export const locale = {
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' امتیاز به حساب پابل شما منتقل گردید. برای مشاهده به پروفایل پابل خود مراجعه نمایید ',
     SINGLEDATASETNOTREACHEDTARGET: ' پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید. ',
 
-
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
     LABELINGQUESTIONPART2: 'هستند؟',
     LABELINGLINEARQUESTIONPART1: 'آیا تصویر زیر متعلق به',
@@ -190,5 +189,7 @@ export const locale = {
     DASHBOARDMODALTRANSFERSUCCEEDCONTENT: 'ریال به کیف پول پاد شما منتقل شد.',
 
 
+    CHOOSETARGETERROR: 'خطا در انتخاب تارگت',
+    NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'هدف جدید باید بزرگتر از هدف قبلی شما باشد'
   }
 };

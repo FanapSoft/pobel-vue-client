@@ -192,5 +192,7 @@ export const locale = {
     DASHBOARDMODALTRANSFERSUCCEEDTITLE: '',
     DASHBOARDMODALTRANSFERSUCCEEDCONTENT: '',
 
+    CHOOSETARGETERROR: 'Choose target error',
+    NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'New target should be bigger than previous target'
   }
 };

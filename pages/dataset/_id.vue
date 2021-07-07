@@ -65,7 +65,7 @@
           </div>
           <div class="dataset-history-wrapper"><small>{{ $t('GENERAL.LABELINGSTATUS')}}</small>
             <p id="stats-status">
-              <template v-if="dataset.LabelingStatus">
+              <template v-if="dataset.LabelingStatus <= 1">
                 {{ $t('GENERAL.ACTIVE') }}
               </template>
               <template v-else>
@@ -115,7 +115,7 @@
       </v-row>
 
       <v-row
-        v-if="dataset.IsActive"
+        v-if="dataset.IsActive && dataset.LabelingStatus <= 1"
 
         class=" user-targets-wrapper"
         id="set-target">
@@ -126,7 +126,7 @@
           </small>
           <br>
           <small>{{$t('TEXTS.SINGLEDATASETCHOOSETARGET2')}}</small>
-          <v-row id="define-target" >
+          <v-row id="define-target"  >
             <v-col
               v-for="(item, index) of datasetTargets"
 
@@ -246,6 +246,7 @@ export default {
       const data = {
         UserId: this.user.Id,
         DataSetId: this.$route.params.id,
+        From: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString()
       }
       try {
         const datasets = await this.$apiService.get('/api/Reports/AnswersCountsTrend', data);
@@ -257,7 +258,7 @@ export default {
           let finalDataCounts = [];
 
           datasets.data.forEach(v => {
-            finalDataDates.push(this.$moment(v.date).locale(lang).format('DD MMMM YY'));
+            finalDataDates.push(this.$moment(v.day).locale(lang).format('DD MMMM YY'));
             finalDataCounts.push(v.count);
           });
 
@@ -265,31 +266,34 @@ export default {
 
 
 
-          if (finalDataDates.length >= 1) {
-            let currDate = this.$moment(new Date(datasets.data[0]['date'])).startOf("day");
-            let lastDate = this.$moment(new Date(datasets.data[datasets.data.length - 1]['date'])).startOf("day");
-
-            do {
-              fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
-            } while (currDate.add(1, "days").diff(lastDate) < 0);
-
-            if(finalDataDates.length > 1) {
-              fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
-            }
-          } else {
-            fillUpDates.push(this.$moment(new Date(datasets.data[0]['date'])).locale(lang).format('DD MMMM YY'));
-          }
+          // if (finalDataDates.length >= 1) {
+          //   let currDate = this.$moment(new Date(datasets.data[0]['day'])).startOf("day");
+          //   let lastDate = this.$moment(new Date(datasets.data[datasets.data.length - 1]['date'])).startOf("day");
+          //
+          //   do {
+          //     fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
+          //   } while (currDate.add(1, "days").diff(lastDate) < 0);
+          //
+          //   if(finalDataDates.length > 1) {
+          //     fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
+          //   }
+          // } else {
+          //   fillUpDates.push(this.$moment(new Date(datasets.data[0]['day'])).locale(lang).format('DD MMMM YY'));
+          // }
+          //
           let chartDates = [],
             chartCount = [];
 
-          fillUpDates.forEach(date => {
-            chartDates.push(date);
-            if (finalDataDates.indexOf(date) > -1) {
-              chartCount.push(finalDataCounts[finalDataDates.indexOf(date)]);
-            } else {
-              chartCount.push(0);
-            }
-          });
+          chartDates =
+
+          // fillUpDates.forEach(date => {
+          //   chartDates.push(date);
+          //   if (finalDataDates.indexOf(date) > -1) {
+          //     chartCount.push(finalDataCounts[finalDataDates.indexOf(date)]);
+          //   } else {
+          //     chartCount.push(0);
+          //   }
+          // });
 
           this.$nextTick(() => {
             setTimeout(() => {
@@ -298,10 +302,10 @@ export default {
               let myChart = new Chart(ctx, {
               type: 'line',
               data: {
-                labels: chartDates,
+                labels: finalDataDates,
                 datasets: [{
                   label:  this.$t('GENERAL.TOTALLABELS') ,
-                  data: chartCount,
+                  data: finalDataCounts,
                   backgroundColor: 'transparent',
                   borderColor: '#a02344',
                   pointBackgroundColor: 'white',
@@ -528,8 +532,27 @@ export default {
       //TODO: create new target ?
       try {
         const result = await this.$apiService.post('/api/Targets/ActivateTarget', data);
-        if (result.data) {
-          //this.userTargetDefinition = result.data;
+        if(result.status && result.status > 400) {
+          if(result.data[0] && result.data[0].code === 3200) {
+            let alertModal = Modal({
+              title: this.$t('TEXTS.CHOOSETARGETERROR'),
+              body: this.$t('TEXTS.NEWTARGETSHOULDBEBIGGERTHANOLDTARGET'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    alertModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                alertModal.close();
+              }
+            });
+          }
+        } else {
           this.getUserTarget(this.$route.params.id)
         }
       } catch (error) {
