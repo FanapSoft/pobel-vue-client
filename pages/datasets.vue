@@ -1,13 +1,10 @@
 <template>
   <v-container class="datasets-wrapper" style="max-width: 60rem;">
+
     <div
       style="display: flex; align-items: center; justify-content: center;"
       v-if="!datasets">
-      <v-progress-circular
-        indeterminate
-
-        size="50"
-        color="#ff257c"></v-progress-circular>
+      <loader />
     </div>
     <template v-else>
       <h2 :class="{'mr-7': $isRTL, 'ml-7': !$isRTL }">{{ $t('DATASET.DATASETSEN') }}</h2>
@@ -91,9 +88,10 @@
 <script>
 import NavbarType1 from "../components/navbars/NavbarType1";
 import {mapGetters} from "vuex"
+import Loader from "../components/general/Loader"
 
 export default {
-  components: {NavbarType1},
+  components: {NavbarType1, Loader},
   name: "datasets",
   layout: 'main',
   middleware: "authRequired",
@@ -124,7 +122,7 @@ export default {
             item.AnswerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.AnswerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             //item.coverItem = await this.getDatasetCoverItem(item.Id);
             item.targetSize = await this.getUserTarget(item.Id);
-            console.log(item.targetSize)
+
             if (item.targetSize) {
               item.userAnswersCount = await this.getUserAnswersCount(item.Id);
 

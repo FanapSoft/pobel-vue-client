@@ -12,11 +12,7 @@
         v-if="!labelQuestions"
 
         style="display: flex; align-items: center; justify-content: center;margin-top: 20px">
-        <v-progress-circular
-          indeterminate
-
-          size="30"
-          color="#ff257c"></v-progress-circular>
+        <loader />
       </div>
       <v-row
         v-else
@@ -243,22 +239,7 @@ export default {
         console.log(error)
       }
     },
-    // async getRandomLabel() {
-    //   const data = {
-    //     datasetId: this.$route.params.id,
-    //     count: 1
-    //   }
-    //
-    //   //TODO: create new target ?
-    //   try {
-    //     const result = await this.$apiService.get('/api/Questions/GetRandomLabel', data);
-    //     if (result.data && result.data) {
-    //       this.randomLabel = result.data[0]
-    //     }
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
+
     async getLabelQuestions() {
       // if (!this.randomLabel)
       //   return;
@@ -324,39 +305,6 @@ export default {
         console.log(error);
       }
     },
-    // async getDatasetItem() {
-    //   if(!this.labelQuestions)
-    //     return
-    //   // let data = {
-    //   //   id: this.labelQuestions[0].datasetItemId,
-    //   // }
-    //
-    //   try {
-    //     const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].DatasetItemId);
-    //     if (result.data) {
-    //       this.datasetItem = result.data;
-    //
-    //       //TODO: WTF ?
-    //       let fieldName = this.datasetItem.FilePath;
-    //       fieldName = fieldName.split('\\')[4];
-    //       switch (fieldName) {
-    //         case 'Actors':
-    //           this.labelType = this.$t('GENERAL.ACTOR');
-    //           break;
-    //
-    //         case 'Singers':
-    //           this.labelType = this.$t('GENERAL.SINGER');
-    //           break;
-    //
-    //         case 'Politicians':
-    //           this.labelType = this.$t('GENERAL.POLITICIAN');
-    //           break;
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
     async submitAnswersToServer() {
       let isAnswersSubmited = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
@@ -414,23 +362,6 @@ export default {
           continueModal.close();
         }
       });
-
-
-      //let reports = [];
-/*      answers = this.labelQuestions.filter(item => item.answer === true);
-      //TODO: make sure user can not reach here without answers
-      if(answers.length) {
-        let data = {
-          answers: answers
-        }
-
-        try{
-          const submitionResult = await this.$apiService.post("/api/Answers/SubmitBatchAnswer", data)
-          window.location.reload();
-        } catch (error) {
-          console.log(error)
-        }
-      }*/
     },
     updateLocalAnswersCount() {
       this.localAnswersCount = 0;

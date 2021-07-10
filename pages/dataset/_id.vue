@@ -4,11 +4,7 @@
       v-if="!dataset"
 
       style="display: flex; align-items: center; justify-content: center;" >
-      <v-progress-circular
-        indeterminate
-
-        size="50"
-        color="#ff257c"></v-progress-circular>
+      <loader />
     </div>
     <div v-else>
       <v-row class="header">

@@ -4,11 +4,7 @@
       v-if="!dataset || !userTargetDefinition"
 
       style="display: flex; align-items: center; justify-content: center;">
-      <v-progress-linear
-        indeterminate
-
-        size="20"
-        color="#ff257c"></v-progress-linear>
+      <loader />
     </div>
     <datasets-nav
       v-else
@@ -40,17 +36,19 @@
             {{$t('TEXTS.LABELINGLINEARQUESTIONPART1')}}
             <strong
 
-              @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelType}" ${labelQuestions[currentActiveItemIndex].title.replace(/[0-9]/g, "").replace(/_/g, " ")}`); }'
+              @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelQuestions[0].ItemJob}" ${labelQuestions[0].ItemName}`); }'
 
               style="cursor: pointer;">
-              {{ labelQuestions[currentActiveItemIndex].title.replace(/[0-9]/g, '').replace(/_/g, ' ') }}
+<!--              {{ labelQuestions[currentActiveItemIndex].title.replace(/[0-9]/g, '').replace(/_/g, ' ') }}-->
 
-              ({{ labelType }})
+<!--              ({{ labelType }})-->
+              {{labelQuestions[0].ItemName}}
+              ({{ labelQuestions[0].ItemJob }})
             </strong>
             {{$t('TEXTS.LABELINGLINEARQUESTIONPART2')}}
           </p>
           <img
-            :src="`${$axios.defaults.baseURL}/api/File/Dataset/Item/${labelQuestions[currentActiveItemIndex].datasetItemId}`"
+            :src="`${$axios.defaults.baseURL}/api/File/Dataset/Item/${labelQuestions[currentActiveItemIndex].DatasetItemId}`"
 
             class="question-image">
         </div>
@@ -119,7 +117,7 @@
             <span
               class="question-history-avatar"
 
-              :style="{backgroundImage: `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${item.datasetItemId})`}"></span>
+              :style="{backgroundImage: `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${item.DatasetItemId})`}"></span>
             <span
             class="question-history-text"></span>
           </li>
@@ -190,46 +188,28 @@ export default {
   },
   methods: {
     async getDataset() {
-      // const data = {
-      //   id: this.$route.params.id,
-      // }
       try {
         const result = await this.$apiService.get('/api/Datasets/Get/' + this.$route.params.id);
 
-        if (result.data && result.data.result) {
-          this.dataset = result.data.result
+        if (result.status < 400) {
+          this.dataset = result.data
         }
       } catch (error) {
         console.log(error)
       }
     },
-    /*async getCurrentQuestionLabel() {
-      const data = {
-        datasetId: this.$route.params.id,
-        count: 1
-      }
-
-      //TODO: create new target ?
-      try {
-        const result = await this.$apiService.get('/api/Questions/GetQuestion', data);
-        if (result.data && result.data.result) {
-          this.currentQuestionLabel = result.data.result[0]
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },*/
     async getLabelQuestions() {
       let data = {
-        DataSetId: this.$route.params.id,
+        DatasetId: this.$route.params.id,
         Count: 7,
+        OnlyOneLabel: false
         //LabelId: this.currentQuestionLabel.id,
       }
 
       try {
         const result = await this.$apiService.get('/api/Questions/GetQuestions', data);
-        if (result.data && result.data.result) {
-          this.labelQuestions = result.data.result;
+        if (result.status < 400) {
+          this.labelQuestions = result.data;
           this.labelQuestions.forEach((item, index) => {
             if(!index)
               this.$set(item, "isCurrent", true);
@@ -243,10 +223,8 @@ export default {
             this.$set(item, "answer", -1);
           })
         } else {
-          if(result.data && result.data.error && result.data.error.message ) {
-            if(result.data.error.message.indexOf("No target has been defined.") !== -1) {
-              this.$router.push("/dataset/" + this.$route.params.id)
-            }
+          if(result.data[0] && result.data[0].code === 3203) {
+            this.$router.push("/dataset/" + this.$route.params.id)
           }
         }
       } catch (error) {
@@ -256,12 +234,12 @@ export default {
     async getUserTarget(datasetId) {
       let data = {
         DatasetId: datasetId,
-        UserId: this.user.id
+        UserId: this.user.Id
       }
 
       try {
         const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
-        if(target.data) {
+        if(target.status < 400) {
 
           //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           this.userTargetDefinition = target.data.TargetDefinition;//targetDefinition.data.result;
@@ -278,52 +256,48 @@ export default {
 
       let data = {
         DatasetId: this.$route.params.id,
-        UserId: this.user.id
+        UserId: this.user.Id
       }
 
       try {
-        const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
-        if(answerStat.data && answerStat.data.result ) {
-          console.log()
-          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
+        const answerStat = await this.$apiService.get('/api/Answers/Stats', data);
+        if(answerStat.status < 400) {
+          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.totalCount;
         }
       } catch (error) {
         console.log(error);
       }
     },
-    async getDatasetItem() {
-      if(!this.labelQuestions)
-        return
-      // let data = {
-      //   id: this.labelQuestions[0].datasetItemId,
-      // }
-
-      try {
-        const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].datasetItemId);
-        if (result.data && result.data.result) {
-          this.datasetItem = result.data.result;
-
-          //TODO: WTF ?
-          let fieldName = this.datasetItem.filePath;
-          fieldName = fieldName.split('\\')[4];
-          switch (fieldName) {
-            case 'Actors':
-              this.labelType = this.$t('GENERAL.ACTOR');
-              break;
-
-            case 'Singers':
-              this.labelType = this.$t('GENERAL.SINGER');
-              break;
-
-            case 'Politicians':
-              this.labelType = this.$t('GENERAL.POLITICIAN');
-              break;
-          }
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
+    // async getDatasetItem() {
+    //   if(!this.labelQuestions)
+    //     return;
+    //
+    //   try {
+    //     const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].DatasetItemId);
+    //     if (result.data ) {
+    //       this.datasetItem = result.data.result;
+    //
+    //       //TODO: WTF ?
+    //       let fieldName = this.datasetItem.filePath;
+    //       fieldName = fieldName.split('\\')[4];
+    //       switch (fieldName) {
+    //         case 'Actors':
+    //           this.labelType = this.$t('GENERAL.ACTOR');
+    //           break;
+    //
+    //         case 'Singers':
+    //           this.labelType = this.$t('GENERAL.SINGER');
+    //           break;
+    //
+    //         case 'Politicians':
+    //           this.labelType = this.$t('GENERAL.POLITICIAN');
+    //           break;
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.log(error)
+    //   }
+    // },
     async submitAnswersToServer() {
       let isAnswersSubmitted = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
@@ -333,7 +307,7 @@ export default {
           //TODO: improve it for questions with more than yes and no answer options
           return {
             DatasetId: (item.answer === 0 ? item.options[0].DatasetId : item.options[1].DatasetId),
-            DatasetItemId: item.datasetItemId,
+            DatasetItemId: item.DatasetItemId,
             AnswerIndex: (item.answer === 0 ?  item.options[0].index : item.options[1].index),
             DurationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length)
           }
@@ -474,7 +448,7 @@ export default {
         await this.getUserTarget(this.$route.params.id);
         //await this.getcurrentQuestionLabel();
         await this.getLabelQuestions();
-        await this.getDatasetItem();
+        //await this.getDatasetItem();
       })
 
     }
@@ -485,7 +459,7 @@ export default {
     await this.getUserTarget(this.$route.params.id);
     //await this.getcurrentQuestionLabel();
     await this.getLabelQuestions();
-    await this.getDatasetItem();
+    //await this.getDatasetItem();
   },
   watch: {
     labelQuestions: {
