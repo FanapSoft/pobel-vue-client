@@ -165,27 +165,6 @@ export default {
         console.log(error)
       }
     },
-    async getTransactions() {
-      this.loadingTransactions = true;
-      let data = {
-        ownerId: this.user.id
-      }
-
-      try {
-        const transactions = await this.$apiService.get('/api/Transactions/GetAll',data);
-        if (transactions.data && transactions.data.result) {
-          this.transactions = transactions.data.result.items;
-          this.transactions.forEach(async item => {
-            this.$set(item, 'dataset', await this.fetchDataset(item.referenceDataSetId))
-            //item.dataset = await this.fetchDataset(item.referenceDataSetId)
-          })
-        }
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.loadingTransactions = false
-      }
-    },
     async fetchDataset(id) {
       if(!id)
         return null
@@ -284,7 +263,7 @@ export default {
   mounted() {
     this.getWalletBalance();
     this.getAnswers();
-    this.getTransactions();
+    //this.getTransactions();
   }
 }
 </script>
