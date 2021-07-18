@@ -128,7 +128,7 @@ export const locale = {
     INDEXINCOMEGENERATIONPROCESSSTEP3: 'برچسب زنی به تعداد هدف تعیین شده',
     INDEXINCOMEGENERATIONPROCESSSTEP4: 'مشاهده میزان اعتبار ریالی در پروفایل کاربری',
 
-    SINGLEDATASETYOURANSWERSCOUNT: 'تعداد پاسخ‌های ثبت شده شما',
+    SINGLEDATASETYOURANSWERSCOUNT: 'کل پاسخ های شما در این دیتاست',
     SINGLEDATASETNOTSCOREDYET: 'هنوز امتیازی کسب نکرده اید ',
     SINGLEDATASETCHOOSETARGET: '    هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد' +
       '   برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.' ,
@@ -190,6 +190,8 @@ export const locale = {
 
 
     CHOOSETARGETERROR: 'خطا در انتخاب تارگت',
-    NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'هدف جدید باید بزرگتر از هدف قبلی شما باشد'
+    NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'هدف جدید باید بزرگتر از هدف قبلی شما باشد',
+    YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'شما به حداکثر تعداد مجاز پاسخ در این دیتاست رسیده اید. از مشارکتتان متشکریم. می توانید امتیازتان را برداشت نمایید.',
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفا پیش از فعال سازی تارگت جدید، امتیاز خود را برداشت نمایید.'
   }
 };

@@ -295,12 +295,13 @@ export default {
 
       let data = {
         DatasetId: this.$route.params.id,
-        UserId: this.user.id
+        UserId: this.user.Id,
+        OnlyNonCalculated: true
       }
 
       try {
         const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
-        if (answerStat.data) {
+        if (answerStat.status < 400) {
           console.log()
           this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
         }

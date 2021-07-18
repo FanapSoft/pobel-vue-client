@@ -256,7 +256,8 @@ export default {
 
       let data = {
         DatasetId: this.$route.params.id,
-        UserId: this.user.Id
+        UserId: this.user.Id,
+        OnlyNonCalculated: true
       }
 
       try {

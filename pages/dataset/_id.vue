@@ -96,7 +96,7 @@
             ref="wobblingBg"
             id="wobbling-bg">
             <small>{{$t('TEXTS.SINGLEDATASETYOURANSWERSCOUNT')}}</small>
-            <p id="stats-answers">{{ userAnswersCount }}</p>
+            <p id="stats-answers">{{ userTotalAnswersCount }}</p>
 
             <div class="" id="dataset-history-answers-chart">
               <h2
@@ -209,6 +209,7 @@ export default {
       userHasChart: false,
       userCredit: 0,
       userAnswersCount: 0,
+      userTotalAnswersCount: 0,
 
       datasetTargets: null,
       userTargetDefinition: null,
@@ -260,36 +261,8 @@ export default {
 
           let fillUpDates = [];
 
-
-
-          // if (finalDataDates.length >= 1) {
-          //   let currDate = this.$moment(new Date(datasets.data[0]['day'])).startOf("day");
-          //   let lastDate = this.$moment(new Date(datasets.data[datasets.data.length - 1]['date'])).startOf("day");
-          //
-          //   do {
-          //     fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
-          //   } while (currDate.add(1, "days").diff(lastDate) < 0);
-          //
-          //   if(finalDataDates.length > 1) {
-          //     fillUpDates.push(this.$moment(currDate.clone().toDate()).locale(lang).format('DD MMMM YY'));
-          //   }
-          // } else {
-          //   fillUpDates.push(this.$moment(new Date(datasets.data[0]['day'])).locale(lang).format('DD MMMM YY'));
-          // }
-          //
           let chartDates = [],
             chartCount = [];
-
-          chartDates =
-
-          // fillUpDates.forEach(date => {
-          //   chartDates.push(date);
-          //   if (finalDataDates.indexOf(date) > -1) {
-          //     chartCount.push(finalDataCounts[finalDataDates.indexOf(date)]);
-          //   } else {
-          //     chartCount.push(0);
-          //   }
-          // });
 
           this.$nextTick(() => {
             setTimeout(() => {
@@ -472,12 +445,13 @@ export default {
     async getUserAnswersCount(ds) {
       let data = {
         DatasetId: ds,
-        UserId: this.user.id,
+        UserId: this.user.Id,
+        OnlyNonCalculated: true
       }
 
       try {
         const answers = await this.$apiService.get('/api/Answers/Stats', data);
-        if(answers.data) {
+        if(answers.status < 400) {
           this.userAnswersCount = answers.data.totalCount;
         }
       } catch (error) {
@@ -485,6 +459,21 @@ export default {
       }
 
       return 0;
+    },
+        async getUserTotalAnswersCount(ds) {
+      let data = {
+        DatasetId: ds,
+        UserId: this.user.Id
+      }
+
+      try {
+        const answers = await this.$apiService.get('/api/Answers/Stats', data);
+        if(answers.status < 400) {
+          this.userTotalAnswersCount = answers.data.totalCount;
+        }
+      } catch (error) {
+        console.log(error);
+      }
     },
     async getDatasetTargets(datasetId) {
       let data = {
@@ -548,6 +537,45 @@ export default {
               }
             });
           }
+          else if(result.data[0] && result.data[0].code === 3301) {
+            let alertModal = Modal({
+              title: this.$t('TEXTS.CHOOSETARGETERROR'),
+              body: this.$t('TEXTS.YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    alertModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                alertModal.close();
+              }
+            });
+          }
+          else if(result.data[0] && result.data[0].code === 3204) {
+            let alertModal = Modal({
+              title: this.$t('TEXTS.CHOOSETARGETERROR'),
+              body: this.$t('TEXTS.PLEASECOLLECTYOURPOINTSBEFORECONTINUING'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    alertModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                alertModal.close();
+              }
+            });
+          }
+
         } else {
           this.getUserTarget(this.$route.params.id)
         }
@@ -561,6 +589,7 @@ export default {
     this.getChartData();
     this.getUserCredit(this.$route.params.id);
     this.getUserAnswersCount(this.$route.params.id);
+    this.getUserTotalAnswersCount(this.$route.params.id);
     await this.getUserTarget(this.$route.params.id);
     //this.checkIsTargetReached();
     this.getDatasetTargets(this.$route.params.id);

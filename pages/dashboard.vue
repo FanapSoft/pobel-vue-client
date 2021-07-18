@@ -51,21 +51,16 @@
               </template>
             </p>
 
+            <v-btn
+              outlined x-small
+              :loading="loadingRequestCashout"
+              @click="transferToPodWallet"
+
+              id="cashout-btn"
+              style="letter-spacing: 0;padding: 13px 10px"
+              class="set-target-btn">{{$t('USER.TRANSFERTOPODWALLET')}}</v-btn>
+
             <v-dialog v-model="creditModalKey" width="400">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  outlined x-small
-
-                  :loading="loadingRequestCashout"
-
-                  v-bind="attrs"
-                  v-on="on"
-
-                  id="cashout-btn"
-                  style="letter-spacing: 0;padding: 13px 10px"
-                  class="set-target-btn">{{$t('USER.TRANSFERTOPODWALLET')}}</v-btn>
-              </template>
-
               <v-card>
                 <v-card-title
 
@@ -225,8 +220,8 @@ export default {
       }
 
       try {
-        const requestCashOut = await this.$axios.post('/api/Wallet/TransferCreditToWallet', data);
-        if (requestCashOut.data && requestCashOut.data.result) {
+        const requestCashOut = await this.$axios.post('/api/Wallet/TransferCreditToPodWallet', data);
+        if (requestCashOut.status < 400) {
           //console.log(requestCashOut)
           let balance = this.walletCredit;
           let continueModal = Modal({
@@ -250,13 +245,18 @@ export default {
             }
           });
           await this.getWalletBalance();
-
-         // this.answersCount = answersCount.data.result.totalCount
         }
       } catch (error) {
         console.log(error)
       } finally {
         this.loadingRequestCashout = false
+      }
+    },
+    transferToPodWallet() {
+      if(!this.user.PhoneNumber)
+        this.creditModalKey = true;
+      else {
+        this.requestCashout();
       }
     }
   },

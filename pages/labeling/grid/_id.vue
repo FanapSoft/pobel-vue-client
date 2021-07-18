@@ -262,7 +262,7 @@ export default {
             this.$set(item, "answer", -1);
           });
         } else {
-          if(result.data[0] && result.data[0].code === 3203) {
+          if(result.data[0] && [3203, 3300, 3301].includes(result.data[0].code)) {
               this.$router.push("/dataset/" + this.$route.params.id)
           }
         }
@@ -293,7 +293,8 @@ export default {
     async getUserAnswersCount() {
       let data = {
         DatasetId: this.$route.params.id,
-        UserId: this.user.id
+        UserId: this.user.Id,
+        OnlyNonCalculated: true
       }
 
       try {
@@ -308,11 +309,9 @@ export default {
     async submitAnswersToServer() {
       let isAnswersSubmited = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
-      //TODO: make sure user can not reach here without answers
       if(answers.length) {
         finalAnswers = answers.map(item => {
 
-          //TODO: improve it for questions with more than yes and no answer options
           return {
             DatasetId: item.Options[0].DatasetId,
             DatasetItemId: item.DatasetItemId,

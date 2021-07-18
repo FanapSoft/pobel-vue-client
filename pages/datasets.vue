@@ -188,7 +188,7 @@ export default {
     async getUserAnswersCount(ds) {
       let data = {
         DatasetId: ds,
-        UserId: this.user.id,
+        UserId: this.user.Id,
       }
 
       try {

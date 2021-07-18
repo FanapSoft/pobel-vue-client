@@ -132,7 +132,7 @@ export const locale = {
     INDEXINCOMEGENERATIONPROCESSSTEP3: 'Labeling based on the selected target',
     INDEXINCOMEGENERATIONPROCESSSTEP4: 'Viewing the credit balance in the user profile',
 
-    SINGLEDATASETYOURANSWERSCOUNT: 'Answers\' count',
+    SINGLEDATASETYOURANSWERSCOUNT: 'Total answers on current dataset',
     SINGLEDATASETNOTSCOREDYET: 'You have not earned any points yet',
     SINGLEDATASETCHOOSETARGET: 'You have to select a target prior to starting labeling',
     SINGLEDATASETCHOOSETARGET2: 'Please set your target which indicates the number of items that you are going to label. ',
@@ -193,6 +193,8 @@ export const locale = {
     DASHBOARDMODALTRANSFERSUCCEEDCONTENT: '',
 
     CHOOSETARGETERROR: 'Choose target error',
-    NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'New target should be bigger than previous target'
+    NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'New target should be bigger than previous target',
+    YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'You have reached your total labeling budget on current dataset, you can withdraw your money.',
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please collect your points before choosing a new target'
   }
 };
