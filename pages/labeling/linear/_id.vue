@@ -223,8 +223,8 @@ export default {
             this.$set(item, "answer", -1);
           })
         } else {
-          if(result.data[0] && result.data[0].code === 3203) {
-            this.$router.push("/dataset/" + this.$route.params.id)
+          if(result.data[0] && [3203, 3300, 3301, 3600].includes(result.data[0].code)) {
+            this.$router.push("/dataset/" + this.$route.params.id);
           }
         }
       } catch (error) {
@@ -307,14 +307,16 @@ export default {
         finalAnswers = answers.map(item => {
           //TODO: improve it for questions with more than yes and no answer options
           return {
-            DatasetId: (item.answer === 0 ? item.options[0].DatasetId : item.options[1].DatasetId),
+            DatasetId: item.Options[0].DatasetId,
             DatasetItemId: item.DatasetItemId,
-            AnswerIndex: (item.answer === 0 ?  item.options[0].index : item.options[1].index),
-            DurationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length)
+            AnswerIndex: item.answer,
+            DurationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length),
+            Ignored: false,
           }
         });
         let data = {
-          answers: finalAnswers
+          Answers: finalAnswers,
+          QuestionId: answers[0].QuestionId
         }
 
         try{
@@ -389,14 +391,14 @@ export default {
             item.isSkip = false;
             item.isReport = false;
             item.isYes = true;
-            item.answer = 0;
+            item.answer = 1;
           break;
         case 'no':
             item.isYes = false;
             item.isNo = true;
             item.isSkip = false;
             item.isReport = false;
-            item.answer = 1;
+            item.answer = 0;
           break;
         case 'report':
 

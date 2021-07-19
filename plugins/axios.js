@@ -1,3 +1,5 @@
+import Modal from "@/plugins/external/Modal";
+
 export default function (context) {
   let {
     $axios,
@@ -28,8 +30,14 @@ export default function (context) {
         if (response.data && response.data.unAuthorizedRequest) {
           window.location.href = $apiService.loginUrl;
         }
+      }
 
-
+      if(response.data[0] && response.data[0].code === 3700) {
+        let alertModal = Modal({
+          title: context.app.i18n.t('TEXTS.ACCOUNT_INACTIVE'),
+          body: context.app.i18n.t('TEXTS.ACCOUNT_INACTIVE_DESC'),
+          backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+        });
       }
       return response;
     } else {

@@ -247,8 +247,8 @@ export default {
       let data = {
         DatasetId: this.$route.params.id,
         Count: 9,
-        OnlyOneLabel: true
-        //LabelId: this.randomLabel.id,
+        OnlyOneLabel: true,
+        LabelId: '126AB0C2-7F79-4297-CBC7-08D86959A6Dfg'
       }
 
       try {
@@ -262,8 +262,8 @@ export default {
             this.$set(item, "answer", -1);
           });
         } else {
-          if(result.data[0] && [3203, 3300, 3301].includes(result.data[0].code)) {
-              this.$router.push("/dataset/" + this.$route.params.id)
+          if(result.data[0] && [3203, 3300, 3301, 3600].includes(result.data[0].code)) {
+              this.$router.push("/dataset/" + this.$route.params.id);
           }
         }
       } catch (error) {
@@ -459,6 +459,10 @@ export default {
 <style lang="scss" scoped>
 ol {
   padding: 0 !important;
+}
+
+.grid-images-list{
+  text-align: center;
 }
 
 @media #{map-get($display-breakpoints, 'xs-only')} {

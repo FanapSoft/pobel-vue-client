@@ -189,12 +189,15 @@ export const locale = {
     DASHBOARDYOURANSWERSCOUNT: 'Answers\' count',
     DASHBOARDMODALTRANSFERFAILEDTITLE: 'Error, Request failed',
     DASHBOARDMODALTRANSFERFAILEDCONTENT: 'Nothing to transfer!',
-    DASHBOARDMODALTRANSFERSUCCEEDTITLE: '',
-    DASHBOARDMODALTRANSFERSUCCEEDCONTENT: '',
+    DASHBOARDMODALTRANSFERSUCCEEDTITLE: 'Transfer Succeed',
+    DASHBOARDMODALTRANSFERSUCCEEDCONTENT: 'IRT Transferred to your pod wallet',
 
     CHOOSETARGETERROR: 'Choose target error',
     NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'New target should be bigger than previous target',
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'You have reached your total labeling budget on current dataset, you can withdraw your money.',
-    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please collect your points before choosing a new target'
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please collect your points before choosing a new target',
+
+    ACCOUNT_INACTIVE: "Your account is inactive",
+    ACCOUNT_INACTIVE_DESC: "Your account is inactive and you can not use pobel at this time, Please contact the support for more info."
   }
 };

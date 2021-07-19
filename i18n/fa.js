@@ -186,12 +186,16 @@ export const locale = {
     DASHBOARDMODALTRANSFERFAILEDTITLE: 'خطا، انتقال انتجام نشد',
     DASHBOARDMODALTRANSFERFAILEDCONTENT: 'چیزی برای برداشت ندارید!',
     DASHBOARDMODALTRANSFERSUCCEEDTITLE: "انتقال موفق",
-    DASHBOARDMODALTRANSFERSUCCEEDCONTENT: 'ریال به کیف پول پاد شما منتقل شد.',
+    DASHBOARDMODALTRANSFERSUCCEEDCONTENT: 'تومان به کیف پول پاد شما منتقل شد.',
 
 
     CHOOSETARGETERROR: 'خطا در انتخاب تارگت',
     NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'هدف جدید باید بزرگتر از هدف قبلی شما باشد',
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'شما به حداکثر تعداد مجاز پاسخ در این دیتاست رسیده اید. از مشارکتتان متشکریم. می توانید امتیازتان را برداشت نمایید.',
-    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفا پیش از فعال سازی تارگت جدید، امتیاز خود را برداشت نمایید.'
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفا پیش از فعال سازی تارگت جدید، امتیاز خود را برداشت نمایید.',
+
+
+    ACCOUNT_INACTIVE: "حساب شما غیرفعال است",
+    ACCOUNT_INACTIVE_DESC: "اکانت شما غیرفعال است و در این حالت امکان استفاده از پابل را ندارید. برای اطلاعات بیشتر با پشتیبانی تماس بگیرید."
   }
 };
