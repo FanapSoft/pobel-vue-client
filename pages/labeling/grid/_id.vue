@@ -248,7 +248,7 @@ export default {
         DatasetId: this.$route.params.id,
         Count: 9,
         OnlyOneLabel: true,
-        LabelId: '126AB0C2-7F79-4297-CBC7-08D86959A6Dfg'
+        //LabelId: '126AB0C2-7F79-4297-CBC7-08D86959A6Dfg'
       }
 
       try {
