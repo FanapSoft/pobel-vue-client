@@ -269,43 +269,11 @@ export default {
         console.log(error);
       }
     },
-    // async getDatasetItem() {
-    //   if(!this.labelQuestions)
-    //     return;
-    //
-    //   try {
-    //     const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].DatasetItemId);
-    //     if (result.data ) {
-    //       this.datasetItem = result.data.result;
-    //
-    //       //TODO: WTF ?
-    //       let fieldName = this.datasetItem.filePath;
-    //       fieldName = fieldName.split('\\')[4];
-    //       switch (fieldName) {
-    //         case 'Actors':
-    //           this.labelType = this.$t('GENERAL.ACTOR');
-    //           break;
-    //
-    //         case 'Singers':
-    //           this.labelType = this.$t('GENERAL.SINGER');
-    //           break;
-    //
-    //         case 'Politicians':
-    //           this.labelType = this.$t('GENERAL.POLITICIAN');
-    //           break;
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // },
     async submitAnswersToServer() {
       let isAnswersSubmitted = false, answers = [], finalAnswers = [];
       answers = this.labelQuestions.filter(item => item.answer !== -1);
-      //TODO: make sure user can not reach here without answers
       if(answers.length) {
         finalAnswers = answers.map(item => {
-          //TODO: improve it for questions with more than yes and no answer options
           return {
             DatasetId: item.Options[0].DatasetId,
             DatasetItemId: item.DatasetItemId,
