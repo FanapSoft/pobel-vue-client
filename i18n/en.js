@@ -198,6 +198,10 @@ export const locale = {
     PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please collect your points before choosing a new target',
 
     ACCOUNT_INACTIVE: "Your account is inactive",
-    ACCOUNT_INACTIVE_DESC: "Your account is inactive and you can not use pobel at this time, Please contact the support for more info."
+    ACCOUNT_INACTIVE_DESC: "Your account is inactive and you can not use pobel at this time, Please contact the support for more info.",
+
+    TRANSFERFAILED: 'Transfer failed',
+    FAILEDTOTRANSFERCREDITTOWALLET: 'Transfer credit to pod wallet failed'
+
   }
 };

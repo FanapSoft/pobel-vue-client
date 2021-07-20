@@ -245,6 +245,25 @@ export default {
             }
           });
           await this.getWalletBalance();
+        } else if(requestCashOut.data[0] && requestCashOut.data[0].code === 3504) {
+          let continueModal = Modal({
+            title: this.$t('GENERAL.ERROR'),
+            body: this.$t('TEXTS.FAILEDTOTRANSFERCREDITTOWALLET'),
+            backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+
+            actions: [
+              {
+                title: this.$t('GENERAL.CLOSE'),
+                class: ['noBorder'],
+                fn: () => {
+                  continueModal.close();
+                }
+              }
+            ],
+            closeBtnAction: () => {
+              continueModal.close();
+            }
+          });
         }
       } catch (error) {
         console.log(error)
