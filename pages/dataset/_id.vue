@@ -96,7 +96,7 @@
             ref="wobblingBg"
             id="wobbling-bg">
             <small>{{$t('TEXTS.SINGLEDATASETYOURANSWERSCOUNT')}}</small>
-            <p id="stats-answers">{{ userTotalAnswersCount }}</p>
+            <p id="stats-answers">{{ $utils.formatNumber(userTotalAnswersCount) }}</p>
 
             <div class="" id="dataset-history-answers-chart">
               <h2
