@@ -264,6 +264,27 @@ export default {
         } else {
           if(result.data[0] && [3203, 3300, 3301, 3600].includes(result.data[0].code)) {
               this.$router.push("/dataset/" + this.$route.params.id);
+          } else if (result.data[0] && result.data[0].code === 3600) {
+            let continueModal = Modal({
+              title: this.$t('GENERAL.ERROR'),
+              body: this.$t('TEXTS.DATASETITEMSDONE'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+
+              actions: [
+                {
+                  title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    this.$router.push("/dataset/" + this.$route.params.id);
+                    continueModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                this.$router.push("/dataset/" + this.$route.params.id);
+                continueModal.close();
+              }
+            });
           }
         }
       } catch (error) {

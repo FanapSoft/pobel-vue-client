@@ -201,7 +201,8 @@ export const locale = {
     ACCOUNT_INACTIVE_DESC: "Your account is inactive and you can not use pobel at this time, Please contact the support for more info.",
 
     TRANSFERFAILED: 'Transfer failed',
-    FAILEDTOTRANSFERCREDITTOWALLET: 'Transfer credit to pod wallet failed'
+    FAILEDTOTRANSFERCREDITTOWALLET: 'Transfer credit to pod wallet failed',
 
+    DATASETITEMSDONE: 'This dataset has no more items for you. Thanks for your effort'
   }
 };
