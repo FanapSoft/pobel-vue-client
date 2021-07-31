@@ -25,7 +25,7 @@
 
                 text  outlined
 
-                :to="`/labeling/grid/${dataset.Id}`"
+                :to="generateLabelingTemplateLink(dataset)"
 
                 class="start-btn">
                 <v-icon>mdi-movie-open-play</v-icon>
@@ -33,7 +33,7 @@
               <NuxtLink
                 v-else
 
-                :to="`/labeling/grid/${dataset.Id}`"
+                :to="generateLabelingTemplateLink(dataset)"
 
                 class="start-btn">{{$t('GENERAL.STARTLABELING')}}</NuxtLink>
             </template>
@@ -197,11 +197,13 @@ import {mapGetters} from "vuex";
 import Chart from "chart.js"
 import Answers from "../../components/dataset/Answers";
 import Modal from "~/plugins/external/Modal";
+import labelingTemplate from "@/mixins/labelingTemplate";
 
 export default {
   name: "Dataset._id",
   layout: 'main',
   middleware: "authRequired",
+  mixins: [labelingTemplate],
   components: {Answers, DatasetItems, Transactions, Targets, DatasetsNav},
   data() {
     return {

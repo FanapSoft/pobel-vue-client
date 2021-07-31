@@ -68,7 +68,7 @@
                 v-if="ds.LabelingStatus"
 
                 class="col-12-old">
-                <NuxtLink :to="`/labeling/grid/${ds.Id}`" class="start-btn text-center">{{ $t('GENERAL.START') }}</NuxtLink>
+                <NuxtLink :to="generateLabelingTemplateLink(ds)" class="start-btn text-center">{{ $t('GENERAL.START') }}</NuxtLink>
               </div>
               <div
                 v-else
@@ -89,12 +89,14 @@
 import NavbarType1 from "../components/navbars/NavbarType1";
 import {mapGetters} from "vuex"
 import Loader from "../components/general/Loader"
+import labelingTemplate from "@/mixins/labelingTemplate";
 
 export default {
   components: {NavbarType1, Loader},
   name: "datasets",
   layout: 'main',
   middleware: "authRequired",
+  mixins: [labelingTemplate],
   data() {
     return {
       datasets: null,
