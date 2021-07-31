@@ -5,7 +5,7 @@ import error from "@/layouts/error";
 
 const ApiService = {
   //http://10.56.16.50:8888
-  loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://localhost:8080') : encodeURI('http://localhost:8080'))}`,
+  loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://localhost') : encodeURI('http://localhost:8787'))}`,
   axios: null,
   jwtService: null,
   /**

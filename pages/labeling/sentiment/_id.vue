@@ -251,7 +251,7 @@ export default {
 
       try {
         const result = await this.$apiService.get('/api/Questions/GetQuestions', data);
-        if (result.data && result.data.result) {
+        if (result.status< 400) {
           this.labelQuestions = result.data.result;
           this.labelQuestions.forEach((item, index) => {
             if (!index)
@@ -273,12 +273,12 @@ export default {
     async getUserTarget(datasetId) {
       let data = {
         DatasetId: datasetId,
-        UserId: this.user.id
+        UserId: this.user.Id
       }
 
       try {
         const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
-        if(target.data) {
+        if(target.status < 400) {
 
           //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           this.userTargetDefinition = target.data.TargetDefinition;//targetDefinition.data.result;
@@ -303,7 +303,7 @@ export default {
         const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
         if (answerStat.status < 400) {
           console.log()
-          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.result.totalCount;
+          this.userTargetDefinition.currentUserAnswersCount = answerStat.data.totalCount;
         }
       } catch (error) {
         console.log(error);
