@@ -61,6 +61,7 @@ export default {
     { src: '~/plugins/services/user.service', mode: 'client' },
     { src: '~/plugins/services/i18n.service', mode: 'client' },
     { src: '~/plugins/axios', mode: 'client' },
+    { src: '~/plugins/mixins', mode: 'client' },
     //'~/plugins/services/mock.service', //Temporary only for test
   ],
 
