@@ -45,7 +45,8 @@
                 'completed yes': item.answer !== -1 && item.isYes,
                 'completed no': item.answer !== -1 && item.isNo,
                 'completed report': item.isReport,
-                'g': item.g,
+                'g': item.G && !item.NG,
+                'ng': item.NG,
 
               }"
               :style="{backgroundImage: `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${item.DatasetItemId})`}">
