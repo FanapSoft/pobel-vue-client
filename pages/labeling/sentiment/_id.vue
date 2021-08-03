@@ -4,11 +4,7 @@
       v-if="!dataset || !userTargetDefinition"
 
       style="display: flex; align-items: center; justify-content: center;">
-      <v-progress-linear
-        indeterminate
-
-        size="20"
-        color="#ff257c"></v-progress-linear>
+      <loader />
     </div>
     <datasets-nav
       v-else
@@ -16,17 +12,15 @@
       :dataset="dataset"
       :target="userTargetDefinition"
       :localAnswersCount="localAnswersCount"
-      @totalSeconds="tm => timer = tm"></datasets-nav>
+      @totalSeconds="tm => timer = tm"
+
+      items-type="feeling"></datasets-nav>
 
     <div
       v-if="!labelQuestions"
 
       style="display: flex; align-items: center; justify-content: center;margin-top: 20px">
-      <v-progress-circular
-        indeterminate
-
-        size="30"
-        color="#ff257c"></v-progress-circular>
+      <loader />
     </div>
     <div
       v-else
@@ -43,12 +37,12 @@
             {{$t('TEXTS.LABELINGSENTIMENTQUESTIONPART1')}}
 
             <span style="font-size: 12px; color: rgb(187, 187, 187);"> (
-              {{labelQuestions[currentActiveItemIndex].field}}
+              {{labelQuestions[currentActiveItemIndex].Field}}
               -
-              {{labelQuestions[currentActiveItemIndex].source}}
+              {{labelQuestions[currentActiveItemIndex].Source}}
               )</span>
           </p>
-          <p class="question-sentence">{{ labelQuestions[currentActiveItemIndex].text }}</p>
+          <p class="question-sentence">{{ labelQuestions[currentActiveItemIndex].Content.replaceAll('_x000D_', ' ') }}</p>
         </div>
         <div
 
@@ -81,11 +75,15 @@
             v-for="(item, index) of labelQuestions"
 
             :class="{
-                'completed yes': item.answer !== -1 && item.isYes,
-                'completed no': item.answer !== -1 && item.isNo,
-                'completed skip':  item.isSkip,
+                'completed yes': item.answer === 1 && item.isYes,
+                'completed no': item.answer === -1 && item.isNo,
+                'completed skip':  item.answer == 0 && item.isSkip,
                 'completed report': item.isReport,
                 'active': item.isCurrent,
+                'g': item.G,
+                'gYes': item.CorrectGoldenAnswerIndex === 1,
+                'gNo': item.CorrectGoldenAnswerIndex === 0,
+                'gSkip': item.CorrectGoldenAnswerIndex === -1,
               }"
             @click="activateCurrentQuestion(item)"
 
@@ -93,7 +91,7 @@
             <p
 
               class="question-history-sentence" style="margin-bottom: 0">
-              {{ item.text }}
+              {{ item.Content.replaceAll('_x000D_', ' ') }}
             </p>
           </li>
         </ul>
@@ -140,11 +138,13 @@
 import DatasetsNav from "~/components/navbars/DatasetsNav";
 import Modal from "../../../plugins/external/Modal";
 import {mapGetters} from "vuex";
+import Loader from "@/components/general/Loader";
+
 
 export default {
   name: "labeling_linear_id",
   layout: 'default',
-  components: {DatasetsNav},
+  components: { Loader, DatasetsNav},
   computed: {
     ...mapGetters({
       user: "auth/currentUser"
@@ -171,51 +171,7 @@ export default {
       },
       datasetItem: null,
       labelType: '',
-      labelQuestions: [
-        {
-          "id": 0,
-          "text": "از نظر کیفی عالی",
-          "field": "خرده فروشی",
-          "source": "دیجی کالا",
-        },
-
-        {
-          "id": 1,
-          "text": "يک اشکال بزرگ اين گوشي اينه که دوربينش زوم نداره!",
-          "field": "خرده فروشی",
-          "source": "دیجی کالا"
-        },
-        {
-          "id": 2,
-          "text": "چیز برگر شیلا رو واقعا دوست میدارم",
-          "field": "سفارش غذا",
-          "source": "اسنپ فود"
-        },
-        {
-          "id": 3,
-          "text": "طرحش خیلی قشنگه و بعد چسبوندن خیلی قشنگ میشه",
-          "field": "خرده فروشی",
-          "source": "دیجی کالا"
-        },
-        {
-          "id": 4,
-          "text": "پولتون رو دور میریزید \nوقتی رمش ۱ باشه حافظه اش ۸ باشه \nحتی 4G نیست\"",
-          "field": "خرده فروشی",
-          "source": "دیجی کالا"
-        },
-        {
-          "id": 5,
-          "text": "من تو پیشنهاد ویژه خریدم که به نظرم ارزش این قیمت را هم ندارد ....سایز اون خیلی کوچک هست در حد بچه های ابتدایی.....کیفیت دوختش هم خوب نیست.....من برای همسرم سفارش دادم ولی چون کوچک بود مجبورم خودم استفاده کنم",
-          "field": "خرده فروشی",
-          "source": "دیجی کالا"
-        },
-        {
-          "id": 6,
-          "text": "عالیه❤❤❤",
-          "field": "خرده فروشی",
-          "source": "دیجی کالا"
-        },
-      ],
+      labelQuestions: null,
       userTargetDefinition: {
         currentUserAnswersCount: 100,
         answerCount: 50
@@ -234,25 +190,26 @@ export default {
       try {
         const result = await this.$apiService.get('/api/Datasets/Get/' + this.$route.params.id);
 
-        if (result.data && result.data.result) {
-          this.dataset = result.data.result
+        if (result.data && result.data) {
+          this.dataset = result.data
         }
       } catch (error) {
         console.log(error)
       }
     },
 
-    async getLabelQuestions() {
+    async getQuestions() {
       let data = {
-        DataSetId: this.$route.params.id,
+        DatasetId: this.$route.params.id,
         Count: 7,
+        OnlyOneLabel: false
         //LabelId: this.currentQuestionLabel.id,
-      }
+      };
 
       try {
         const result = await this.$apiService.get('/api/Questions/GetQuestions', data);
-        if (result.status< 400) {
-          this.labelQuestions = result.data.result;
+        if (result.status < 400) {
+          this.labelQuestions = result.data;
           this.labelQuestions.forEach((item, index) => {
             if (!index)
               this.$set(item, "isCurrent", true);
@@ -263,24 +220,26 @@ export default {
             this.$set(item, "isNo", false);
             this.$set(item, "isSkip", false);
             this.$set(item, "isReport", false);
-            this.$set(item, "answer", -1);
-          })
+            this.$set(item, "answer", -2);
+          });
+        } else {
+        if(result.data[0] && [3203, 3300, 3301, 3600].includes(result.data[0].code)) {
+          this.$router.push("/dataset/" + this.$route.params.id);
         }
+      }
       } catch (error) {
         console.log(error)
       }
     },
-    async getUserTarget(datasetId) {
+    async getUserTarget() {
       let data = {
-        DatasetId: datasetId,
+        DatasetId: this.$route.params.id,
         UserId: this.user.Id
       }
 
       try {
         const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
         if(target.status < 400) {
-
-          //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           this.userTargetDefinition = target.data.TargetDefinition;//targetDefinition.data.result;
           this.$set(this.userTargetDefinition, 'currentUserAnswersCount', 0);
 
@@ -300,47 +259,32 @@ export default {
       }
 
       try {
-        const answerStat = await this.$apiService.post('/api/Answers/Stats', data);
+        const answerStat = await this.$apiService.get('/api/Answers/Stats', data);
         if (answerStat.status < 400) {
-          console.log()
           this.userTargetDefinition.currentUserAnswersCount = answerStat.data.totalCount;
         }
       } catch (error) {
         console.log(error);
       }
     },
-    async getDatasetItem() {
-      if (!this.labelQuestions)
-        return
-      let data = {
-        id: this.labelQuestions[0].datasetItemId,
-      }
-
-      try {
-        const result = await this.$apiService.get('/api/DatasetItems/Get/' + this.labelQuestions[0].datasetItemId, data);
-        if (result.data && result.data.result) {
-          this.datasetItem = result.data.result;
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
     async submitAnswersToServer() {
       let isAnswersSubmitted = false, answers = [], finalAnswers = [];
-      answers = this.labelQuestions.filter(item => item.answer !== -1);
-      //TODO: make sure user can not reach here without answers
+      answers = this.labelQuestions.filter(item => item.answer !== -2);
+      console.log('im here ?:', answers)
       if (answers.length) {
         finalAnswers = answers.map(item => {
           //TODO: improve it for questions with more than yes and no answer options
           return {
-            DatasetId: (item.answer === 0 ? item.options[0].DatasetId : item.options[1].DatasetId),
-            DatasetItemId: item.datasetItemId,
-            AnswerIndex: (item.answer === 0 ? item.options[0].index : item.options[1].index),
-            DurationToAnswerInSeconds: Math.round(this.timer / this.labelQuestions.length)
-          }
+            DatasetId: item.Options[0].DatasetId,
+            DatasetItemId: item.DatasetItemId,
+            AnswerIndex: item.answer,
+            DurationToAnswerInSeconds: Math.round(this.timer / this.labelQuestions.length),
+            Ignored: false,
+          };
         });
         let data = {
-          answers: finalAnswers
+          Answers: finalAnswers,
+          QuestionId: answers[0].QuestionId
         }
 
         try {
@@ -385,9 +329,9 @@ export default {
       this.localReportsCount = 0;
       if (this.labelQuestions) {
         for (let i of this.labelQuestions) {
-          if (i.answer !== -1 && (i.isYes || i.isNo)) {
+          if (i.answer !== -2 && (i.isYes || i.isNo || i.isSkip)) {
             this.localAnswersCount++
-          } else if (i.answer === -1 && i.isReport) {
+          } else if (i.answer === -2 && i.isReport) {
             this.localReportsCount++;
           }
         }
@@ -397,37 +341,67 @@ export default {
       let item = this.currentActiveItem
       switch (state) {
         case 'yes':
-          item.isNo = false;
-          item.isSkip = false;
-          item.isReport = false;
-          item.isYes = true;
-          item.answer = 0;
+          if(!item.isYes) {
+            item.isNo = false;
+            item.isSkip = false;
+            item.isReport = false;
+            item.isYes = true;
+            item.answer = item.Options[2].Index;
+          } else  {
+            item.isYes = false;
+            item.isNo = false;
+            item.isSkip = false;
+            item.isReport = false;
+            item.answer = -2;
+          }
           break;
         case 'no':
-          item.isYes = false;
-          item.isNo = true;
-          item.isSkip = false;
-          item.isReport = false;
-          item.answer = 1;
+          if(!item.isNo) {
+            item.isYes = false;
+            item.isNo = true;
+            item.isSkip = false;
+            item.isReport = false;
+            item.answer = item.Options[0].Index;
+          } else  {
+            item.isYes = false;
+            item.isNo = false;
+            item.isSkip = false;
+            item.isReport = false;
+            item.answer = -2;
+          }
           break;
         case 'report':
-
-          item.isYes = false;
-          item.isNo = false;
-          item.isSkip = false;
-          item.isReport = true;
-          item.answer = -1;
-
-          break
+          if(!item.isReport) {
+            item.isYes = false;
+            item.isNo = false;
+            item.isSkip = false;
+            item.isReport = true;
+            item.answer = -2;
+          } else  {
+            item.isYes = false;
+            item.isNo = false;
+            item.isSkip = false;
+            item.isReport = false;
+            item.answer = -2;
+          }
+          break;
         case 'skip':
-          item.isYes = false;
-          item.isNo = false;
-          item.isSkip = true;
-          item.isReport = false;
-          item.answer = -1;
-          break
+          if(!item.isSkip) {
+            item.isYes = false;
+            item.isNo = false;
+            item.isReport = false;
+            item.isSkip = true;
+            item.answer = item.Options[1].Index;
+            console.log(item.isSkip, item.answer);
+          } else  {
+            item.isYes = false;
+            item.isNo = false;
+            item.isReport = false;
+            item.isSkip = false;
+            item.answer = -2;
+          }
+          break;
       }
-      //this.getCurrentQuestionLabel()
       this.activateNextItem();
     },
     activateNextItem() {
@@ -456,14 +430,22 @@ export default {
       this.timer = null;
       this.localAnswersCount = 0;
 
-
+      this.$nextTick(async ()=> {
+        await this.getUserTarget(this.$route.params.id);
+        await this.getQuestions();
+      });
     }
   },
   async mounted() {
     //Call orders matters
 
+    //Call orders matters
+    await this.getDataset();
+    await this.getUserTarget();
+    //await this.getcurrentQuestionLabel();
+    await this.getQuestions();
     //Fake data for now
-    this.labelQuestions.forEach((item, index) => {
+    /*this.labelQuestions.forEach((item, index) => {
       if (!index)
         this.$set(item, "isCurrent", true);
       else
@@ -474,7 +456,7 @@ export default {
       this.$set(item, "isSkip", false);
       this.$set(item, "isReport", false);
       this.$set(item, "answer", -1);
-    })
+    })*/
   },
   watch: {
     labelQuestions: {
@@ -487,7 +469,17 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.question-list-items.g.gYes::before{
+  color: green;
+}
+.question-list-items.g.gSkip::before{
+  color: #ffd700;
+}
+.question-list-items.g.gSkip::before{
+  color: red;
+}
+
 @media (max-width: 500px) {
   .question-history {
     padding-left: 10px;
