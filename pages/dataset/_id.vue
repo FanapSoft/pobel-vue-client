@@ -177,7 +177,7 @@
       <transactions :dataset="dataset" :user="user"></transactions>
 
       <answers
-        v-if="dataset"
+        v-if="dataset && dataset.Type == 1"
 
         :dataset="dataset"
         :user="user"></answers>
@@ -198,13 +198,14 @@ import Chart from "chart.js"
 import Answers from "../../components/dataset/Answers";
 import Modal from "~/plugins/external/Modal";
 import labelingTemplate from "@/mixins/labelingTemplate";
+import Loader from "@/components/general/Loader";
 
 export default {
   name: "Dataset._id",
   layout: 'main',
   middleware: "authRequired",
   mixins: [labelingTemplate],
-  components: {Answers, DatasetItems, Transactions, Targets, DatasetsNav},
+  components: {Loader, Answers, DatasetItems, Transactions, Targets, DatasetsNav},
   data() {
     return {
       dataset: null,
@@ -244,7 +245,7 @@ export default {
 
       const data = {
         UserId: this.user.Id,
-        DataSetId: this.$route.params.id,
+        DatasetId: this.$route.params.id,
         From: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString()
       }
       try {
