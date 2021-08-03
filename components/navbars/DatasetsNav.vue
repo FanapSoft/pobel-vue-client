@@ -45,7 +45,8 @@ export default {
   props: {
     dataset: null,
     target: null,
-    localAnswersCount: 0
+    localAnswersCount: 0,
+    itemsType: 'conformity'
   },
   data() {
     return {
@@ -85,17 +86,28 @@ export default {
     },
 
     showHelpModal(){
-      let continueModal = Modal({
-        title: this.$t('HELP.HELP'),
-        body: `${this.$t('TEXTS.LABELINGHELPMODALCONTENT1')}:
-        <br />
-        <span class="help-icon " >✓</span>
+      let body = `${this.$t('TEXTS.LABELINGHELPMODALCONTENT1')}:
+        <br />`;
+      if(this.itemsType === 'conformity') {
+        body += `<span class="help-icon " >✓</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT2')}
         <br />
         <span class="help-icon" >⤫</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT3')}
+        <br />`;
+      } else if (this.itemsType === 'feeling') {
+        body += `<span class="help-icon " >😄</span>
+         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT8')}
         <br />
-        <span class="help-icon " >⚐</span>
+        <span class="help-icon" >😡</span>
+         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT9')}
+        <br />
+        <span class="help-icon" >🙄</span>
+         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT10')}
+        <br />`;
+      }
+
+       body += `<span class="help-icon " >⚐</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT4')}
         <br />
         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT5')}
@@ -104,7 +116,12 @@ export default {
         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT6')}
         <br>
         ${this.$t('TEXTS.LABELINGHELPMODALCONTENT7')}
-`,
+`
+
+
+      let continueModal = Modal({
+        title: this.$t('HELP.HELP'),
+        body: body,
         fullscreen: true,
         actions: [
           {

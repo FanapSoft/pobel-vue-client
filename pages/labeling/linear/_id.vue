@@ -12,7 +12,9 @@
       :dataset="dataset"
       :target="userTargetDefinition"
       :localAnswersCount="localAnswersCount"
-      @totalSeconds="tm => timer = tm"></datasets-nav>
+      @totalSeconds="tm => timer = tm"
+
+      items-type="conformity"></datasets-nav>
 
     <div
       v-if="!labelQuestions"
@@ -149,11 +151,12 @@
 import DatasetsNav from "~/components/navbars/DatasetsNav";
 import Modal from "../../../plugins/external/Modal";
 import {mapGetters} from "vuex";
+import Loader from "@/components/general/Loader";
 
 export default {
   name: "labeling_linear_id",
   layout: 'default',
-  components: {DatasetsNav},
+  components: {Loader, DatasetsNav},
   middleware: "authRequired",
   computed: {
     ...mapGetters({

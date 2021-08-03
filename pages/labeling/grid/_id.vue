@@ -6,7 +6,9 @@
         :dataset="dataset"
         :target="userTargetDefinition"
         :localAnswersCount="localAnswersCount"
-        @totalSeconds="tm => timer = tm"></datasets-nav>
+        @totalSeconds="tm => timer = tm"
+
+        items-type="conformity"></datasets-nav>
 
       <div
         v-if="!labelQuestions"
@@ -196,13 +198,14 @@
 <script>
 import DatasetsNav from "~/components/navbars/DatasetsNav";
 import { mapGetters } from "vuex"
+import Loader from "@/components/general/Loader";
 
 import Modal from "../../../plugins/external/Modal/index"
 
 export default {
   name: "labeling_grid_id",
   layout: 'labeling',
-  components: {DatasetsNav},
+  components: {Loader, DatasetsNav},
   middleware: "authRequired",
   computed: {
     ...mapGetters({
@@ -404,7 +407,7 @@ export default {
               item.isNo = false;
               item.isReport = false;
               item.isYes = true;
-              item.answer = 1;
+              item.answer = item.Options[1].Index;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -417,7 +420,7 @@ export default {
               item.isYes = false;
               item.isNo = true;
               item.isReport = false;
-              item.answer = 0;
+              item.answer = item.Options[0].Index;
             } else  {
               item.isYes = false;
               item.isNo = false;
@@ -455,7 +458,7 @@ export default {
         //await this.getRandomLabel();
         await this.getLabelQuestions();
        // await this.getDatasetItem();
-      })
+      });
 
     }
   },

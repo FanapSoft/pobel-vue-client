@@ -153,10 +153,14 @@ export const locale = {
     LABELINGHELPMODALCONTENT1: 'You have the following options for labeling in the current dataset',
     LABELINGHELPMODALCONTENT2: 'That\'s right (the image matches)',
     LABELINGHELPMODALCONTENT3: 'oops! Wrong answer! (the image does not match)',
-    LABELINGHELPMODALCONTENT4: 'The image has a defect (reporting a defect in the image; illegible, blurred, not loaded, etc ...)',
+    LABELINGHELPMODALCONTENT4: 'The item has a defect (reporting a defect in the item; illegible, blurred, not loaded, etc ...)',
     LABELINGHELPMODALCONTENT5: 'Tip 1: Currently, reporting has no scores.',
     LABELINGHELPMODALCONTENT6: 'Tip 2: Some items are golden, which means we know the answer. If you answer the golden items correctly, you will receive score, if you answer them incorrectly, your scores will be reduced, and if you do not answer them, you will not receive score.',
-    LABELINGHELPMODALCONTENT7: 'If you are hesitant, do not label the relevant image to avoid lowering your score.',
+    LABELINGHELPMODALCONTENT7: 'If you are hesitant, do not label the relevant item to avoid lowering your score.',
+
+    LABELINGHELPMODALCONTENT8: 'Good (Positive feeling)',
+    LABELINGHELPMODALCONTENT9: 'Bad (Negative feeling)',
+    LABELINGHELPMODALCONTENT10: 'Nothing (Not good and not bad, maybe both, maybe none)',
 
     FAQQ1: 'What does POBEL stands for?',
     FAQQ2: 'Is it free-of-charge to register in POBEL?',
