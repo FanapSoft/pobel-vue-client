@@ -1,4 +1,8 @@
 import colors from 'vuetify/es5/util/colors'
+const config = {
+  HOST_ADDRESS: (process.env.NODE_ENV === 'production' ? process.env.NUXT_ENV_API_URL_PROD : process.env.NUXT_ENV_API_URL_LOCAL),
+  APP_URL: (process.env.NODE_ENV === 'production' ? encodeURI(process.env.NUXT_ENV_URL_PROD) : encodeURI(process.env.NUXT_ENV_URL_LOCAL)),
+}
 
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
@@ -81,7 +85,7 @@ export default {
   ],
 
   axios: {
-    baseURL: 'http://localhost:8080', // Used as fallback if no runtime config is provided
+    baseURL: config.HOST_ADDRESS, // Used as fallback if no runtime config is provided
   },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify

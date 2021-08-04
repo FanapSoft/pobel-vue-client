@@ -3,9 +3,14 @@
  */
 import error from "@/layouts/error";
 
+const config = {
+  HOST_ADDRESS: (process.env.NODE_ENV === 'production' ? process.env.NUXT_ENV_API_URL_PROD : process.env.NUXT_ENV_API_URL_LOCAL),
+  APP_URL: (process.env.NODE_ENV === 'production' ? encodeURI(process.env.NUXT_ENV_URL_PROD) : encodeURI(process.env.NUXT_ENV_URL_LOCAL)),
+}
+
 const ApiService = {
   //http://10.56.16.50:8888
-  loginUrl: `http://localhost:8080/auth?host=${(process.env.NODE_ENV === 'production' ? encodeURI('http://localhost') : encodeURI('http://localhost:8787'))}`,
+  loginUrl: `${config.HOST_ADDRESS}/auth?host=${config.APP_URL}`,
   axios: null,
   jwtService: null,
   /**
