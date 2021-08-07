@@ -262,16 +262,10 @@ export default {
             finalDataCounts.push(v.count);
           });
 
-          let fillUpDates = [];
-
-          let chartDates = [],
-            chartCount = [];
-
           this.$nextTick(() => {
-            setTimeout(() => {
-              let ctx = document.getElementById('myChart');//.getContext('2d');
 
-              let myChart = new Chart(ctx, {
+              let ctx = document.getElementById('myChart')
+              , activityChart = new Chart(ctx, {
               type: 'line',
               data: {
                 labels: finalDataDates,
@@ -329,8 +323,7 @@ export default {
                 }
               }
             });
-            }, 200);
-          })
+          });
         }
       } catch (error) {
         console.log(error)
@@ -589,13 +582,13 @@ export default {
   },
   async mounted() {
     this.getItem();
-    this.getChartData();
-    this.getUserCredit(this.$route.params.id);
-    this.getUserAnswersCount(this.$route.params.id);
-    this.getUserTotalAnswersCount(this.$route.params.id);
+    await this.getUserCredit(this.$route.params.id);
+    await this.getUserAnswersCount(this.$route.params.id);
+    await this.getUserTotalAnswersCount(this.$route.params.id);
     await this.getUserTarget(this.$route.params.id);
     //this.checkIsTargetReached();
-    this.getDatasetTargets(this.$route.params.id);
+    await this.getDatasetTargets(this.$route.params.id);
+    await this.getChartData();
   },
   watch: {
     dataset() {
