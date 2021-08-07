@@ -250,7 +250,7 @@ export default {
       }
       try {
         const datasets = await this.$apiService.get('/api/Reports/AnswersCountsTrend', data);
-        if(datasets.data && datasets.data && datasets.data.length) {
+        if(datasets.status < 400 && datasets.data.length) {
           this.userHasChart = true;
           //this.dataset = dataset.data.result;
 
