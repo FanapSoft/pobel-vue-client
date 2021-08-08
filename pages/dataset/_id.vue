@@ -181,6 +181,12 @@
 
         :dataset="dataset"
         :user="user"></answers>
+      <answers2
+        v-if="dataset && dataset.Type == 2"
+
+        :dataset="dataset"
+        :user="user"></answers2>
+
     </div>
   </div>
 </template>
@@ -196,6 +202,7 @@ import {mapGetters} from "vuex";
 
 import Chart from "chart.js"
 import Answers from "../../components/dataset/Answers";
+import Answers2 from "../../components/dataset/Answers2";
 import Modal from "~/plugins/external/Modal";
 import labelingTemplate from "@/mixins/labelingTemplate";
 import Loader from "@/components/general/Loader";
@@ -205,7 +212,7 @@ export default {
   layout: 'main',
   middleware: "authRequired",
   mixins: [labelingTemplate],
-  components: {Loader, Answers, DatasetItems, Transactions, Targets, DatasetsNav},
+  components: {Loader, Answers, Answers2, DatasetItems, Transactions, Targets, DatasetsNav},
   data() {
     return {
       dataset: null,
