@@ -62,7 +62,7 @@
 
             <!-- Actions -->
             <div
-              v-if="ds.targetSize && ds.userAnswersCount && ds.userAnswersCount <= ds.targetSize"
+              v-if="ds.userTargetDefinition"
               class="row-old dataset-actions-list" :id="`ds-{{id}}`">
               <div
                 v-if="ds.LabelingStatus"
@@ -123,9 +123,10 @@ export default {
           for (let item of datasets.data.items) {
             item.AnswerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.AnswerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             //item.coverItem = await this.getDatasetCoverItem(item.Id);
-            item.targetSize = await this.getUserTarget(item.Id);
+            item.userTargetDefinition = await this.getUserTarget(item.Id);
+            item.targetSize = item.userTargetDefinition.AnswerCount;
 
-            if (item.targetSize) {
+            if (item.userTargetDefinition) {
               item.userAnswersCount = await this.getUserAnswersCount(item.Id);
 
               if (item.userAnswersCount) {
@@ -171,14 +172,14 @@ export default {
 
       try {
         const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
-        if (target.data) {
+        if (target.status < 400) {
           // data = {
           //   id: targets.data.result.items[0].targetDefinitionId
           // };
 
           //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.result.items[0].targetDefinitionId, data);
           //if(targetDefinition.data && targetDefinition.data.result) {
-          return (target.data ? target.data.TargetDefinition.AnswerCount : '0');
+          return target.data.TargetDefinition;
           //}
         }
       } catch (error) {
