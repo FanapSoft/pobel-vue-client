@@ -64,23 +64,25 @@ const actions = {
 
 const mutations = {
   [SET_ERROR](state, error) {
-    state.errors = error;
+    this._vm.$set(state,'errors', error);
   },
   [SET_PASSWORD](state, password) {
     state.user.password = password;
   },
   [PURGE_AUTH](state) {
-    state.isAuthenticated = false;
-    state.user = {};
-    state.errors = {};
+    this._vm.$set(state,'isAuthenticated',false);
+    this._vm.$set(state,'user', {});
+    this._vm.$set(state,'errors', {});
+
+    //Remove from localstorage
     this.$jwtService.destroyToken();
     this.$userService.destroyUser();
   },
   [SET_AUTH](state, user) {
-    state.user = user
+    this._vm.$set(state,'user',user);
   },
   [SET_IS_AUTHENTICATED](state, val) {
-    state.isAuthenticated = val
+    this._vm.$set(state,'isAuthenticated',val);
   }
 };
 

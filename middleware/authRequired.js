@@ -6,7 +6,7 @@ export default async function (context) {
     redirect
   } = context;
 
-  if(!store.getters["auth/isAuthenticated"] || !$userService.getUser().Name) {
+  if(!store.getters["auth/isAuthenticated"]) {
     //is not authorized, check if token is saved in browser
     redirect($apiService.loginUrl)
   }

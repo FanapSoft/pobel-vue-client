@@ -46,7 +46,10 @@ export default {
     dataset: null,
     target: null,
     localAnswersCount: 0,
-    itemsType: 'conformity'
+    itemsType: {
+      type: String,
+      default: 'conformity'
+    },
   },
   data() {
     return {
@@ -88,14 +91,14 @@ export default {
     showHelpModal(){
       let body = `${this.$t('TEXTS.LABELINGHELPMODALCONTENT1')}:
         <br />`;
-      if(this.itemsType === 'conformity') {
+      if(this.typeOfItems === 'conformity') {
         body += `<span class="help-icon " >✓</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT2')}
         <br />
         <span class="help-icon" >⤫</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT3')}
         <br />`;
-      } else if (this.itemsType === 'feeling') {
+      } else if (this.typeOfItems === 'feeling') {
         body += `<span class="help-icon " >😄</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT8')}
         <br />

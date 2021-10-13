@@ -139,7 +139,7 @@ export const locale = {
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' points were transferred to your POBEL account. Check your profile.',
     SINGLEDATASETNOTREACHEDTARGET: ' You could not collect your money unless hitting the selected target. ',
 
-
+    YOURANSWERSCOUNT: 'Total answers',
 
     LABELINGQUESTIONPART1: 'Are the images related to ',
     LABELINGQUESTIONPART2: ' ?',

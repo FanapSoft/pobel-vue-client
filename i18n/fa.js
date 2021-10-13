@@ -136,6 +136,8 @@ export const locale = {
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' امتیاز به حساب پابل شما منتقل گردید. برای مشاهده به پروفایل پابل خود مراجعه نمایید ',
     SINGLEDATASETNOTREACHEDTARGET: ' پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید. ',
 
+
+
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
     LABELINGQUESTIONPART2: 'هستند؟',
     LABELINGLINEARQUESTIONPART1: 'آیا تصویر زیر متعلق به',

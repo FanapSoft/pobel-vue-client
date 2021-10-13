@@ -3,7 +3,7 @@
 
       <v-row class=" header">
         <v-col sm="12" class=" dataset-list-name">
-          <h3>{{ $t('USER.WELCOME')}}<small>{{ user.Name + ' ' + user.Surname }}</small></h3>
+          <h3>{{ $t('USER.WELCOME')}}<small>{{ (user && user.Name ? user.Name + ' ' + user.Surname : user.UserName) }}</small></h3>
         </v-col>
       </v-row>
 
@@ -32,7 +32,7 @@
             elevation="0"
             class="dataset-history-wrapper "
             style="border-radius: 10px">
-            <small>{{ $t('TEXTS.SINGLEDATASETYOURANSWERSCOUNT') }}: </small>
+            <small>{{ $t('TEXTS.DASHBOARDYOURANSWERSCOUNT') }}: </small>
             <p id="stats-answers">{{ answersCount.toLocaleString() }}</p>
           </v-card>
           <v-card
@@ -178,7 +178,7 @@ export default {
     async getAnswers() {
       this.loadingAnswers = true;
       let data = {
-        UserId: this.user.id
+        UserId: this.user.Id
       }
 
       try {
