@@ -1,5 +1,5 @@
 const i18nService = {
-  defaultLanguage: "en",
+  defaultLanguage: "fa",
   languages: [
     {
       lang: "en",
