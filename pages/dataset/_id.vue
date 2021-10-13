@@ -384,7 +384,6 @@ export default {
       }
       try {
         const credit = await this.$apiService.post('/api/Credit/CollectCredit', data);
-        console.log(credit)
         if(credit.data && credit.status < 400) {
           if(credit.data.CreditAmount > 0) {
             let continueModal = Modal({
@@ -417,6 +416,8 @@ export default {
             });
 
             document.getElementById('stats-credit').innerHTML = '0.00';
+
+            this.getUserAnswersCount(this.$route.params.id);
           }
         } else {
           if(credit.data && credit.data[0].code === 3400 ) {
@@ -463,7 +464,7 @@ export default {
 
       return 0;
     },
-        async getUserTotalAnswersCount(ds) {
+    async getUserTotalAnswersCount(ds) {
       let data = {
         DatasetId: ds,
         UserId: this.user.Id
@@ -502,9 +503,10 @@ export default {
 
       try {
         const target = await this.$apiService.get('/api/Targets/GetCurrentTarget', data);
-        if(target.data) {
+        if(target.data && target.status < 400) {
           //let targetDefinition = await this.$apiService.get('/api/TargetDefinitions/Get/' + targets.data.items[0].targetDefinitionId, data);
-          this.userTargetDefinition = target.data.TargetDefinition;
+          this.userTargetDefinition = null;
+          this.$set(this, 'userTargetDefinition', target.data.TargetDefinition);
         }
       } catch (error) {
         console.log(error);

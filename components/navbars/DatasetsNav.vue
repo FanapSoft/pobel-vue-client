@@ -91,14 +91,14 @@ export default {
     showHelpModal(){
       let body = `${this.$t('TEXTS.LABELINGHELPMODALCONTENT1')}:
         <br />`;
-      if(this.typeOfItems === 'conformity') {
+      if(this.itemsType === 'conformity') {
         body += `<span class="help-icon " >✓</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT2')}
         <br />
         <span class="help-icon" >⤫</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT3')}
         <br />`;
-      } else if (this.typeOfItems === 'feeling') {
+      } else if (this.itemsType === 'feeling') {
         body += `<span class="help-icon " >😄</span>
          ${this.$t('TEXTS.LABELINGHELPMODALCONTENT8')}
         <br />

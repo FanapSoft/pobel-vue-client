@@ -132,17 +132,17 @@ export const locale = {
     SINGLEDATASETNOTSCOREDYET: 'هنوز امتیازی کسب نکرده اید ',
     SINGLEDATASETCHOOSETARGET: '    هدف خود برای برچسب زنی بر روی این مجموعه ی داده را مشخص کنید. توجه داشته باشید چنانچه هدف تعیین نشده باشد' +
       '   برچسب زنی ممکن نمی باشد و اعتبار فرآیند برچسب زنی نیز بدرستی محاسبه نمی گردد.' ,
-    SINGLEDATASETCHOOSETARGET2: 'با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید.',
+    SINGLEDATASETCHOOSETARGET2: 'با تعیین هدف توسط فرم زیر مشخص کنید در نظر دارید چه تعداد پاسخ در این مجموعه‌ی داده ثبت کنید. توجه داشته باشید که امکان تغییر هدف به مقادیر کوچکتر برای کاربر میسر نیست. بعنوان مثال اگر' +
+      ' کاربری یک هدف  10000 تایی را انتخاب کرده باشد، تا زمان اتمام آن نمیتواند اهداف کوچکتری مانند هدف  100 تایی را برگزیند.',
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' امتیاز به حساب پابل شما منتقل گردید. برای مشاهده به پروفایل پابل خود مراجعه نمایید ',
     SINGLEDATASETNOTREACHEDTARGET: ' پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید. ',
 
 
-
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
-    LABELINGQUESTIONPART2: 'هستند؟',
+    LABELINGQUESTIONPART2: 'می باشند؟',
     LABELINGLINEARQUESTIONPART1: 'آیا تصویر زیر متعلق به',
     LABELINGLINEARQUESTIONPART2: 'است؟',
-    LABELINGSENTIMENTQUESTIONPART1: 'حس‌اتان نسبت به این جمله چیست؟',
+    LABELINGSENTIMENTQUESTIONPART1: 'حس‌ تان نسبت به این جمله چیست؟',
 
     LABELINGSUBMITANSWERSANDCOUNTINUE: 'تمایل دارید پاسخ‌های انتخاب شده ارسال شده و فرآیند برچسب زنی ادامه یابد؟',
 
@@ -197,7 +197,7 @@ export const locale = {
     CHOOSETARGETERROR: 'خطا در انتخاب تارگت',
     NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'هدف جدید باید بزرگتر از هدف قبلی شما باشد',
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'شما به حداکثر تعداد مجاز پاسخ در این دیتاست رسیده اید. از مشارکتتان متشکریم. می توانید امتیازتان را برداشت نمایید.',
-    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفا پیش از فعال سازی تارگت جدید، امتیاز خود را برداشت نمایید.',
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفاً از طریق دکمه انتقال به کیف پول پاد نسبت به انتقال اعتبار خود به کیف پاد اقدام نمایید',
 
 
     ACCOUNT_INACTIVE: "حساب شما غیرفعال است",

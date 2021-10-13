@@ -32,7 +32,15 @@
               {{labelQuestions[0].ItemName}}
                ({{ labelQuestions[0].ItemJob }})
             </strong>
-            {{$t('TEXTS.LABELINGQUESTIONPART2')}}
+            {{ $t('TEXTS.LABELINGQUESTIONPART2') }}
+          </p>
+          <p v-if="!$vuetify.breakpoint.xs">
+            <span class="help-icon mx-1" >✓</span>
+            {{ $t('GENERAL.ISCORRECT') }}
+            <span class="help-icon mx-1" >⤫</span>
+            {{ $t('GENERAL.ISINCORRECT') }}
+            <span class="help-icon mx-1" >⚐</span>
+            {{ $t('GENERAL.REPORT') }}
           </p>
           <ol
             v-if="!$vuetify.breakpoint.xs"

@@ -22,7 +22,7 @@
             <div
 
               class="dataset-cover"
-              :style="{'background-image': (ds.RandomItemId ? `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${ds.RandomItemId})` : 'none')}"
+              :style="{'background-image': (ds.RandomItemId && ds.Type === 1 ? `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${ds.RandomItemId})` : ''), 'background-size':  (ds.RandomItemId && ds.Type === 1 ? 'auto' : '')}"
               :id="`ds-cover-${ds.id}`">
             <span
               v-if="ds.LabelingStatus"
@@ -231,4 +231,8 @@ export default {
 </script>
 
 <style scoped>
+.datasets-list .dataset-cover {
+  background-image: url('~assets/images/noimage.png');
+  background-size: contain;
+}
 </style>
