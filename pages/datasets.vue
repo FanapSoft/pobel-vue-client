@@ -81,6 +81,20 @@
 
         </v-col>
       </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-pagination
+          v-if="pagination.realCount > 12"
+
+          circle
+
+          v-model="pagination.currentPage"
+          :total-visible="($vuetify.breakpoint.width - $vuetify.application.left - 404) / 44 - 1"
+          :length="pagination.count"
+
+
+          color="#741457"
+          class="mt-4 pb-2"></v-pagination>
+      </v-row>
     </template>
   </v-container>
 </template>
@@ -101,7 +115,15 @@ export default {
     return {
       datasets: null,
       loading: false,
-      dsCount: 0
+      dsCount: 0,
+      pagination: {
+        limit: 12,
+        count: 0,
+        realCount: 0,
+        skip: 0,
+        currentPage: 1,
+        perPage: 12
+      },
     };
   },
   computed: {
@@ -112,21 +134,25 @@ export default {
   methods: {
     async getItems() {
       this.loading = true;
+      this.calcCurrentPage(this.pagination.currentPage);
       const data = {
-        //Limit: 3
+        Limit: 9,
+        Skip: this.pagination.skip,
         IsActive: true,
         IncludeRandomItem: true
-      }
+      };
+
+      this.datasets = null;
+
       try {
         const datasets = await this.$apiService.get('/api/Datasets/GetAll', data);
         if (datasets.data && datasets.data.items && datasets.data.items.length) {
+
           for (let item of datasets.data.items) {
             item.AnswerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.AnswerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            //item.coverItem = await this.getDatasetCoverItem(item.Id);
             item.userTargetDefinition = await this.getUserTarget(item.Id);
-            //item.targetSize = item.userTargetDefinition.AnswerCount;
-            this.$set(item, 'targetSize', item.userTargetDefinition.AnswerCount)
 
+            this.$set(item, 'targetSize', item.userTargetDefinition.AnswerCount)
             if (item.userTargetDefinition) {
               item.userAnswersCount = await this.getUserAnswersCount(item.Id);
 
@@ -138,6 +164,9 @@ export default {
 
           this.datasets = datasets.data.items;
           this.dsCount = datasets.data.totalCount;
+
+          this.pagination.count = datasets.data.totalCount ? Math.ceil(datasets.data.totalCount / this.pagination.limit) : 1;
+          this.pagination.realCount = datasets.data.totalCount;
         }
       } catch (error) {
         console.log(error)
@@ -224,10 +253,26 @@ export default {
 
       return 0;
     },
-
+    calcCurrentPage(page) {
+      if (!page || page == 1) {
+        this.pagination.skip = 0;
+        this.pagination.currentPage = 1;
+      } else if (page > 1) {
+        this.pagination.skip = this.pagination.limit * (page - 1);
+        this.pagination.currentPage = page;
+      }
+    },
+    async refreshList() {
+      await this.getItems();
+    }
   },
   mounted() {
-    this.getItems()
+    this.refreshList()
+  },
+  watch: {
+    'pagination.currentPage'() {
+      this.refreshList();
+    }
   }
 }
 </script>
