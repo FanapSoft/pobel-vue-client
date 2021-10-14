@@ -46,6 +46,10 @@ const actions = {
       this.$apiService
           .get(`/api/User/Get/${user.uid}`)
           .then(response => {
+            if(response.status > 400 && response.data[0] && response.data[0].code === 2004) {
+              context.dispatch(LOGOUT)
+              return;
+            }
             commit(SET_AUTH, {
               ...user,
               ...state.user,
