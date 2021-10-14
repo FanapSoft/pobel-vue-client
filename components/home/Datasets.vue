@@ -12,7 +12,7 @@
           >
           <div class="datasets-list-items">
             <div
-              :style="{'background-image': `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${ds.RandomItemId})`}"
+              :style="{'background-image': (ds.RandomItemId && ds.Type === 1 ? `url(${$axios.defaults.baseURL}/api/File/Dataset/Item/${ds.RandomItemId})` : ''), 'background-size':  (ds.RandomItemId && ds.Type === 1 ? 'auto' : '')}"
               :id="`ds-cover-${ds.Id}`"
 
               class="dataset-cover">
@@ -73,7 +73,7 @@ export default {
       }
       try {
         const datasets = await this.$apiService.get('/api/Datasets/GetAll', data);
-        if(datasets.data && datasets.data.items && datasets.data.items.length) {
+        if(datasets.status < 400 && datasets.data.items && datasets.data.items.length) {
           this.datasets = datasets.data.items;
           this.dsCount = datasets.data.totalCount;
         }
@@ -99,4 +99,12 @@ export default {
     text-align: right !important;
   }
 }
+.datasets-list .dataset-cover {
+  background-image: url('~assets/images/noimage.png');
+  background-size: contain;
+}
+</style>
+
+<style>
+
 </style>

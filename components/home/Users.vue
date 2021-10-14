@@ -1,12 +1,11 @@
 <template>
-  <div class="col-12-old">
+  <div class="col-12-old" v-if="scoreboardItems">
     <h3>{{$t('TEXTS.INDEXTOPACTIVEUSERS')}}</h3>
     <ol
-      v-if="scoreboardItems"
 
       id="pobel-scoreboard">
       <li v-for="user in scoreboardItems">
-        <span class="scoreboard-name">{{ `${user.Name} ${(user.Surname? user.Surname : '')}` }}</span>
+        <span class="scoreboard-name">{{ `${(user.Name ? user.Name : 'بی نام')} ${(user.Surname? user.Surname : '')}` }}</span>
         <span class="scoreboard-score">{{ user.count.toLocaleString() }}</span>
       </li>
     </ol>

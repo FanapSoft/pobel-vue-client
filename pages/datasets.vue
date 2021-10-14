@@ -41,7 +41,7 @@
                     </span>
                     <span :id="`ds-ur-answers-${ds.Id}`" style="display: flex; ">
                       <template
-                        v-if="ds.targetSize && ds.userAnswersCount">
+                        v-if="ds.targetSize || ds.userAnswersCount">
                         <span>{{$utils.formatNumber(ds.targetSize) }}</span><span>/</span><strong>{{ $utils.formatNumber(ds.userAnswersCount) }}</strong>
                       </template>
                       <template
@@ -124,7 +124,8 @@ export default {
             item.AnswerBudgetCountPerUser = this.$utils.formatNumber(this.$utils.toFixed(item.AnswerBudgetCountPerUser)); //item.answerBudgetCountPerUser.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             //item.coverItem = await this.getDatasetCoverItem(item.Id);
             item.userTargetDefinition = await this.getUserTarget(item.Id);
-            item.targetSize = item.userTargetDefinition.AnswerCount;
+            //item.targetSize = item.userTargetDefinition.AnswerCount;
+            this.$set(item, 'targetSize', item.userTargetDefinition.AnswerCount)
 
             if (item.userTargetDefinition) {
               item.userAnswersCount = await this.getUserAnswersCount(item.Id);
@@ -192,11 +193,12 @@ export default {
       let data = {
         DatasetId: ds,
         UserId: this.user.Id,
+        OnlyNonCalculated: true
       }
 
       try {
         const answers = await this.$apiService.get('/api/Answers/Stats', data);
-        if (answers.data) {
+        if (answers.status < 400) {
           return answers.data.totalCount;
         }
       } catch (error) {
