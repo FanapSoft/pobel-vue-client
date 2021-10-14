@@ -131,7 +131,7 @@
               cols="12" sm="6" class="px-1 py-0">
               <v-card
                 :class="{'active': (userTargetDefinition && userTargetDefinition.Id === item.Id)}"
-                @click="changeUserTargetTo(item)"
+                @click="maybeActivateTarget(item)"
 
                 elevation="0"
                 class="mb-2 target-list-item ">
@@ -355,7 +355,7 @@ export default {
       return 0;
     },
     async convertScoreToMoney() {
-      if(!this.userCredit) {
+      if(!this.userCredit && !this.userAnswersCount) {
         let continueModal = Modal({
           title: this.$t('GENERAL.ERROR'),
           body: this.$t('TEXTS.SINGLEDATASETNOTSCOREDYET'),
@@ -385,7 +385,7 @@ export default {
       try {
         const credit = await this.$apiService.post('/api/Credit/CollectCredit', data);
         if(credit.data && credit.status < 400) {
-          if(credit.data.CreditAmount > 0) {
+          //if(credit.data.CreditAmount > 0) {
             let continueModal = Modal({
               title: this.$t('GENERAL.TRANSFERSUCCESSFUL'),
               body: `
@@ -418,7 +418,7 @@ export default {
             document.getElementById('stats-credit').innerHTML = '0.00';
 
             this.getUserAnswersCount(this.$route.params.id);
-          }
+          //}
         } else {
           if(credit.data && credit.data[0].code === 3400 ) {
               let alertModal = Modal({
@@ -513,6 +513,34 @@ export default {
       }
 
       return 0;
+    },
+    maybeActivateTarget(target) {
+      let alertModal = Modal({
+        title: this.$t('GENERAL.TARGETING'),
+        body: this.$t('TEXTS.YOUCANNOTRETURNTOSMALLERTARGET'),
+        backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+        actions: [
+          {
+            title: this.$t('GENERAL.CANCEL'),
+            class: ['noBorder'],
+            fn: () => {
+              alertModal.close();
+            }
+          },
+          {
+            title: this.$t('GENERAL.CONFIRM'),
+            class: ['noBorder'],
+            fn: () => {
+              this.changeUserTargetTo(target);
+              alertModal.close();
+            }
+          },
+
+        ],
+        closeBtnAction: () => {
+          alertModal.close();
+        }
+      });
     },
     async changeUserTargetTo(target) {
       let data = {

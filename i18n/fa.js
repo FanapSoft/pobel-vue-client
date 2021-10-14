@@ -43,6 +43,8 @@ export const locale = {
     SUBMIT: 'ثبت',
     CLOSE: 'بستن',
     ERROR: 'خطا',
+    CONFIRM: 'تایید',
+    CANCEL: 'لغو',
 
     STARTLABELING: 'شروع برچسب زنی',
     YOURTARGET: 'هدف شما',
@@ -137,6 +139,7 @@ export const locale = {
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' امتیاز به حساب پابل شما منتقل گردید. برای مشاهده به پروفایل پابل خود مراجعه نمایید ',
     SINGLEDATASETNOTREACHEDTARGET: ' پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید. ',
 
+    YOUCANNOTRETURNTOSMALLERTARGET: 'پس از فعال کردن یک هدف امکان برگشت به هدف های پایین تر در این دیتاست را ندارید. ادامه می دهید؟',
 
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
     LABELINGQUESTIONPART2: 'می باشند؟',
