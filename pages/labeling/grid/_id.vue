@@ -21,16 +21,16 @@
 
         class=" main mt-0">
         <v-col cols="12" class=" grid-images-wrapper pt-0">
-          <p class="question-text static">
+          <p v-if="sampleItem" class="question-text static">
             {{$t('TEXTS.LABELINGQUESTIONPART1')}}
             <strong
 
-              @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${labelQuestions[0].ItemJob}" ${labelQuestions[0].ItemName}`); }'
+              @click='() => { window.open(`https://www.google.com/search?tbm=isch&q="${sampleItem.ItemJob}" ${sampleItem.ItemName}`); }'
 
               style="cursor: pointer;">
 <!--              {{randomLabel.name.replace(/[0-9]/g, '').replace(/_/g, ' ') }}-->
-              {{labelQuestions[0].ItemName}}
-               ({{ labelQuestions[0].ItemJob }})
+              {{sampleItem.ItemName}}
+               ({{ sampleItem.ItemJob }})
             </strong>
             {{ $t('TEXTS.LABELINGQUESTIONPART2') }}
           </p>
@@ -233,7 +233,8 @@ export default {
       localAnswersCount: 0,
       localReportsCount: 0,
       carouselModel: 0,
-      currentQuestionId: null
+      currentQuestionId: null,
+      sampleItem: null
     }
   },
   methods: {
@@ -272,7 +273,11 @@ export default {
             this.$set(item, "isNo", false);
             this.$set(item, "isReport", false);
             this.$set(item, "answer", -1);
+            if(!item.NG && !this.sampleItem) {
+              this.sampleItem = item
+            }
           });
+
         } else {
           if(result.data[0] && [3203, 3300, 3301, 3600].includes(result.data[0].code)) {
               this.$router.push("/dataset/" + this.$route.params.id);
@@ -460,6 +465,7 @@ export default {
       this.userTargetDefinition = null;
       this.timer = null;
       this.localAnswersCount = 0;
+      this.sampleItem = null;
 
       this.$nextTick(async ()=> {
         await this.getUserTarget(this.$route.params.id);
