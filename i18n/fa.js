@@ -139,7 +139,7 @@ export const locale = {
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' امتیاز به حساب پابل شما منتقل گردید. برای مشاهده به پروفایل پابل خود مراجعه نمایید ',
     SINGLEDATASETNOTREACHEDTARGET: ' پیش از اتمام هدف فعلی نمی توانید امتیازتان در دیتاست فعلی را به پول تبدیل نمایید. ',
 
-    YOUCANNOTRETURNTOSMALLERTARGET: 'پس از فعال کردن یک هدف امکان برگشت به هدف های پایین تر در این دیتاست را ندارید. ادامه می دهید؟',
+    YOUCANNOTRETURNTOSMALLERTARGET: 'پس از فعال کردن یک هدف امکان انتخاب هدف کمتر را تا اتمام هدف فعلی ندارید. ادامه می دهید؟',
 
     LABELINGQUESTIONPART1: 'آیا تصاویر مربوط به',
     LABELINGQUESTIONPART2: 'می باشند؟',
@@ -202,6 +202,7 @@ export const locale = {
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'شما به حداکثر تعداد مجاز پاسخ در این دیتاست رسیده اید. از مشارکتتان متشکریم. می توانید امتیازتان را برداشت نمایید.',
     PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفاً از طریق دکمه انتقال به کیف پول پاد نسبت به انتقال اعتبار خود به کیف پاد اقدام نمایید',
 
+    PLEASEFINISHTARGETORCHOOSEABIGGERONE: 'لطفا تا پایان هدف فعلی به برچسب زنی ادامه دهید و یا هدف بالاتر بردارید',
 
     ACCOUNT_INACTIVE: "حساب شما غیرفعال است",
     ACCOUNT_INACTIVE_DESC: "اکانت شما غیرفعال است و در این حالت امکان استفاده از پابل را ندارید. برای اطلاعات بیشتر با پشتیبانی تماس بگیرید",
@@ -209,6 +210,7 @@ export const locale = {
     TRANSFERFAILED: 'انتقال ناموفق',
     FAILEDTOTRANSFERCREDITTOWALLET: 'انتقال به کیف پول پابل با خطا مواجه شد',
 
+    LABELINGERROR: 'خطا در برچسب گذاری',
     DATASETITEMSDONE: 'این دیتاست دیگر آیتمی برای برچسب زنی توسط شما ندارد. از مشارکتتان متشکریم.'
   }
 };

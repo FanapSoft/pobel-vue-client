@@ -607,6 +607,24 @@ export default {
                 alertModal.close();
               }
             });
+          } else if(result.data[0] && result.data[0].code === 3205) {
+            let alertModal = Modal({
+              title: this.$t('TEXTS.CHOOSETARGETERROR'),
+              body: this.$t('TEXTS.PLEASEFINISHTARGETORCHOOSEABIGGERONE'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    alertModal.close();
+                  }
+                }
+              ],
+              closeBtnAction: () => {
+                alertModal.close();
+              }
+            });
           }
 
         } else {

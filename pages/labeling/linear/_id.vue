@@ -226,7 +226,27 @@ export default {
             this.$set(item, "answer", -1);
           })
         } else {
-          if(result.data[0] && [3203, 3300, 3301, 3600].includes(result.data[0].code)) {
+          if(result.data[0] && [3351, 3352, 3600].includes(result.data[0].code)) {
+            let alertModal = Modal({
+              title: this.$t('TEXTS.LABELINGERROR'),
+              body: this.$t('TEXTS.DATASETITEMSDONE'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    this.$router.push("/dataset/" + this.$route.params.id);
+                    alertModal.close();
+                  }
+                },
+              ],
+              closeBtnAction: () => {
+                this.$router.push("/dataset/" + this.$route.params.id);
+                alertModal.close();
+              }
+            });
+          } else if(result.data[0] && [3203, 3300, 3301].includes(result.data[0].code)) {
             this.$router.push("/dataset/" + this.$route.params.id);
           }
         }
@@ -278,7 +298,7 @@ export default {
       if(answers.length) {
         finalAnswers = answers.map(item => {
           return {
-            DatasetId: item.Options[0].DatasetId,
+            DatasetId: this.dataset.Id,//item.Options[0].DatasetId,
             DatasetItemId: item.DatasetItemId,
             AnswerIndex: item.answer,
             DurationToAnswerInSeconds: Math.round(this.timer/this.labelQuestions.length),

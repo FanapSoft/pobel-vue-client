@@ -140,7 +140,7 @@ export const locale = {
     SINGLEDATASETPOINTSTRANSFEREDMODAL: ' points were transferred to your POBEL account. Check your profile.',
     SINGLEDATASETNOTREACHEDTARGET: ' You could not collect your money unless hitting the selected target. ',
 
-    YOUCANNOTRETURNTOSMALLERTARGET: 'You can not activate targets less than the current one, continue ?',
+    YOUCANNOTRETURNTOSMALLERTARGET: 'You can not activate targets less than the current one, until reaching your target, continue ?',
 
     YOURANSWERSCOUNT: 'Total answers',
 
@@ -204,12 +204,15 @@ export const locale = {
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'You have reached your total labeling budget on current dataset, you can withdraw your money.',
     PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please collect your points before choosing a new target',
 
+    PLEASEFINISHTARGETORCHOOSEABIGGERONE: 'Please continue labeling until reaching your current target or choose a bigger target',
+
     ACCOUNT_INACTIVE: "Your account is inactive",
     ACCOUNT_INACTIVE_DESC: "Your account is inactive and you can not use pobel at this time, Please contact the support for more info.",
 
     TRANSFERFAILED: 'Transfer failed',
     FAILEDTOTRANSFERCREDITTOWALLET: 'Transfer credit to pod wallet failed',
 
+    LABELINGERROR: 'Labeling Error',
     DATASETITEMSDONE: 'This dataset has no more items for you. Thanks for your effort'
   }
 };
