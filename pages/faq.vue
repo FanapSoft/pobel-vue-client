@@ -7,6 +7,14 @@
         <ul class="accordion" id="faq-accordion">
           <li>
             <span class="mark"></span>
+            <p class="title">{{$t('TEXTS.FAQQ13')}}</p>
+            <p class="body">
+              {{$t('TEXTS.FAQA13') }}
+              <a href="https://space.pod.ir/public/folders/S7B8UPE6L6PR6G2V" target="_blank"> {{$t('TEXTS.FAQA13_2') }}</a>
+            </p>
+          </li>
+          <li>
+            <span class="mark"></span>
             <p class="title">{{$t('TEXTS.FAQQ1')}}</p>
             <p class="body">
               {{$t('TEXTS.FAQA1')}}

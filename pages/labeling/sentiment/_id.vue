@@ -500,6 +500,10 @@ export default {
   color: red;
 }
 
+.question-wrapper {
+  height: auto;
+}
+
 @media (max-width: 500px) {
   .question-history {
     padding-left: 10px;

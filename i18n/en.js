@@ -124,7 +124,7 @@ export const locale = {
 
     INDEXLABELINGANDDATASET2CONTENT: 'For instance, in a visual data set, the purpose of each label is to determine whether the displayed image belongs to a specific celebrity, such as "David Beckham". The answer to this question is a tag for the image in question. Also, to tag a data set for emotion analysis, the user must draw a positive or negative inference from the subject after reading a short text such as "This movie is suitable for all ages.".',
 
-    INDEXTOPACTIVEUSERS: 'Top active users',
+    INDEXTOPACTIVEUSERS: 'Top active users (Last 30 days)',
 
     INDEXINCOMEGENERATIONPROCESSTITLE: 'Income generation process in POBEL',
     INDEXINCOMEGENERATIONPROCESSCONTENT: 'The process of participating and earning money in POBEL is such that users can register for free in this system and access the data set uploaded by the system administrator. In each of these datasets, there are several text, video, and audio queries that users must tag. Depending on the quantity and quality of the registered labels, which are checked by special control approaches, the users\' wallets will be charged online.',
@@ -189,6 +189,10 @@ export const locale = {
     FAQA10: 'Yes, there is, but its value is floating and can be updated periodically depending on the labeling rate in the relevant dataset.',
     FAQA11: 'Yes. The system administrator constantly monitors the performance of users, and if a user has a high rate of incorrect answers to the golden data, the relevant user profile in the system will be disabled.',
     FAQA12: 'Due to the capabilities available in the Pasargad Smart Land wallet platform (POD), it is possible to transfer money to a bank account and also to use various services.',
+
+    FAQQ13: 'Download Guide',
+    FAQA13: 'Download link:',
+    FAQA13_2: 'Download',
 
     CONTACTUSADDRESS: 'FANAP Co (ICT sector of Passargad Arain), No. 114, 11th Noavari Ave., Pardis Technology Park, Pardis, Tehran, Iran.',
 

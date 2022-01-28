@@ -32,6 +32,10 @@ export default function (context) {
         }
       }
 
+      if(response.data[0] && response.data[0].code === 2004 ) {
+        window.location.href = $apiService.loginUrl;
+      }
+
       if(response.data[0] && response.data[0].code === 3700) {
         let alertModal = Modal({
           title: context.app.i18n.t('TEXTS.ACCOUNT_INACTIVE'),

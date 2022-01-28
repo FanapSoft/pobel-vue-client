@@ -46,7 +46,11 @@
             </template>
           </div>
           &nbsp;
-          <nuxt-link class="back-btn" to="/datasets">{{ $isRTL ? '🡠' : '🡢'}}</nuxt-link>
+          <nuxt-link class="back-btn" to="/datasets">
+<!--            {{ $isRTL ? '🡠' : '🡢'}}-->
+            <template v-if="$isRTL"><v-icon size="30" style="">mdi-arrow-left</v-icon></template>
+            <template v-else><v-icon size="30" style="">mdi-arrow-right</v-icon></template>
+          </nuxt-link>
         </v-col>
       </v-row>
       <v-row class=" dataset-history">

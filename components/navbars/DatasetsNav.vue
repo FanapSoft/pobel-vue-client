@@ -31,7 +31,12 @@
       </div>
       <button
         @click="()=> $router.push(`/dataset/${dataset.Id}`)"
-        class="back-btn">{{ $isRTL ? '🡠' : '🡢'}}</button>
+        class="back-btn">
+<!--        {{ $isRTL ? '🡠' : '🡢'}}-->
+
+        <template v-if="$isRTL"><v-icon size="30" style="margin-top: -4px;">mdi-arrow-left</v-icon></template>
+        <template v-else><v-icon size="30" style="margin-top: -4px;">mdi-arrow-right</v-icon></template>
+      </button>
     </v-col>
   </v-row>
 </template>
