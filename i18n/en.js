@@ -58,8 +58,9 @@ export const locale = {
     MAXIMUMREVENUE: 'Maximum Revenue',
     NOTRANSACTIONS: 'No Transactions!',
     TOTALLABELS: 'Total Labels',
-    GOTONEXTLIST: 'Next List',
-    SUBMITANSWERS: 'Submit Answers',
+    GOTONEXTLIST: 'Go to next',
+    GOTONEXTQUESTION: 'Go to next',
+    SUBMITANSWERS: 'Send answers and continue',
 
     YOURANSWERSCOUNT: 'Your Answers Count',
     YOURCURRENTTARGET: 'Your Current Target',
@@ -93,7 +94,9 @@ export const locale = {
 
     ACTOR: 'Actor',
     SINGER: 'Singer',
-    POLITICIAN: 'Politician'
+    POLITICIAN: 'Politician',
+
+    GOTODATASETPAGE: 'Go to dataset page'
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'Transactions History'
@@ -206,7 +209,7 @@ export const locale = {
     CHOOSETARGETERROR: 'Choose target error',
     NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'New target should be bigger than previous target',
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'You have reached your total labeling budget on current dataset, you can withdraw your money.',
-    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please collect your points before choosing a new target',
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'Please Select a higher target or transfer your credit via the Transfer to POD Wallet button',
 
     PLEASEFINISHTARGETORCHOOSEABIGGERONE: 'Please continue labeling until reaching your current target or choose a bigger target',
 
@@ -217,6 +220,8 @@ export const locale = {
     FAILEDTOTRANSFERCREDITTOWALLET: 'Transfer credit to pod wallet failed',
 
     LABELINGERROR: 'Labeling Error',
-    DATASETITEMSDONE: 'This dataset has no more items for you. Thanks for your effort'
+    DATASETITEMSDONE: 'This dataset has no more items for you. Thanks for your effort',
+
+    NOTARGETORTARGETISDONE: 'You have not chosen a target on this dataset, or you have reached your target.'
   }
 };

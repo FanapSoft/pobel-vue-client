@@ -57,8 +57,9 @@ export const locale = {
     MAXIMUMREVENUE: 'حداکثر درآمد',
     NOTRANSACTIONS: 'تراکنشی موجود نیست!',
     TOTALLABELS: 'تعداد برچسب‌ها',
-    GOTONEXTLIST: 'برو به لیست بعدی',
-    SUBMITANSWERS: 'ارسال پاسخ ها',
+    GOTONEXTLIST: 'برو به لیست بعد',
+    GOTONEXTQUESTION: 'برو به سوال بعد',
+    SUBMITANSWERS: 'ارسال پاسخ ها و ادامه',
 
     YOURANSWERSCOUNT: 'تعداد پاسخ های شما تا این لحظه',
     YOURCURRENTTARGET: 'هدف تعیین شده برای این مجموعه داده',
@@ -92,7 +93,9 @@ export const locale = {
 
     ACTOR: 'بازیگر',
     SINGER: 'خواننده',
-    POLITICIAN: 'سیاست مدار'
+    POLITICIAN: 'سیاست مدار',
+
+    GOTODATASETPAGE: 'برو به صفحه دیتاست'
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'تاریخچه تراکنش ها'
@@ -204,7 +207,7 @@ export const locale = {
     CHOOSETARGETERROR: 'خطا در انتخاب تارگت',
     NEWTARGETSHOULDBEBIGGERTHANOLDTARGET: 'هدف جدید باید بزرگتر از هدف قبلی شما باشد',
     YOUHAVEREACHEDYOURBUDGETONCURRENTDATASET: 'شما به حداکثر تعداد مجاز پاسخ در این دیتاست رسیده اید. از مشارکتتان متشکریم. می توانید امتیازتان را برداشت نمایید.',
-    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفاً از طریق دکمه انتقال به کیف پول پاد نسبت به انتقال اعتبار خود به کیف پاد اقدام نمایید',
+    PLEASECOLLECTYOURPOINTSBEFORECONTINUING: 'لطفا تارگت بالاتری انتخاب کنید یا از طریق دکمه انتقال به کیف پول پاد برای انتقال اعتبار خود اقدام نمایید',
 
     PLEASEFINISHTARGETORCHOOSEABIGGERONE: 'لطفا تا پایان هدف فعلی به برچسب زنی ادامه دهید و یا هدف بالاتر بردارید',
 
@@ -215,6 +218,8 @@ export const locale = {
     FAILEDTOTRANSFERCREDITTOWALLET: 'انتقال به کیف پول پابل با خطا مواجه شد',
 
     LABELINGERROR: 'خطا در برچسب گذاری',
-    DATASETITEMSDONE: 'این دیتاست دیگر آیتمی برای برچسب زنی توسط شما ندارد. از مشارکتتان متشکریم.'
+    DATASETITEMSDONE: 'این دیتاست دیگر آیتمی برای برچسب زنی توسط شما ندارد. از مشارکتتان متشکریم.',
+
+    NOTARGETORTARGETISDONE: 'هدف شما به پایان رسیده است و یا هدفی انتخاب نکرده اید!',
   }
 };

@@ -176,6 +176,16 @@
             </v-col>
           </v-row>
         </v-col>
+        <v-col cols="12" class="d-flex justify-center">
+          <NuxtLink
+
+            :class="{'disabled': !(userTargetDefinition && userTargetDefinition.AnswerCount > userAnswersCount)}"
+            :event="!(userTargetDefinition && userTargetDefinition.AnswerCount > userAnswersCount) ? '' : 'click'"
+            :to="generateLabelingTemplateLink(dataset)"
+
+            ref="startLabelingLarge"
+            class="start-btn large">{{$t('GENERAL.STARTLABELING')}}</NuxtLink>
+        </v-col>
       </v-row>
 
       <transactions :dataset="dataset" :user="user"></transactions>
@@ -211,11 +221,13 @@ import Modal from "~/plugins/external/Modal";
 import labelingTemplate from "@/mixins/labelingTemplate";
 import Loader from "@/components/general/Loader";
 
+import gotoMixin from '@/mixins/goto'
+
 export default {
   name: "Dataset._id",
   layout: 'main',
   middleware: "authRequired",
-  mixins: [labelingTemplate],
+  mixins: [labelingTemplate, gotoMixin],
   components: {Loader, Answers, Answers2, DatasetItems, Transactions, Targets, DatasetsNav},
   data() {
     return {
@@ -632,7 +644,8 @@ export default {
           }
 
         } else {
-          this.getUserTarget(this.$route.params.id)
+          this.goto("startLabelingLarge");
+          this.getUserTarget(this.$route.params.id);
         }
       } catch (error) {
         console.log(error)
@@ -668,6 +681,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.start-btn {
+  &.large {
+    min-width: 210px;
+    min-height: 39px;
+  }
+  &.disabled {
+    background-color: #fff;
+    border-color: #cccccc;
+    color: #000000 !important;
+
+    :hover {
+      background-color: #fff;
+      border-color: #cccccc;
+      color: #000000 !important;
+    }
+  }
+}
+
 .target-list-item {
   border-radius: 4px;
   background-color: white;

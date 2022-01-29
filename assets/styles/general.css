@@ -21,6 +21,10 @@
     --font-list: "IranSans", "Segoe UI", "Ubuntu", sans-serif;
 }
 
+html, body {
+  scroll-behavior: smooth;
+}
+
 body {
     color: #333;
     background-color: #f3f3f3;
@@ -1288,3 +1292,5 @@ input::placeholder {
     font-weight: bold;
     text-decoration: none;
 }
+
+

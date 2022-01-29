@@ -192,7 +192,7 @@
 
           @click="changeQuestion"
 
-          class="answer my-0">{{ $t('GENERAL.GOTONEXTLIST') }}</button>
+          class="answer my-0">{{ $t('GENERAL.GOTONEXTQUESTION') }}</button>
 
         <button
           v-else
@@ -287,6 +287,26 @@ export default {
               actions: [
                 {
                   title: this.$t('GENERAL.CLOSE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    this.$router.push("/dataset/" + this.$route.params.id);
+                    alertModal.close();
+                  }
+                },
+              ],
+              closeBtnAction: () => {
+                this.$router.push("/dataset/" + this.$route.params.id);
+                alertModal.close();
+              }
+            });
+          } else if(result.data[0] && [3203].includes(result.data[0].code)) {
+            let alertModal = Modal({
+              title: this.$t('TEXTS.LABELINGERROR'),
+              body: this.$t('TEXTS.NOTARGETORTARGETISDONE'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.GOTODATASETPAGE'),
                   class: ['noBorder'],
                   fn: () => {
                     this.$router.push("/dataset/" + this.$route.params.id);

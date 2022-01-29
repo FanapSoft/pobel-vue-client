@@ -153,6 +153,25 @@ export default {
   margin-bottom: 0;
 }
 
+.rtl {
+  .faq {
+    .accordion {
+      li {
+        padding-right: 30px;
+      }
+    }
+  }
+}
+.ltr {
+  .faq {
+    .accordion {
+      li {
+        padding-left: 30px;
+      }
+    }
+  }
+}
+
 @media #{map-get($display-breakpoints, 'sm-and-down')} {
   .faq {
     h2 {
