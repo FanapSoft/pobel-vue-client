@@ -94,7 +94,7 @@
               :cycle="false"
 
               ref='carousel'
-              height="315px"
+              height="400px"
               style="overflow: hidden"
               vertical-delimiters="i">
               <v-carousel-item
@@ -138,7 +138,7 @@
                           :class="{
                             'completed yes': item.answer !== -1 && item.isYes,
                           }"
-                          @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'yes')}"
+                          @click="activateNextItem(item, index, 'yes')"
 
                           color="#444"
                           class="mb-1">{{$t('GENERAL.YES')}}</v-btn>
@@ -148,7 +148,7 @@
                           :class="{
                             'completed no': item.answer !== -1 && item.isNo,
                           }"
-                          @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'no')}"
+                          @click="activateNextItem(item, index, 'no')"
 
                           color="#444"
                           class="mb-1">{{$t('GENERAL.NO')}}</v-btn>
@@ -156,9 +156,19 @@
                           outlined
 
                           :class="{
+                            'completed skip': item.answer !== -1 && item.isSkip,
+                          }"
+                          @click="activateNextItem(item, index, 'skip')"
+
+                          color="#444"
+                          class="mb-1">{{$t('GENERAL.GONEXT')}}</v-btn>
+                        <v-btn
+                          outlined
+
+                          :class="{
                             'completed report': item.isReport,
                           }"
-                          @click="()=> {$refs.carousel.next(); setItemAnswerTo(item, 'report')}"
+                          @click="activateNextItem(item, index, 'report')"
 
                           color="#444">{{$t('GENERAL.REPORT')}}</v-btn>
                       </v-layout>
@@ -197,7 +207,9 @@
         <button
           v-else
 
-        @click="submitAnswers"
+          :class="{'angry-animate activeBtn': informTheUser}"
+          @click="submitAnswers"
+
           class="my-0 ">{{ $t('GENERAL.SUBMITANSWERS') }}</button>
       </v-row>
     </div>
@@ -234,7 +246,8 @@ export default {
       localReportsCount: 0,
       carouselModel: 0,
       currentQuestionId: null,
-      sampleItem: null
+      sampleItem: null,
+      informTheUser: false
     }
   },
   methods: {
@@ -301,7 +314,7 @@ export default {
             });
           } else if(result.data[0] && [3203].includes(result.data[0].code)) {
             let alertModal = Modal({
-              title: this.$t('TEXTS.LABELINGERROR'),
+              title: this.$t('GENERAL.ATTENTION'),
               body: this.$t('TEXTS.NOTARGETORTARGETISDONE'),
               backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
               actions: [
@@ -475,6 +488,16 @@ export default {
             break
       }
     },
+    activateNextItem(item, index, state) {
+      // if(state !== 'skip')
+      this.setItemAnswerTo(item, state);
+      if (index >= this.labelQuestions.length - 1) {
+        this.informTheUser = true;
+      } else {
+        this.informTheUser = false;
+        this.$refs.carousel.next();
+      }
+    },
     changeQuestion() {
       //this.dataset: null,
       this.datasetItem = null;
@@ -485,6 +508,8 @@ export default {
       this.timer = null;
       this.localAnswersCount = 0;
       this.sampleItem = null;
+      this.carouselModel = 0;
+      this.informTheUser = false;
 
       this.$nextTick(async ()=> {
         await this.getUserTarget(this.$route.params.id);
@@ -541,36 +566,43 @@ ol {
   }
 }
 
-.question-history .completed.yes:after {
-  content: '✓';
-  position: absolute;
-  top: -12px;
-  right: 5px;
-  color: #1d7e00;
-}
+.question-history {
+  .completed {
+    &.yes:after {
+      content: '✓';
+      position: absolute;
+      top: -12px;
+      right: 5px;
+      color: #1d7e00;
+    }
+    &.no:after {
+      content: '⤫';
+      position: absolute;
+      top: -12px;
+      right: 5px;
+      color: #a4001d;
+    }
+    &.skip:after {
+      content: '?';
+      position: absolute;
+      top: -12px;
+      right: 5px;
+      color: #ffd217;
+    }
 
-.question-history .completed.no:after {
-  content: '⤫';
-  position: absolute;
-  top: -12px;
-  right: 5px;
-  color: #a4001d;
-}
-
-.question-history .completed.skip:after {
-  content: '?';
-  position: absolute;
-  top: -12px;
-  right: 5px;
-  color: #ffd217;
-}
-
-.question-history .completed.report:after {
-  content: '⚐';
-  position: absolute;
-  top: -12px;
-  right: 5px;
-  color: #6e2e45;
+    &.report:after {
+      content: '⚐';
+      position: absolute;
+      top: -12px;
+      right: 5px;
+      color: #6e2e45;
+    }
+  }
+  .active {
+    &:after {
+      font-size: 22px;
+    }
+  }
 }
 
 .items-status {

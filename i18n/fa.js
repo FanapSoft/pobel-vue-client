@@ -95,7 +95,9 @@ export const locale = {
     SINGER: 'خواننده',
     POLITICIAN: 'سیاست مدار',
 
-    GOTODATASETPAGE: 'برو به صفحه دیتاست'
+    GOTODATASETPAGE: 'برو به صفحه دیتاست',
+    GONEXT: 'برو بعدی',
+    ATTENTION: 'هشدار',
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'تاریخچه تراکنش ها'

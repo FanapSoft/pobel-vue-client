@@ -96,7 +96,9 @@ export const locale = {
     SINGER: 'Singer',
     POLITICIAN: 'Politician',
 
-    GOTODATASETPAGE: 'Go to dataset page'
+    GOTODATASETPAGE: 'Go to dataset page',
+    GONEXT: 'Next',
+    ATTENTION: 'Attention',
   },
   TRANSACTIONS: {
     TRANSACTIONSHISTORY: 'Transactions History'

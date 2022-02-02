@@ -67,6 +67,15 @@
               data-id="4">😡<br>
               <p>{{ $t('GENERAL.BAD')}}</p></button>
           </div>
+          <div class="yes-no-type emoji-container">
+            <button
+              @click="setItemAnswerTo('none')"
+
+              id="nextBtn"
+              style="margin: 0"
+              data-id="5"><v-icon>mdi-arrow-down</v-icon><br>
+              <p>{{ $t('GENERAL.GONEXT')}}</p></button>
+          </div>
         </div>
       </div>
       <div class="col-3-old">
@@ -85,7 +94,7 @@
                 'gNo': item.CorrectGoldenAnswerIndex === 0,
                 'gSkip': item.CorrectGoldenAnswerIndex === -1,
               }"
-            @click="activateCurrentQuestion(item)"
+            @click="activateCurrentQuestion(item, index)"
 
             class="question-list-items question-list-items-sentence">
             <p
@@ -103,14 +112,18 @@
 
         @click="changeQuestion"
 
+        ref="changeQuestionBtn"
         class="answer">{{ $t('GENERAL.GOTONEXTLIST') }}
       </button>
       <button
         v-else
 
-        @click="submitAnswers">{{ $t('GENERAL.SUBMITANSWERS') }}
-      </button>
+        :class="{'angry-animate activeBtn': informTheUser}"
+        @click="submitAnswers"
 
+
+        ref="submitAnswersBtn" >{{ $t('GENERAL.SUBMITANSWERS') }}
+      </button>
       <button
         @click="setItemAnswerTo('report')">
         {{ $t('GENERAL.REPORT') }}
@@ -139,12 +152,14 @@ import DatasetsNav from "~/components/navbars/DatasetsNav";
 import Modal from "../../../plugins/external/Modal";
 import {mapGetters} from "vuex";
 import Loader from "@/components/general/Loader";
+import gotoMixin from "@/mixins/goto";
 
 
 export default {
   name: "labeling_linear_id",
   layout: 'default',
   components: { Loader, DatasetsNav},
+  mixins: [gotoMixin],
   computed: {
     ...mapGetters({
       user: "auth/currentUser"
@@ -180,6 +195,7 @@ export default {
       timer: null,
       localAnswersCount: 0,
       localReportsCount: 0,
+      informTheUser: false
     }
   },
   methods: {
@@ -243,7 +259,27 @@ export default {
                 alertModal.close();
               }
             });
-          } else if(result.data[0] && [3203, 3300, 3301, 3350].includes(result.data[0].code)) {
+          }else if(result.data[0] && [3203].includes(result.data[0].code)) {
+            let alertModal = Modal({
+              title: this.$t('GENERAL.ATTENTION'),
+              body: this.$t('TEXTS.NOTARGETORTARGETISDONE'),
+              backgroundColor: 'linear-gradient(to right, #26a247 0%, #2cbf4a 100%)',
+              actions: [
+                {
+                  title: this.$t('GENERAL.GOTODATASETPAGE'),
+                  class: ['noBorder'],
+                  fn: () => {
+                    this.$router.push("/dataset/" + this.$route.params.id);
+                    alertModal.close();
+                  }
+                },
+              ],
+              closeBtnAction: () => {
+                this.$router.push("/dataset/" + this.$route.params.id);
+                alertModal.close();
+              }
+            });
+          } else if(result.data[0] && [3300, 3301, 3350].includes(result.data[0].code)) {
             this.$router.push("/dataset/" + this.$route.params.id);
           }
         }
@@ -412,7 +448,6 @@ export default {
             item.isReport = false;
             item.isSkip = true;
             item.answer = item.Options[1].Index;
-            console.log(item.isSkip, item.answer);
           } else  {
             item.isYes = false;
             item.isNo = false;
@@ -427,16 +462,23 @@ export default {
     activateNextItem() {
       let currentIndex = this.currentActiveItemIndex;
 
-      if (currentIndex < this.labelQuestions.length - 1)
+      if (currentIndex < this.labelQuestions.length - 1){
         this.labelQuestions[currentIndex + 1].isCurrent = true;
-      else
-        this.labelQuestions[0].isCurrent = true;
+        this.labelQuestions[currentIndex].isCurrent = false;
+      } else {
+        if(this.$refs["submitAnswersBtn"])
+          this.goto("submitAnswersBtn");
+        else if(this.$refs["changeQuestionBtn"])
+          this.goto("changeQuestionBtn");
 
-      this.labelQuestions[currentIndex].isCurrent = false;
-
+        this.informTheUser = true;
+      }
+      // else
+      //   this.labelQuestions[0].isCurrent = true;
     },
-    activateCurrentQuestion(item) {
+    activateCurrentQuestion(item, index) {
       //Deactivate all others
+      this.informTheUser = false;
       this.labelQuestions.map(item => item.isCurrent = false)
       //Activate current item
       item.isCurrent = true;
@@ -449,6 +491,7 @@ export default {
       this.userTargetDefinition = null;
       this.timer = null;
       this.localAnswersCount = 0;
+      this.informTheUser = false;
 
       this.$nextTick(async ()=> {
         await this.getUserTarget(this.$route.params.id);
@@ -490,6 +533,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .question-list-items.g.gYes::before{
   color: green;
 }
